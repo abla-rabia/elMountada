@@ -1,0 +1,49 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+body{
+    margin: 0%;
+}
+.sliderImg{
+    width: 100%;
+    height: 90vh;
+    background-image: url('../assets/slider1.png');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content:flex-end;
+    align-items: center;
+    animation-name: animation;
+    animation-duration: 20s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+
+
+}
+.text{
+    text-align: center;
+    color: #ffff;
+}
+h2{
+    font-size: 40px;
+    font-weight: 600;
+}
+p{
+    font-size: 18px;
+    width: 60vw;
+}
+
+.barres{
+    color: #ffff;
+    display: flex;
+    gap: 6px;
+    
+}
+.barres h3{
+    font-size: 36px;
+    font-weight: 300;
+    opacity: 0.4;
+}
+.barres h3:first-child{
+    opacity: 1;
+}

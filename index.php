@@ -1,5 +1,6 @@
 <?php
 require_once("Controller/loginController.php");
-$rts=new loginController();
+require_once("Controller/homeController.php");
+$rts=new homeController();
 $rts->afficherPage();
 ?>
