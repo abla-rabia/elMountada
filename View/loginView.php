@@ -31,14 +31,18 @@ class loginView{
         <?php
     }
     public function inputPassword(){
+        ?>
+        <div class="passwordInput">
+        <?php
         $this->input("Mot de passe","password","password");
         ?>
         <a href="">Mot de passe oublié ?</a>
+        </div>
         <?php
     }
     public function bouttonSubmit(){
         ?>
-        <input type="submit" value="Se connecter" >
+        <input type="submit" value="Se Connecter" >
         <?php
     }
     public function formulaireLogin(){
@@ -47,6 +51,7 @@ class loginView{
         <?php
             $this->input("Email ou nom utilisateur","userName","text");
             $this->inputPassword();
+            
             $this->bouttonSubmit();
         ?>
         </form>
