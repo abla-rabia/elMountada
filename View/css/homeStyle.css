@@ -35,11 +35,11 @@ body {
 .text div {
   position: absolute;
 }
-h2 {
+.sliderImg h2 {
   font-size: 40px;
   font-weight: 600;
 }
-p {
+.sliderImg p {
   font-size: 18px;
   width: 60vw;
 }
@@ -53,18 +53,12 @@ p {
   font-size: 36px;
   font-weight: 300;
   opacity: 0.4;
+  cursor: default;
   transition: 1s ease-in-out;
 }
 .barres h3:first-child {
   opacity: 1;
 }
-/* 
-@keyframes animation {
-    0%,22.22% {background-image: url('../assets/slider1.png');}
-    33.33%,55.55% {background-image: url('../assets/slider2.png');}
-    66.66%,88.88% {background-image: url('../assets/slider3.png');}
-    100% {background-image: url('../assets/slider1.png');}
-} */
 
 .header {
   display: flex;
@@ -126,11 +120,15 @@ nav.sticky {
 }
 #subMenu a {
   font-size: 13px;
+  display: block;
   padding: 6px 50px 6px 10px;
   width: 100%;
   box-sizing: border-box;
   background-color: #ffff;
   transition: 200ms ease-in-out;
+}
+#subMenuP:hover #subMenu{
+    display: block;
 }
 #subMenu a:hover {
   background-color: #e6e6e671;
@@ -142,6 +140,7 @@ li {
   font-size: 14px;
   color: #001a23;
   font-weight: 400;
+  cursor: default;
 }
 
 nav a {
@@ -168,6 +167,10 @@ input[type="submit"] {
   padding-right: 14px;
   padding-top: 6px;
   padding-bottom: 6px;
+}
+#subMenuP{
+    background-color: aqua;
+    
 }
 
 .newsCard {
@@ -211,7 +214,7 @@ input[type="submit"] {
 
 .newsSection,
 .partenairesSection,
-.offresSection,.contactSectionG {
+.offresSection,.contactSectionG,footer {
   margin-top: 60px;
 }
 
@@ -403,14 +406,59 @@ input[type="submit"] {
 
 
 footer{
+    
     display: flex;
     background-color: #001a23;
     color: #fff;
     padding: 40px 4%;
+    justify-content: space-between;
+    align-items: flex-start;
 }
+.descriptionPart{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width:50%;
+}
+footer .descriptionPart p{
+    font-weight: 300;
+    font-size: 15px;
+    width:70%;
+    
+    
+}
+footer .socialMedia{
+    
+    font-size: 20px;
+    gap: 10px;
+}
+footer .socialMedia a{
+    color: #fff;
+}
+
 .navigationPart{
-    width: 40%;
+    align-items: flex-start;
+    display: flex;
+    width:50%;
+    justify-content: space-around;
 }
-footer .navigationPart p{
-    font-size: 14px;
+
+.navigationPart .part{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.navigationPart .part a{
+    padding: 2px 0;
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.navigationPart h3{
+    margin-top: 0;
 }

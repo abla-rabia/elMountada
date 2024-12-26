@@ -45,11 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
             nav.style.borderRadius = "16px 16px 0px 0px";
         }
     };
-    document.getElementById("subMenuP").addEventListener("mouseover", function(){
-        document.getElementById("subMenu").style.display = "flex";
-    })
-    document.getElementById("subMenuP").addEventListener("mouseleave", function(){
-        document.getElementById("subMenu").style.display = "none";
-    })
+    
+    
 
 })
