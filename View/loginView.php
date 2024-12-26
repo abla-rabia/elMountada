@@ -25,6 +25,8 @@ class loginView{
         <h4>Bienvenu !</h4>
         <?php
     }
+
+    //fonction de l'input (text input)
     public function input($textLable,$name,$type){
         ?>
        <input type="<?= $type ?>" name="<?= $name ?>" placeholder="<?= $textLable ?>" id="<?= $name ?>">
