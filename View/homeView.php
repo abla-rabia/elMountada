@@ -197,7 +197,7 @@ class homeView{
     }
     public function contactCard(){
         ?>
-        <div class="contactCard">
+        <form action="" class="contactCard">
         <div class="nomPrenom">
             <input type="text" value="Abla" placeholder="Prénom*">
             <input type="text"  placeholder="Nom*">
@@ -206,7 +206,7 @@ class homeView{
         <input type="text" placeholder="Numéro de téléphone*">
         <Textarea placeholder="Votre messge"></Textarea>
         <input type="submit" value="Envoyer le message">
-        </div>
+        </form>
         <?php
     }
     public function contactSection(){

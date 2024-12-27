@@ -1,0 +1,221 @@
+.partnerView {
+  height: 66vh;
+  width: 100vw;
+  position: relative;
+  margin-top: -20px;
+  background: linear-gradient(275deg, #001a23 -0.39%, #001a23 94.9%);
+}
+
+.partnerView img {
+  height: 100%;
+  right: 0;
+  position: absolute;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+  mask-image: linear-gradient(
+    271deg,
+    #000 3.99%,
+    rgba(6, 5, 5, 0.21) 78.76%,
+    rgba(6, 5, 5, 0.13) 87.08%,
+    rgba(7, 6, 6, 0) 99.1%
+  );
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.partnerView .leftPart {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  width: 80vw;
+  padding-left: 4%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.partnerView .leftPart * {
+  color: #fff;
+}
+
+.partnerView .leftPart .navigation {
+  display: flex;
+  gap: 4px;
+}
+.partnerView .leftPart .navigation p {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.partnerView .leftPart .title {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.partnerView .leftPart p#description {
+  width: 50%;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+p.wilaya {
+  display: flex;
+  font-size: 15px;
+  font-weight: 400;
+  gap: 10px;
+  align-items: center;
+}
+.sections {
+  margin: 10px 4% 40px 4%;
+  width: 92%;
+}
+.sections h3 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #001a23;
+}
+.sections .aboutUs p {
+  color: #001a23;
+  text-indent: 50px;
+  font-size: 14px;
+}
+
+.sections i {
+  color: #a6dfb5;
+  padding-right: 10px;
+}
+
+.sections ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sections li a {
+  text-decoration: none;
+  color: #001a23;
+  font-weight: 500;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.profile img {
+  width: 50px;
+}
+.comment {
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.043);
+}
+
+.comment #comment {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.comment #date {
+  font-size: 10px;
+  margin-top: 50px;
+  opacity: 0.4;
+}
+.stars {
+  color: #001a23;
+  opacity: 1;
+}
+.stars input {
+  display: none;
+}
+
+.stars input + label {
+  cursor: pointer;
+}
+
+.stars input:checked + label ~ label {
+  opacity: 0.2;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup {
+    position: fixed;
+    justify-content: center;
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 10px 14px 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 11.359px 34.078px 0px rgba(0, 0, 0, 0.05);
+}
+.popup .textArea {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.popup h3 {
+  font-size: 22px;
+}
+.popup .stars label {
+  font-size: 24px;
+}
+.popup .stars {
+  gap: 4px;
+  display: flex;
+  justify-content: center;
+}
+.popup .textArea label {
+  font-size: 14px;
+  font-weight: 500;
+}
+.textArea textarea {
+  border-radius: 11.054px;
+  border: 1.105px solid #eff0f6;
+  display: flex;
+  height: 120px;
+  padding: 15.903px 22.718px;
+  align-items: flex-start;
+  gap: 9.087px;
+  flex-shrink: 0;
+  align-self: stretch;
+  resize: none;
+  outline: none;
+}
+.popContainer{
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    margin: 0;
+    top: 0;
+
+}

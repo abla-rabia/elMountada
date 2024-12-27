@@ -2,6 +2,7 @@
 session_start();
 require_once("Controller/loginController.php");
 require_once("Controller/homeController.php");
+require_once("Controller/partenaireController.php");
 require_once("Controller/catalogueController.php");
 if (isset($_GET['router'])){
     $action=$_GET['router'];
@@ -16,6 +17,10 @@ if (isset($_GET['router'])){
             break; 
         case 'Catalogue':
             $r=new catalogueController();
+            $r->afficherPage();
+            break; 
+        case 'Partenaire':
+            $r=new partenaireController();
             $r->afficherPage();
             break; 
     }

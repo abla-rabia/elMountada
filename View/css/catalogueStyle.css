@@ -1,4 +1,95 @@
-nav{
-    position: fixed;
-    top: 0;
+nav {
+  position: fixed;
+  top: 0;
+}
+
+body > * {
+  margin: 0 4%;
+  width: 92%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+form.searchBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 0;
+}
+form.searchBar div.searchBar {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+form.searchBar .filtresTri {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+form.searchBar .filtresTri select {
+  width: fit-content;
+}
+div.searchBar i {
+  color: #001a23;
+  opacity: 0.4;
+}
+
+div.searchBar,
+select {
+  border-radius: 6px;
+  background: #f3f3f3;
+  padding: 8px 8px;
+  border: 0;
+  color: #001a23;
+  opacity: 0.8;
+  outline: none;
+  font-size: 12px;
+  font-weight: 500;
+}
+input {
+  font-size: 12px;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  flex-grow: 1;
+
+  background-color: transparent;
+}
+input::placeholder {
+  color: #001a23;
+  opacity: 0.2;
+  font-size: 12px;
+}
+select {
+  font-weight: 500;
+}
+
+h3#sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  gap: 6px;
+  align-items: center;
+  color: #001a23;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+.cartesPartenaire {
+  display: flex;
+  justify-content: space-between;
+}
+.sectionPart {
+  display: flex;
+  flex-direction: column;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }

@@ -31,9 +31,9 @@ class commonViews{
         <?php
     }
     // le famous boutton bleu 
-    public function blueButton($content){
+    public function blueButton($content,$destination){
         ?>
-            <button class="famousButton"><?= $content ?></button>
+            <a href="index.php?router=<?=$destination?>"><button class="famousButton"><?= $content ?></button></a>
         <?php
     }
 
@@ -50,11 +50,18 @@ class commonViews{
                 Write an amazing description in this dedicated card section. Each word counts. 
             </p>
             <?php
-            $this->blueButton("En savoir plus");
+            $this->blueButton("En savoir plus","Partenaire");
             ?>
 
         </div>
         <?php
     }
+
+    public function titre($titre){
+        ?>
+        <h2 id="titre"><?=$titre?></h2>
+        <?php
+    }
+    
 }
 ?>

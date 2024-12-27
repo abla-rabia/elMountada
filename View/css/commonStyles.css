@@ -3,19 +3,21 @@
   box-sizing: border-box;
 }
 body {
-  margin: 54px 0 0 0;
+  margin: 70px 0 60px 0;
   overflow-x: hidden;
 }
 body.home {
   margin: 0;
-  overflow-x: hidden;
 }
 nav {
+  margin-right: 0;
+  margin-left: 0;
   z-index: 3;
   display: flex;
   width: 100%;
   justify-content: space-around;
-
+  position: fixed;
+  top: 0;
   align-items: center;
   padding-top: 9px;
   padding-bottom: 9px;
@@ -99,6 +101,7 @@ input[type="submit"] {
   padding-right: 14px;
   padding-top: 6px;
   padding-bottom: 6px;
+  cursor: pointer;
 }
 
 #boutton a {
@@ -107,7 +110,7 @@ input[type="submit"] {
 
 /* styles de la carte de partanires */
 .cardContainer {
-  width: 20vw;
+  width: 25vw;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -116,12 +119,12 @@ input[type="submit"] {
   background: #fff;
   box-shadow: 0px 0px 6.3px 0px rgba(12, 26, 75, 0.1),
     0px 4.294px 11.451px -1.431px rgba(50, 50, 71, 0.05);
-  gap: 20px;
+  gap: 26px;
 }
 .cardContainer img {
   width: 100%;
   border-radius: 6px;
-  height: 150px;
+  height: 200px;
 }
 
 .cardContainer .title {
@@ -138,7 +141,7 @@ input[type="submit"] {
 }
 
 .cardContainer .title p {
-  font-size: 8px;
+  font-size: 10px;
   color: #fff;
   background-color: #a6dfb5;
   padding: 5px 10px;
@@ -156,11 +159,23 @@ button.famousButton {
   font-size: 11px;
   font-weight: 500;
   width: 100%;
+  border: 0;
   padding: 10px 28.629px;
+  cursor: pointer;
   border-radius: 6px;
   background: var(--blue-2, #001a23);
 }
 
 .cardContainer *{
   margin: 0;
+}
+
+
+/*Style du titre de la page*/
+h2#titre {
+  font-size: 22px;
+  font-weight: 600;
+  gap: 6px;
+  align-items: center;
+  color: #001a23;
 }
