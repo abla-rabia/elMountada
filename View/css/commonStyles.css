@@ -1,0 +1,166 @@
+* {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
+}
+body {
+  margin: 54px 0 0 0;
+  overflow-x: hidden;
+}
+body.home {
+  margin: 0;
+  overflow-x: hidden;
+}
+nav {
+  z-index: 3;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+
+  align-items: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+
+  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
+  background-color: #ffff;
+}
+body.home nav {
+  position: absolute;
+  border-radius: 16px 16px 0px 0px;
+  top: calc(96vh - 24px);
+}
+body.home nav.sticky {
+  position: sticky;
+  top: 0;
+}
+
+#subMenu {
+  display: none;
+  padding: 0%;
+  position: absolute;
+
+  flex-direction: column;
+  width: fit-content;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
+  gap: 0px;
+  margin-top: 0;
+  z-index: 999;
+  padding-top: 10px;
+}
+#subMenu a {
+  font-size: 13px;
+  display: block;
+  padding: 8px 50px 8px 10px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  transition: 200ms ease-in-out;
+}
+#subMenuP:hover #subMenu,
+#subMenu:hover {
+  display: block;
+}
+#subMenu a:hover {
+  background-color: #e6e6e671;
+}
+li {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #001a23;
+  font-weight: 400;
+  cursor: default;
+}
+
+nav a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #001a23;
+  font-weight: 400;
+}
+
+#boutton,
+input[type="submit"] {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  background: var(--greeen, #a6dfb5);
+  border: 0;
+  color: #ffff;
+}
+#boutton {
+  font-weight: 500;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+#boutton a {
+  color: #fff;
+}
+
+/* styles de la carte de partanires */
+.cardContainer {
+  width: 20vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 20px 8px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 0px 6.3px 0px rgba(12, 26, 75, 0.1),
+    0px 4.294px 11.451px -1.431px rgba(50, 50, 71, 0.05);
+  gap: 20px;
+}
+.cardContainer img {
+  width: 100%;
+  border-radius: 6px;
+  height: 150px;
+}
+
+.cardContainer .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+}
+
+.cardContainer .title h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cardContainer .title p {
+  font-size: 8px;
+  color: #fff;
+  background-color: #a6dfb5;
+  padding: 5px 10px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+
+.cardContainer p.description {
+  font-size: 14px;
+}
+
+/*Styles du famous button */
+button.famousButton {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  width: 100%;
+  padding: 10px 28.629px;
+  border-radius: 6px;
+  background: var(--blue-2, #001a23);
+}
+
+.cardContainer *{
+  margin: 0;
+}

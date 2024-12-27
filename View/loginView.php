@@ -15,7 +15,8 @@ class loginView{
     }
     public function logo(){
         ?>
-        <img src="View/assets/logo.png" alt="logo here" width="120px">
+        <a href="index.php?router=Page%20d'accueil">
+        <img src="View/assets/logo.png" alt="logo here" width="120px"></a>
         <?php
     }
     public function texte(){

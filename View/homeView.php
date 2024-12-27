@@ -1,5 +1,6 @@
 <?php
 require_once("Controller\homeController.php");
+require_once("commonViews.php");
 class homeView{
 
     public function entetePage(){
@@ -7,6 +8,7 @@ class homeView{
         <head>
             <title>El Mountada</title>
             <link rel="stylesheet" href="View/css/homeStyle.css">
+            <link rel="stylesheet" href="View/css/commonStyles.css">
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <script src="View/scripts/homeScript.js"></script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -17,11 +19,7 @@ class homeView{
         </head>
         <?php   
     }
-    public function button($content){
-        ?>
-        <button id="boutton">Se Connecter</button>
-        <?php
-    }
+    
     public function newsCard(){
         ?>
         <div class="newsCard">
@@ -30,29 +28,7 @@ class homeView{
         </div>
         <?php
     }
-    public function navBarD(){
-        ?>
-        <nav>
-            <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
-            <a href="">Accueil</a>
-            <a href="">Partenaires</a>
-            <a href="">Offres</a>
-            <a href="">Rejoingez nous</a>
-            <li id="subMenuP">
-                Dons & bénévolats
-                <ul id="subMenu">
-                    <a>Demande d'aide</a>
-                    <a>Bénévolat</a>
-                    <a>Faire un don</a>
-                </ul>
-            </li>
-            <?php
-            $this->button("Se Connecter")
-            ?>
-        </nav>
-        
-        <?php
-    }
+   
 
     //Fonction pour les titres de chauque section
     public function titleSection($titre){
@@ -294,18 +270,19 @@ class homeView{
         <?php
     }
 
-    //Fonction d'affichade de la page : 
+    //Fonction d'affichage de la page : 
     public function afficher_page(){
+        $r = new commonViews();
         ?>
         <html >
             
             <?php
             $this->entetePage();
             ?>
-            <body>
+            <body class="home">
             <?php
                 $this->slider();
-                $this->navBarD();
+                $r->navBarD();
 
                 $this->newsSection();
                 $this->partenairesSection();

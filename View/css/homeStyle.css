@@ -1,11 +1,4 @@
-* {
-  font-family: "Montserrat", sans-serif;
-  box-sizing: border-box;
-}
-body {
-  margin: 0%;
-  overflow-x: hidden;
-}
+
 .sliderImg {
   width: 100%;
   height: 96vh;
@@ -84,94 +77,6 @@ body {
   gap: 6px;
 }
 
-nav {
-  z-index: 3;
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  position: absolute;
-  top: calc(96vh - 24px);
-  align-items: center;
-  padding-top: 9px;
-  padding-bottom: 9px;
-  border-radius: 16px 16px 0px 0px;
-  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
-  background-color: #ffff;
-}
-nav.sticky {
-  position: sticky;
-  top: 0;
-}
-
-#subMenu {
-  display: none;
-  padding: 0%;
-  position: absolute;
-
-  flex-direction: column;
-
-  box-sizing: border-box;
-  background-color: #ffff;
-  border-radius: 4px;
-  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
-  gap: 0px;
-
-  z-index: 2;
-}
-#subMenu a {
-  font-size: 13px;
-  display: block;
-  padding: 6px 50px 6px 10px;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #ffff;
-  transition: 200ms ease-in-out;
-}
-#subMenuP:hover #subMenu{
-    display: block;
-}
-#subMenu a:hover {
-  background-color: #e6e6e671;
-}
-li {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  font-size: 14px;
-  color: #001a23;
-  font-weight: 400;
-  cursor: default;
-}
-
-nav a {
-  text-decoration: none;
-  font-size: 14px;
-  color: #001a23;
-  font-weight: 400;
-}
-
-#boutton,
-input[type="submit"] {
-  display: flex;
-
-  justify-content: center;
-  align-items: center;
-  border-radius: 6px;
-  background: var(--greeen, #a6dfb5);
-  border: 0;
-  color: #ffff;
-}
-#boutton {
-  font-weight: 500;
-  padding-left: 14px;
-  padding-right: 14px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-#subMenuP{
-    background-color: aqua;
-    
-}
 
 .newsCard {
   margin-top: 20px;
@@ -326,7 +231,7 @@ h2.titreSection i {
 }
 
 .contactText p {
-  width: 100%;
+  width: 80%;
   font-size: 16px;
 }
 .contactText h3 {
@@ -385,6 +290,7 @@ textarea {
   font-size: 16px;
   font-weight: 500;
   min-height: 20vh;
+  resize: none;
   
 }
 .nomPrenom {
