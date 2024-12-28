@@ -63,7 +63,7 @@ class commonViews{
     // le famous boutton bleu 
     public function blueButton($content,$destination){
         ?>
-            <a href="index.php?router=<?=$destination?>"><button class="famousButton"><?= $content ?></button></a>
+            <a href="index.php?router=<?=$destination?>"><button type="submit" class="famousButton"><?= $content ?></button></a>
         <?php
     }
     public function blueButton2($content){
@@ -99,10 +99,22 @@ public function sectionTitle($title){
 }
 
 public function famousInput($label,$placeholder,$type){
+    if($type!="file"){
     ?>
-    <label for="<?=$label?>Input"><?=$label?></label>
-    <input type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+    <div class="fmsInpLab">
+    <label id="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+    <input id="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+    </div>
     <?php
+    }
+    else{
+        ?>
+        <div class="fmsInpLab">
+        <label id="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+        <input id="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+    </div>
+    <?php
+    }
 }
 
     public function titre($titre){
@@ -110,6 +122,74 @@ public function famousInput($label,$placeholder,$type){
         <h2 id="titre"><?=$titre?></h2>
         <?php
     }
+    public function darkCard(){
+        ?>
+        <div class="cardOffre">
+            <p class="reduction">-30%</p>
+            <h3 class="offerName">Carte Premium</h3>
+            <p class="price">5 000 DA <sub>/an</sub></p>
+            <div class="bar"></div>
+            <ul class="advantages">
+                <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
+            </ul>
+            <button class="choosePlan" type="button">Choisir ce plan</button>
+                
+        </div>
+        <?php
+    }
+    public function lightCard($name,$price){
+        ?>
+        <div class="cardOffre white">
+            <h3 class="offerName"><?=$name?></h3>
+            <p class="price"><?=$price?> <sub>/an</sub></p>
+            <div class="bar"></div>
+            <ul class="advantages">
+                <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
+                <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
+            </ul>
+            <button class="choosePlan" type="button">Choisir ce plan</button>
+                
+        </div>
+        <?php
+    }
     
+
+public function uploadPopup(){
+    ?>
+    <div class="popContainer">
+            <div class="popupUpload">
+                <H3>Payement de la carte</H3>
+                <div class="textArea">
+                    <?php
+                    $this->famousInput("Veuillez attacher le reçu de paiement","Télécharger le reçu","file");
+                    ?>
+                </div>
+                <?php
+                $this->blueButton("Confirmer","");
+                ?>
+            </div>
+            </div>
+    <?php
+}
+public function textPopup(){
+    ?>
+    <div class="popContainer">
+            <div class="popupText">
+                <H3>Félicitation !</H3>
+                <div class="textArea">
+                <label for="commentaire" id="contentPop"></label>
+                </div>
+                <?php
+                $this->blueButton("Aller à la page d'accueil","Page d\'accueil");
+                ?>
+            </div>
+            </div>
+    <?php
+}
 }
 ?>

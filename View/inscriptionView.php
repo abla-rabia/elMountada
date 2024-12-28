@@ -9,7 +9,6 @@ public function entetePage(){
         <link rel="stylesheet" href="View/css/inscriptionStyle.css">
         <link rel="stylesheet" href="View/css/commonStyles.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
-        <script src="View/scripts/homeScript.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -19,25 +18,10 @@ public function entetePage(){
     <?php   
 }
 
-
-
-public function afficher_page(){
+public function persoInfoSection(){
     $r = new commonViews();
     ?>
-    <html >
-        
-        <?php
-        $this->entetePage();
-        ?>
-        <body>
-        <?php
-            $r->navBarD();
-            ?>
-            <form action="" class="inscroptionForm">
-            <?php
-            $r->titre("Inscription");
-            ?>
-            <div class="infoPerso">
+    <div class="infoPerso">
             <?php
             $r->sectionTitle("Informations personnelles");
             ?>
@@ -53,15 +37,20 @@ public function afficher_page(){
                 $r->famousInput("Numéro de téléphone","+213 111 11 11 11","tell");
                 ?>
             </div>
-            </div>
-            <div class="infoCompte">
+    </div>
+    <?php
+}
+public function infoCompteSection(){
+    $r = new commonViews();
+    ?>
+    <div class="infoCompte">
             <?php
             $r->sectionTitle("Informations du compte");
             ?>
             <div class="line">
                 <?php
                 $r->famousInput("Username","abla-rabia","text");
-                $r->famousInput("Emai","la_rabia@esi.dz","email");
+                $r->famousInput("Email","la_rabia@esi.dz","email");
                 ?>
             </div>
             <div class="line">
@@ -71,7 +60,13 @@ public function afficher_page(){
                 ?>
             </div>
             </div>
-            <div class="attachement">
+    <?php
+
+}
+public function attachements(){
+    $r = new commonViews();
+    ?>
+    <div class="attachement">
             <?php
             $r->sectionTitle("Attachements");
             ?>
@@ -82,9 +77,12 @@ public function afficher_page(){
                 ?>
             </div>
             </div>
-            <input type="checkbox" name="payerNow" id="payerNow">
-            <label for="payerNow">S’inscrire pour devenir membre dans l’association ?</label><br>
-            <div class="payement">
+    <?php
+}
+public function paiementSection(){
+    $r = new commonViews();
+    ?>
+    <div class="paiement">
                 <?php
                     $r->sectionTitle("Cartes et paiement");
                 ?>
@@ -97,7 +95,7 @@ public function afficher_page(){
                     <h5>Procédure de paiement : </h5>
                     <ul>
                     <li>Sélectionnez une carte. </li>
-                    <li>Effectuez le paiement au compte CCP : 8544567876534. </li>
+                    <li>Effectuez le paiement au compte CCP : <b>8544567876534</b>. </li>
                     <li>Joignez le reçu de paiement directement sur cette page. </li>
                     <li>Validez votre demande en cliquant sur "Soumettre". </li>
                     </ul>
@@ -109,18 +107,120 @@ public function afficher_page(){
                         <li>Accéder à votre historique. Faire des dons ou des demandes d’aide. </li>
                         <li>Proposer votre participation pour des bénévolats. </li>
                     </ul>
-                        <p>Note importante : Assurez-vous que toutes les informations fournies soient exactes pour faciliter le traitement de votre demande.</p>
+                        <p><b>Note importante : </b>Assurez-vous que toutes les informations fournies soient exactes pour faciliter le traitement de votre demande.</p>
                 </div>
                 <!--partie des cartes, apres styling je la complete-->
+                <div class="cartesOffres">
+                <?php
+                $r->lightCard("Carte Classique","2 500");
+                $r->darkCard();
+                $r->lightCard("Carte Prestige","10 000");
+                ?>
+                </div>
                 <!--PopUp also-->
             </div>
-            <?php
-            $r->blueButton("Confirmer","")
+    <?php
+}
+public function avisPopup(){
+        ?>
+        <div class="popContainer">
+                <div class="popup">
+                    <H3>Ajouter un avis</H3>
+                    <div class="stars">
+                                <input type="radio" name="rating1" id="rating1">
+                                <label for="rating1" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating1" id="rating2">
+                                <label for="rating2" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating1" id="rating3">
+                                <label for="rating3" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating1" id="rating4">
+                                <label for="rating4" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating1" id="rating5">
+                                <label for="rating5" class="fa-solid fa-star"></label>
+                    </div>
+                    <div class="textArea">
+                        <label for="commentaire">Votre avis :</label>
+                        <textarea name="commentaire" id="commentaire" placeholder="Votre avis..."></textarea>
+                    </div>
+                    <?php
+                    $this->blueButton("Envoyer","");
+                    ?>
+                </div>
+                </div>
+        <?php
+    }
+public function afficher_page(){
+    $r = new commonViews();
+    ?>
+    <html >
+        
+        <?php
+        $this->entetePage();
+        ?>
+        <body >
+        <?php
+            $r->navBarD();
             ?>
-            </form>
-        </body>
+            <form action="" class="inscriptionForm">
+            <?php
+            $r->titre("Inscription");
+            $this->persoInfoSection();
+            $this->infoCompteSection();
+            $this->attachements();
+            ?>
+            <div class="check">
+                <input type="checkbox" name="payerNow" id="payerNow">
+                <label for="payerNow">S’inscrire pour devenir membre dans l’association ?</label><br>
+            </div>
+            
+            <?php
+            $this->paiementSection();
+            ?>
+            <div class="buttonContainer">
+            <div class="buttonConf">
+            <?php
+            $r->blueButton("Confirmer","");
+            ?>
+            </div>
+            </div>
 
+
+            </form>
+            <?php
+            $r->uploadPopup();
+            ?>
+        </body>
     </html>
+    <script>
+        let checkElement = document.getElementById("payerNow");
+        checkElement.addEventListener("click", function () {
+        const payementSection = document.getElementsByClassName("paiement")[0];
+        payementSection.style.display = checkElement.checked ? "flex" : "none";
+        
+        });
+        const popup = document.getElementsByClassName("popupUpload")[0];
+  const popContainer = document.getElementsByClassName("popContainer")[0];
+  //script pour la gestion de la popup des avis
+  document.getElementsByClassName("choosePlan")[0].addEventListener("click", function () {
+    console.log("kjrfjfkenrkl")
+      popContainer.style.display = "flex";
+      popup.style.display = "flex";
+    });
+  window.addEventListener("click", (event) => {
+    if (event.target === popContainer) {
+      popContainer.style.display = "none";
+      popup.style.display = "none";
+    }
+  });
+  const popupT = document.getElementsByClassName("popupText")[0];
+  document.getElementsById("famousButtonPop").addEventListener("click", function () {
+    console.log("kjrfjfkenrkl")
+      popContainer.style.display = "flex";
+      document.getElementByID("contentPop").innerText="Reçu soumis avec succès ! Votre demande est en cours de traitement. Une fois confirmée, vous recevrez un email. En attendant, vous pouvez vous connecter et profiter des avantages utilisateur."
+      popupT.style.display = "flex";
+    });
+
+    </script>
     <?php
 
 }
