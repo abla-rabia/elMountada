@@ -154,16 +154,19 @@ input[type="submit"] {
 }
 
 /*Styles du famous button */
-button.famousButton {
+button.famousButton, button#famousButtonPop {
   color: #fff;
   font-size: 11px;
   font-weight: 500;
-  width: 100%;
+  
   border: 0;
-  padding: 10px 28.629px;
+  padding: 10px 28px;
   cursor: pointer;
   border-radius: 6px;
   background: var(--blue-2, #001a23);
+}
+button.famousButton{
+  width: 100%;
 }
 
 .cardContainer *{
@@ -179,3 +182,16 @@ h2#titre {
   align-items: center;
   color: #001a23;
 }
+
+h3#sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  gap: 6px;
+  align-items: center;
+  color: #001a23;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+
+

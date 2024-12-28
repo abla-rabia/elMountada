@@ -106,18 +106,14 @@ public function searchBar(){
     <?php
 }
 
-public function sectionTitle($title){
-    ?>
-    <h3 id="sectionTitle"><?=$title?></h3>
-    <?php
-}
+
 
 public function section($nomSection){
     $r = new commonViews();
     ?>
     <div class="sectionPart">
     <?php
-    $this->sectionTitle($nomSection);
+    $r->sectionTitle($nomSection);
     ?>
     <div class="cartesPartenaire">
     <?php

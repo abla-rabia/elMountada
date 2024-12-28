@@ -69,15 +69,6 @@ select {
   font-weight: 500;
 }
 
-h3#sectionTitle {
-  font-size: 18px;
-  font-weight: 600;
-  gap: 6px;
-  align-items: center;
-  color: #001a23;
-  margin-top: 10px;
-  margin-bottom: 14px;
-}
 
 .cartesPartenaire {
   display: flex;

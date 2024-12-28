@@ -144,12 +144,13 @@ p.wilaya {
   display: none;
 }
 
-.stars input + label {
+.popup .stars input + label {
   cursor: pointer;
 }
 
-.stars input:checked + label ~ label {
+.popup .stars input:checked + label ~ label {
   opacity: 0.2;
+  
 }
 .head {
   display: flex;
@@ -163,13 +164,13 @@ p.wilaya {
 }
 
 .popup {
-    position: fixed;
-    justify-content: center;
+  position: relative;
+  justify-content: center;
   width: 30vw;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 20px;
-  padding: 10px 10px 14px 10px;
+  padding: 24px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 11.359px 34.078px 0px rgba(0, 0, 0, 0.05);
@@ -180,7 +181,11 @@ p.wilaya {
   gap: 10px;
 }
 .popup h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #001a23;
   font-size: 22px;
+  font-weight: 600;
 }
 .popup .stars label {
   font-size: 24px;
@@ -192,6 +197,7 @@ p.wilaya {
 }
 .popup .textArea label {
   font-size: 14px;
+  color: #001a23;
   font-weight: 500;
 }
 .textArea textarea {
@@ -203,19 +209,27 @@ p.wilaya {
   align-items: flex-start;
   gap: 9.087px;
   flex-shrink: 0;
+  color: #001a23;
+  font-weight: 500;
   align-self: stretch;
   resize: none;
   outline: none;
 }
-.popContainer{
-    position: absolute;
-    display: flex;
-    width: 100vw;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    background-color: aqua;
-    margin: 0;
-    top: 0;
+.popContainer {
+  position: fixed;
+  display: none;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  top: 0;
+  z-index: 999;
+  
+}
 
+.popup .famousButton{
+  padding: 12px 28px;
+  font-size: 12px;
 }

@@ -19,22 +19,9 @@ public function entetePage($nomPartenaire){
     <?php   
 }
 
-
-public function afficher_page(){
-    $r = new commonViews();
+public function partnerView(){
     ?>
-    <html >
-        
-        <?php
-        $this->entetePage("Sofitel");
-        ?>
-        <body>
-        <?php
-            $r->navBarD();
-            
-            ?>
-
-            <div class="partnerView">
+    <div class="partnerView">
                 <img src="View/assets/slider3.png" alt="partner image">
                 <div class="leftPart">
                     <div class="navigation">
@@ -47,11 +34,15 @@ public function afficher_page(){
                     <p id="description">This (Hons) Business and Management BSc course from University of Essex Online will help you adapt to the ever-changing world of business. We’ll examine a range of real-world business examples and use them to develop the broad skillset that a good manager should be able to draw from.</p>
                         
                         <p class="wilaya"><i class="fa-solid fa-location-dot"></i>Wilaya : Alger</p>
-                    </div>
+                </div>
                 
             </div>
-            <div class="sections">
-                <section class="about">
+    <?php
+}
+
+public function aboutSection(){
+    ?>
+    <section class="about">
                     <h3>A propos</h3>
                     <p class="aboutUs">
                     This (Hons) Business and Management BSc course from University of Essex Online will help you adapt to the ever-changing world of business. We’ll examine a range of real-world business examples and use them to develop the broad skillset that a good manager should be able to draw from.
@@ -63,11 +54,17 @@ public function afficher_page(){
                         <li><i class="fa-solid fa-globe"></i> <a href="#">Notre site</a></li>
                     </ul>
                 </section>
-                <section class="avis">
+    <?php
+}
+
+public function avisSection(){
+    $r = new commonViews();
+    ?>
+    <section class="avis">
                     <div class="top">
                     <h3>Avis</h3>
                     <?php
-                    $r->blueButton("Ajouter un avis","");
+                    $r->blueButton2("Ajouter un avis");
                     ?>
                     </div>
                     <div class="comments">
@@ -78,15 +75,15 @@ public function afficher_page(){
                                 <p class="name">Abla RABIA</p>
                             </div>
                             <div class="stars">
-                                <input type="radio" name="rating1" id="rating1">
+                                
                                 <label for="rating1" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating2">
+                                
                                 <label for="rating2" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating3">
+                                
                                 <label for="rating3" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating4">
+                                
                                 <label for="rating4" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating5">
+                                
                                 <label for="rating5" class="fa-solid fa-star"></label>
                             </div>
                         </div>
@@ -100,15 +97,14 @@ public function afficher_page(){
                                 <p class="name">Abla RABIA</p>
                             </div>
                             <div class="stars">
-                                <input type="radio" name="rating1" id="rating1">
-                                <label for="rating1" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating2">
+                            <label for="rating1" class="fa-solid fa-star"></label>
+                                
                                 <label for="rating2" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating3">
+                                
                                 <label for="rating3" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating4">
+                                
                                 <label for="rating4" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating5">
+                                
                                 <label for="rating5" class="fa-solid fa-star"></label>
                             </div>
                         </div>
@@ -122,15 +118,14 @@ public function afficher_page(){
                                 <p class="name">Abla RABIA</p>
                             </div>
                             <div class="stars">
-                                <input type="radio" name="rating1" id="rating1">
-                                <label for="rating1" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating2">
+                            <label for="rating1" class="fa-solid fa-star"></label>
+                                
                                 <label for="rating2" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating3">
+                                
                                 <label for="rating3" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating4">
+                                
                                 <label for="rating4" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating5">
+                                
                                 <label for="rating5" class="fa-solid fa-star"></label>
                             </div>
                         </div>
@@ -140,31 +135,36 @@ public function afficher_page(){
                     </div>
                 </section>
                 
+    <?php
+}
+
+
+public function afficher_page(){
+    $r = new commonViews();
+    ?>
+    <html >
+        
+        <?php
+        $this->entetePage("Sofitel");
+        ?>
+        <body>
+        <?php
+            $r->navBarD();
+            $this->partnerView();
+            ?>
+
+            
+            <div class="sections">
+                
+                <?php
+                $this->aboutSection();
+                $this->avisSection();
+                ?>
+                
             </div>
-            <div class="popContainer">
-                <div class="popup">
-                    <H3>Ajouter un avis</H3>
-                    <div class="stars">
-                                <input type="radio" name="rating1" id="rating1">
-                                <label for="rating1" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating2">
-                                <label for="rating2" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating3">
-                                <label for="rating3" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating4">
-                                <label for="rating4" class="fa-solid fa-star"></label>
-                                <input type="radio" name="rating1" id="rating5">
-                                <label for="rating5" class="fa-solid fa-star"></label>
-                    </div>
-                    <div class="textArea">
-                        <label for="commentaire">Votre avis :</label>
-                        <textarea name="commentaire" id="commentaire" placeholder="Votre avis..."></textarea>
-                    </div>
-                    <?php
-                    $r->blueButton("Envoyer","");
-                    ?>
-                </div>
-                </div>
+            <?php
+            $r->avisPopup();
+            ?>
         </body>
 
     </html>

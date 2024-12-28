@@ -45,7 +45,20 @@ document.addEventListener('DOMContentLoaded', function () {
             nav.style.borderRadius = "16px 16px 0px 0px";
         }
     };
-    
-    
+    const popup = document.getElementsByClassName('popup')[0];
+    const popContainer =document.getElementsByClassName('popContainer')[0]
+    //script pour la gestion de la popup des avis
+    document.getElementById("famousButtonPop").addEventListener('click', function () {
+        popContainer.style.display="flex"
+        popup.style.display = "flex";
+
+    })
+    window.addEventListener('click', (event) => {
+        if (event.target === popContainer) {
+            popContainer.style.display="none"
+            popup.style.display = "none";
+
+        }
+      });
 
 })
