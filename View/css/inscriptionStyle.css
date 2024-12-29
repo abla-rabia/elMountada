@@ -1,14 +1,18 @@
 form.inscriptionForm {
-  margin-left: 4%;
-  margin-right: 4%;
-  width: 92%;
+
+  
   display: flex;
   flex-direction: column;
 
   gap: 20px;
 }
+form.inscriptionForm #titre{
+  margin-left: 4%;
+  margin-right: 4%;
+}
 
 div.line {
+  
   display: flex;
   justify-content: space-between;
   gap: 20px;
@@ -16,12 +20,16 @@ div.line {
 div.infoPerso,
 div.infoCompte,
 div.attachement {
+  margin-left: 4%;
+  margin-right: 4%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 div.check {
+  margin-left: 4%;
+  margin-right: 4%;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -33,6 +41,8 @@ div.check input:checked {
 }
 
 div.paiement {
+  margin-left: 4%;
+  margin-right: 4%;
   color: #001a23;
   display: none;
   flex-direction: column;
@@ -62,6 +72,8 @@ b {
 }
 
 .buttonConf {
+  margin-left: 4%;
+  margin-right: 4%;
   width: 14vw;
 }
 .buttonContainer {
@@ -76,4 +88,9 @@ b {
     align-items: flex-end;
     justify-content: space-around;
     margin: 40px 40px;
+}
+
+.popContainer{
+  margin: 0;
+  gap: 0;
 }

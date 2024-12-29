@@ -64,7 +64,7 @@ public function avisSection(){
                     <div class="top">
                     <h3>Avis</h3>
                     <?php
-                    $r->blueButton2("Ajouter un avis");
+                    $r->blueButton2("Ajouter un avis","avisButton");
                     ?>
                     </div>
                     <div class="comments">

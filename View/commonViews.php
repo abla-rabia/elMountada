@@ -66,9 +66,9 @@ class commonViews{
             <a href="index.php?router=<?=$destination?>"><button type="submit" class="famousButton"><?= $content ?></button></a>
         <?php
     }
-    public function blueButton2($content){
+    public function blueButton2($content,$id){
         ?>
-            <button id="famousButtonPop"><?= $content ?></button>
+            <button  id="<?=$id?>" type="button" class="famousButtonPop"><?= $content ?></button>
         <?php
     }
 
@@ -102,16 +102,16 @@ public function famousInput($label,$placeholder,$type){
     if($type!="file"){
     ?>
     <div class="fmsInpLab">
-    <label id="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
-    <input id="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+    <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+    <input class="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
     </div>
     <?php
     }
     else{
         ?>
         <div class="fmsInpLab">
-        <label id="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
-        <input id="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+        <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+        <input class="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
     </div>
     <?php
     }
@@ -161,8 +161,8 @@ public function famousInput($label,$placeholder,$type){
 
 public function uploadPopup(){
     ?>
-    <div class="popContainer">
-            <div class="popupUpload">
+    <div class="popContainer" >
+            <div class="popupUpload" id="popupUpload">
                 <H3>Payement de la carte</H3>
                 <div class="textArea">
                     <?php
@@ -170,7 +170,7 @@ public function uploadPopup(){
                     ?>
                 </div>
                 <?php
-                $this->blueButton("Confirmer","");
+                $this->blueButton2("Confirmer","closeUploadPop");
                 ?>
             </div>
             </div>
@@ -179,10 +179,10 @@ public function uploadPopup(){
 public function textPopup(){
     ?>
     <div class="popContainer">
-            <div class="popupText">
+            <div class="popupUpload" id="textPopup">
                 <H3>Félicitation !</H3>
                 <div class="textArea">
-                <label for="commentaire" id="contentPop"></label>
+                <label for="commentaire" class="fmsLabel" id="contentPop"></label>
                 </div>
                 <?php
                 $this->blueButton("Aller à la page d'accueil","Page d\'accueil");

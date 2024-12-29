@@ -116,10 +116,10 @@ public function paiementSection(){
                 $r->darkCard();
                 $r->lightCard("Carte Prestige","10 000");
                 ?>
-                </div>
-                <!--PopUp also-->
-            </div>
+                </div>                            
+            </div>        
     <?php
+    $r->uploadPopup();
 }
 public function avisPopup(){
         ?>
@@ -173,22 +173,24 @@ public function afficher_page(){
                 <label for="payerNow">S’inscrire pour devenir membre dans l’association ?</label><br>
             </div>
             
-            <?php
+            <?php            
+            $r->textPopup();
             $this->paiementSection();
             ?>
             <div class="buttonContainer">
             <div class="buttonConf">
             <?php
-            $r->blueButton("Confirmer","");
+            $r->blueButton2("Confirmer","inscriptionPop");
             ?>
             </div>
             </div>
-
+            <?php
+            
+            
+            ?>
 
             </form>
-            <?php
-            $r->uploadPopup();
-            ?>
+            
         </body>
     </html>
     <script>
@@ -198,26 +200,41 @@ public function afficher_page(){
         payementSection.style.display = checkElement.checked ? "flex" : "none";
         
         });
-        const popup = document.getElementsByClassName("popupUpload")[0];
+        const popup = document.getElementById("popupUpload");
   const popContainer = document.getElementsByClassName("popContainer")[0];
+  const popContainer1 = document.getElementsByClassName("popContainer")[1];
   //script pour la gestion de la popup des avis
-  document.getElementsByClassName("choosePlan")[0].addEventListener("click", function () {
-    console.log("kjrfjfkenrkl")
-      popContainer.style.display = "flex";
-      popup.style.display = "flex";
-    });
+  const choosePlanButtons = document.getElementsByClassName("choosePlan");
+for (let button of choosePlanButtons) {
+  button.addEventListener("click", function (event) {
+    console.log("Button clicked");
+    popContainer1.style.display = "flex";
+    popup.style.display = "flex";
+  });
+}
+document.getElementById("closeUploadPop").addEventListener("click", function (event) {
+    console.log("Button clicked");
+    popContainer1.style.display = "none";
+    popup.style.display = "none";
+  });
   window.addEventListener("click", (event) => {
     if (event.target === popContainer) {
       popContainer.style.display = "none";
       popup.style.display = "none";
     }
   });
-  const popupT = document.getElementsByClassName("popupText")[0];
-  document.getElementsById("famousButtonPop").addEventListener("click", function () {
-    console.log("kjrfjfkenrkl")
+  window.addEventListener("click", (event) => {
+    if (event.target === popContainer1) {
+      popContainer1.style.display = "none";
+      popup.style.display = "none";
+    }
+  });
+  const popupT = document.getElementById("textPopup");
+  document.getElementById("inscriptionPop").addEventListener("click", function () {
       popContainer.style.display = "flex";
-      document.getElementByID("contentPop").innerText="Reçu soumis avec succès ! Votre demande est en cours de traitement. Une fois confirmée, vous recevrez un email. En attendant, vous pouvez vous connecter et profiter des avantages utilisateur."
       popupT.style.display = "flex";
+      document.getElementById("contentPop").textContent=checkElement.checked ? "Reçu soumis avec succès ! Votre demande est en cours de traitement. Une fois confirmée, vous recevrez un email. En attendant, vous pouvez vous connecter et profiter des avantages utilisateur" : "Votre inscription a été effectuée avec succès. Vous pouvez maintenant vous connecter et bénéficier des avantages réservés aux utilisateurs inscrits."
+      
     });
 
     </script>

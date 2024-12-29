@@ -54,8 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const popContainer = document.getElementsByClassName("popContainer")[0];
   //script pour la gestion de la popup des avis
   document
-    .getElementById("famousButtonPop")
+    .getElementById("avisButton")
     .addEventListener("click", function () {
+      console.log("lkgl,elg,")
       popContainer.style.display = "flex";
       popup.style.display = "flex";
     });
