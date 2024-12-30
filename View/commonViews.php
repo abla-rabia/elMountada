@@ -6,6 +6,39 @@ class commonViews{
         <?php
     }
 
+    public function carte($type){
+        ?>
+        <div class="carteMembre">
+            <div class="top">
+                <div class="head">
+                    <img src="View/assets/logo.png" alt="logo mode" width="130px" >
+                    <p>Association el Mountada</p>
+                </div>
+                <div class="bottom">
+                    <div class="keyValues">
+                    <div class="titlesCard">
+                        <p>Nom : </p>
+                        <p>Prénom : </p>
+                        <p>identifiant : </p>
+                    </div>
+                    <div class="valuesCard">
+                        <p>Rabia</p>
+                        <p>Abla</p>
+                        <p>id8657753683</p>
+                    </div>
+                    </div>
+                    <div class="barreCode">
+                        <img src="View/assets/barre.png" alt="" width=140px>
+                    </div>
+                </div>
+            </div>
+            <div class="down">
+                <p>Carte <?=$type?></p>
+            </div>
+        </div>
+        <?php
+    }
+
 
     public function avisPopup(){
         ?>
@@ -60,6 +93,79 @@ class commonViews{
         
         <?php
     }
+
+
+
+    public function navBarC(){
+        ?>
+        <nav>
+            <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
+            <a href="index.php?router=Page%20d'accueil">Accueil</a>
+            <a href="index.php?router=Catalogue">Partenaires</a>
+            <a href="">Offres</a>
+            <li id="subMenuP">
+                Dons & bénévolats
+                <ul id="subMenu">
+                    <a>Demande d'aide</a>
+                    <a>Bénévolat</a>
+                    <a>Faire un don</a>
+                </ul>
+            </li>
+            
+            <div class="userSection">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user">
+                <img class="userImg" id="nav" src="View/assets/user.png" alt="user img">
+                <ul id="userBox">
+                    <a href="index.php?router=Mes infos">Profile</a>
+                    <a>Carte</a>
+                    <a>Historique</a>
+                    <a>Favoris</a>
+                    <a>Se déconnecter</a>
+                </ul>
+            </div>
+            </div>
+        </nav>
+        
+        <?php
+    }
+
+
+    public function memberSideBar($current){
+            if ($current=="infos"){
+            ?>
+            <div class="sidebar">
+                <ul>
+                    <li id="infos " class=""><a id="current" href="index.php?router=Mes infos">Mes Informations</a></li>
+                    <li id="compte"><a href="index.php?router=Mon compte">Mon compte</a></li>
+                    <li id="secure"><a  href="index.php?router=securite">Sécurité</a></li>    
+                </ul>
+            </div>
+            <?php 
+        }
+        elseif ($current=="compte"){
+        ?>
+            <div class="sidebar">
+                <ul>
+                    <li id="infos " class=""><a  href="index.php?router=Mes infos">Mes Informations</a></li>
+                    <li id="compte"><a id="current" href="index.php?router=Mon compte">Mon compte</a></li>
+                    <li id="secure"><a  href="index.php?router=securite">Sécurité</a></li>    
+                </ul>
+            </div>
+        <?php
+        }
+        else {
+        ?>
+            <div class="sidebar">
+                <ul>
+                    <li id="infos " class=""><a  href="index.php?router=Mes infos">Mes Informations</a></li>
+                    <li id="compte"><a href="index.php?router=Mon compte">Mon compte</a></li>
+                    <li id="secure"><a id="current" href="index.php?router=securite">Sécurité</a></li>    
+                </ul>
+            </div>
+            <?php
+        }
+    }
     // le famous boutton bleu 
     public function blueButton($content,$destination){
         ?>
@@ -112,6 +218,25 @@ public function famousInput($label,$placeholder,$type){
         <div class="fmsInpLab">
         <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
         <input class="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$placeholder?>Input">
+    </div>
+    <?php
+    }
+}
+
+public function famousInput2($label,$value,$type){
+    if($type!="file"){
+    ?>
+    <div class="fmsInpLab">
+    <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+    <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$value?>Input">
+    </div>
+    <?php
+    }
+    else{
+        ?>
+        <div class="fmsInpLab">
+        <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
+        <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$value?>Input">
     </div>
     <?php
     }

@@ -15,12 +15,14 @@ nav {
   z-index: 3;
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   position: fixed;
   top: 0;
   align-items: center;
   padding-top: 9px;
   padding-bottom: 9px;
+  padding-left: 4%;
+  padding-right: 4%;
   box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
   background-color: #ffff;
 }
@@ -212,7 +214,7 @@ input.fmsInput {
   border: 1px solid var(--Neutral-300, #eff0f6);
   background: var(--Neutral-100, #fff);
   padding: 8px 12px;
-  
+
   color: #001a23;
   outline: none;
   font-size: 12px;
@@ -220,18 +222,17 @@ input.fmsInput {
   box-shadow: 0px 2px 4px 0px rgba(19, 18, 66, 0.03);
 }
 
-input.fmsInput::placeholder{
+input.fmsInput::placeholder {
   color: #001a23;
   opacity: 0.4;
 }
 
-input.fmsInput[type="file"]{
-  background-color: #F5F6FB;
+input.fmsInput[type="file"] {
+  background-color: #f5f6fb;
   appearance: none;
-      -webkit-appearance: none;
-  
+  -webkit-appearance: none;
 }
-input.fmsInput[type="file"] button{
+input.fmsInput[type="file"] button {
   display: none;
 }
 
@@ -255,7 +256,7 @@ div.cardOffre {
   gap: 20px;
   align-items: center;
 }
-div.cardOffre.white{
+div.cardOffre.white {
   width: 22vw;
   gap: 24px;
   background-color: #fff;
@@ -264,10 +265,10 @@ div.cardOffre.white{
 div.cardOffre.white li {
   color: rgba(77, 77, 77, 0.709);
 }
-div.cardOffre.white li i{
+div.cardOffre.white li i {
   color: rgb(77, 77, 77);
 }
-div.cardOffre.white .bar{
+div.cardOffre.white .bar {
   background-color: rgb(77, 77, 77);
 }
 
@@ -338,7 +339,6 @@ div.cardOffre button {
   cursor: pointer;
 }
 
-
 .popupUpload {
   position: relative;
   justify-content: center;
@@ -374,5 +374,161 @@ div.cardOffre button {
   margin: 0;
   top: 0;
   z-index: 999;
+}
+
+.userImg {
+  height: 34px;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+nav .userSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+nav i {
+  border-radius: 100%;
+  cursor: pointer;
+  padding: 8px;
+}
+nav i:active {
+  background-color: #001a2307;
+}
+
+.sidebar,
+.sidebar ul {
+  margin: 0;
+  padding: 0;
+  
+  width: 18vw;
+}
+
+.sidebar a {
+  color: #001a23;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 16px;
+}
+.sidebar ul {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar a#current {
+  font-weight: 600;
+}
+.user{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.userSection #userBox {
+  display: none;
+  position: absolute;
+  flex-direction: column;
+  width: 150px;
+  box-sizing:border-box;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 4px 20px -5px rgba(0, 0, 0, 0.08);
+  gap: 0;
+  margin-top: 42px;
+  padding: 0;
+  z-index: 999;
+
+  
+  
+}
+.userSection #userBox a{
+  cursor: pointer;
+  padding: 10px 10px;
+  font-size: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.userSection #userBox a:hover{
+  background-color: #001a230f;
+  
+}
+div.carteMembre {
+  display: flex;
+  flex-direction: column;
+}
+
+div.carteMembre .top{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: F5F6F8;
+  height: 50vh;
+  border-radius: 10px 10px 0 0;
+}
+
+div.carteMembre .top .head{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  align-items: center;
+}
+
+div.carteMembre .top .head img{
+  height: fit-content;
+}
+div.carteMembre .top .head p{
+  font-weight: 500;
+  color: #001a23;
+}
+div.carteMembre{
+  width: 60%;
+}
+
+div.bottom{
+  display: flex;
+  
+  justify-content: space-between;
+  padding: 10px 20px ;
+  align-items: center;
+}
+
+div.keyValues{
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+div.keyValues .titlesCard{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #001a23;
+  font-weight: 600;
+}
+div.keyValues .valuesCard{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #001a23;
+  font-weight: 400;
+}
+
+div.keyValues p{
+  padding: 0%;
+  margin: 0%;
+  font-size: 16px;
+}
+
+.carteMembre .down{
+  background-color: #001a23;
+  color: #fff;  
+  border-radius: 0 0 10px 10px;
+  padding: 10px 20px;
+}
+
+div.carteMembre .down p{
+  font-weight: 500;
   
 }
