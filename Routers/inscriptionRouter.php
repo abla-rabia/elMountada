@@ -5,6 +5,7 @@ if (!defined('ROOT')) {
 require_once(ROOT . '/Controller/userController.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rts=new userController();
-    $rts->inscriptionSimple();
+    $result=$rts->inscriptionSimple();
+    echo $result;
 }
 ?>

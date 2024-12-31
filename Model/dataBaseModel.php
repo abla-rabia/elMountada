@@ -13,8 +13,10 @@ $pdo=new PDO($dsn, $this->username, $this->password);
 public function deconnexion($pdo){
     $pdo=null;
 }
-public function query($pdo,$query){
-    return $pdo->query($query);
+public function query($pdo, $query, $params = []) {
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    return $stmt;
 }
 }
 ?>

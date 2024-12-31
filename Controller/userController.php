@@ -30,27 +30,33 @@ class userController{
     }
     public function inscriptionSimple(){
         $r= new userModel();
-            $credentials=[
-                'nom' => $_POST['nom'],
-                'prenom' => $_POST['prenom'],
-                'email' => $_POST['email'],
-                'password' => $_POST['password'],
-                'telNumber' => $_POST['telNumber'],
-                'birthDate' => $_POST['birthDate'],
-                'username' => $_POST['username'],
-                'idPhoto' => $this->uploadPhoto('idPhoto'),
-                'persoPhoto' => $this->uploadPhoto('persoPhoto')
-            ];
+        $credentials=[
+            'nom' => $_POST['nom'],
+            'prenom' => $_POST['prenom'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'telNumber' => $_POST['telNumber'],
+            'birthDate' => $_POST['birthDate'],
+            'username' => $_POST['username'],
+            'idPhoto' => $this->uploadPhoto('idPhoto'),
+            'persoPhoto' => $this->uploadPhoto('persoPhoto')
+        ];
 
-            if(!($r->problemInscription($credentials))){
-                $r->inscriptionSimple($credentials);
-                $this->uploadPhoto();
-                return 1;//pour indiquer que l'instruction a ete effectué avec succés
-            }
-            else{
-                return 0; //cas d'erreur username ou email existent deja
+        // Check if any field is empty
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return 3; 
             }
         }
+
+        if(!($resul=$r->problemInscription($credentials))){
+            $r->inscriptionSimple($credentials);
+            return 1; // Pour indiquer que l'instruction a été effectuée avec succès
+        }
+        else{
+            return $resul; // Cas d'erreur username ou email existent déjà
+        }
+    }
 
     //fonction pour gerer les photos envoyées
     private function uploadPhoto($name) {

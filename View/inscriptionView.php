@@ -13,7 +13,9 @@ class inscriptionView {
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="View/scripts/inscriptionScript.js"></script>
         </head>
         <?php
     }
@@ -53,7 +55,7 @@ class inscriptionView {
             <div class="line">
                 <?php
                 $r->famousInput("Mot de passe", "***********", "password","password");
-                $r->famousInput("Confirmer le mot de passe", "***********", "password","");
+                $r->famousInput("Confirmer le mot de passe", "***********", "password","password2");
                 ?>
             </div>
         </div>
@@ -149,7 +151,7 @@ class inscriptionView {
             <?php $this->entetePage(); ?>
             <body>
                 <?php $r->navBarD(); ?>
-                <form action="Routers/inscriptionRouter.php" method="post" class="inscriptionForm" id="formInsc">
+                <form  method="post" class="inscriptionForm"  id="formInsc">
                     <?php
                     $r->titre("Inscription");
                     $this->persoInfoSection();
@@ -171,91 +173,10 @@ class inscriptionView {
                     ?>
                     
                 </form>
-            </body>
+        </body>
         </html>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            let checkElement = document.getElementById("payerNow");
-            checkElement.addEventListener("click", function () {
-                const payementSection = document.getElementsByClassName("paiement")[0];
-                payementSection.style.display = checkElement.checked ? "flex" : "none";
-            });
-
-            const popup = document.getElementById("popupUpload");
-            const popContainer = document.getElementsByClassName("popContainer")[0];
-            const popContainer1 = document.getElementsByClassName("popContainer")[1];
-
-            const choosePlanButtons = document.getElementsByClassName("choosePlan");
-            for (let button of choosePlanButtons) {
-                button.addEventListener("click", function (event) {
-                    console.log("Button clicked");
-                    popContainer1.style.display = "flex";
-                    popup.style.display = "flex";
-                });
-            }
-
-            document.getElementById("closeUploadPop").addEventListener("click", function (event) {
-                console.log("Button clicked");
-                popContainer1.style.display = "none";
-                popup.style.display = "none";
-            });
-
-            window.addEventListener("click", (event) => {
-                if (event.target === popContainer) {
-                    popContainer.style.display = "none";
-                    popup.style.display = "none";
-                }
-            });
-
-            window.addEventListener("click", (event) => {
-                if (event.target === popContainer1) {
-                    popContainer1.style.display = "none";
-                    popup.style.display = "none";
-                }
-            });
-
-            const popupT = document.getElementById("textPopup");
-            document.getElementById("inscriptionPop").addEventListener("click", function () {
-                popContainer.style.display = "flex";
-                popupT.style.display = "flex";
-                document.getElementById("contentPop").textContent = checkElement.checked ? "Reçu soumis avec succès ! Votre demande est en cours de traitement. Une fois confirmée, vous recevrez un email. En attendant, vous pouvez vous connecter et profiter des avantages utilisateur" : "Votre inscription a été effectuée avec succès. Vous pouvez maintenant vous connecter et bénéficier des avantages réservés aux utilisateurs inscrits.";
-            });
-
-
-            //gestion du formulaire a l'aide de ajax
-            $(document).ready(function () {
-                $('#formInsc').on('submit', function (event) {
-                    event.preventDefault();
-                    const formData=new FormData(this);
-                    $.ajax(
-                        {
-                            url:'Routers/inscriptionRouter.php',
-                            type:'POST',
-                            data: formData,
-                            contentType:false,
-                            processData:false,
-                            success : function(response){
-                                if(response==1){
-                                    alert('Inscription réussie !');
-                                }
-                                else{
-                                    console.log("helllo")
-                                    console.log(response)
-                                    console.log("helllo")
-                                    alert('Erreur!!');
-                                }
-                            },
-                            error:function(){
-                                alert('erreur!');
-                            }
-
-                        }
-                    )
-
-                })
-            })
-
-        </script>
+        
+        
         <?php
     }
 }

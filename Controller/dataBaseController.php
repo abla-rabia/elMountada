@@ -10,9 +10,9 @@ public function deconnexion($pdo){
     $r= new dataBaseModel();
     $r->deconnexion($pdo);
 }
-public function query($pdo,$query){
-    $r= new dataBaseModel();
-    return $r->query($pdo,$query);
+public function query($pdo, $query, $params = []){
+    $r = new dataBaseModel();
+    return $r->query($pdo, $query, $params);
 }
 }
 ?>

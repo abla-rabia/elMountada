@@ -174,7 +174,7 @@ class commonViews{
     }
     public function blueButton2($content,$id){
         ?>
-            <button  id="<?=$id?>" type="submit" class="famousButtonPop"><?= $content ?></button>
+            <button  id="<?=$id?>" type="button" class="famousButtonPop"><?= $content ?></button>
         <?php
     }
 
@@ -209,7 +209,7 @@ public function famousInput($label,$placeholder,$type,$nom){
     ?>
     <div class="fmsInpLab">
     <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
-    <input class="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$nom?>">
+    <input class="fmsInput" type="<?=$type?>" placeholder="<?=$placeholder?>" name="<?=$nom?>" >
     </div>
     <?php
     }
