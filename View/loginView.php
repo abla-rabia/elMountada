@@ -1,5 +1,5 @@
 <?php
-require_once("Controller\loginController.php");
+require_once(ROOT . '/Controller/userController.php');
 class loginView{
     public function entetePage(){
         ?>
@@ -50,7 +50,7 @@ class loginView{
     }
     public function formulaireLogin(){
         ?>
-        <form action="loginRouter.php" method="post">
+        <form action="Routers/loginRouter.php" method="post">
         <?php
             $this->input("Email ou nom utilisateur","userName","text");
             $this->inputPassword();

@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once("Controller/loginController.php");
+define('ROOT', __DIR__); // Chemin absolu de la racine
+require_once("Controller/userController.php");
 require_once("Controller/homeController.php");
 require_once("Controller/partenaireController.php");
 require_once("Controller/catalogueController.php");
@@ -13,8 +14,8 @@ if (isset($_GET['router'])){
     $action=$_GET['router'];
     switch ($action){
         case 'Page de connexion':
-            $r=new loginController();
-            $r->afficherPage();
+            $r=new userController();
+            $r->afficherPageLogin();
             break;
         case 'Page d\'accueil':
             $r=new homeController();
