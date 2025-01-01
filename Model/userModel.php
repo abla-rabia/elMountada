@@ -108,6 +108,12 @@ class userModel {
                 'id_paiement' => $idPaiement
             ];
             $res = $r->query($pdo, $qtf3, $params3);
+            $qtf4="INSERT INTO paiementcarte (type_carte, id_paiement) VALUES (:type_carte,:id_paiement)";
+            $params4 = [
+                'type_carte' => $credentials['plan'],
+                'id_paiement' => $idPaiement
+            ];
+            $res = $r->query($pdo, $qtf4, $params4);
             $r->deconnexion($pdo);
         }
     }

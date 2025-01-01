@@ -4,25 +4,33 @@ document.addEventListener("DOMContentLoaded", function () {
         const payementSection = document.getElementsByClassName("paiement")[0];
         payementSection.style.display = checkElement.checked ? "flex" : "none";
     });
-
+    let plan;
     const popup = document.getElementById("popupUpload");
     const popContainer = document.getElementsByClassName("popContainer")[0];
     const popContainer1 = document.getElementsByClassName("popContainer")[1];
 
     const choosePlanButtons = document.getElementsByClassName("choosePlan");
-    for (let button of choosePlanButtons) {
-        button.addEventListener("click", function () {
+    for (let i = 0; i < choosePlanButtons.length; i++) {
+        choosePlanButtons[i].addEventListener("click", function () {
             console.log("Button clicked");
             popContainer1.style.display = "flex";
             popup.style.display = "flex";
+            if (i === 0) {
+                plan = "classique";
+            } else if (i === 1) {
+                plan = "premium";
+            } else if (i === 2) {
+                plan = "prestige";
+            }
+            console.log(plan);
         });
     }
 
-    // document.getElementById("closeUploadPop").addEventListener("click", function () {
-    //     console.log("Button clicked");
-    //     popContainer1.style.display = "none";
-    //     popup.style.display = "none";
-    // });
+    document.getElementById("closeUploadPop").addEventListener("click", function () {
+        console.log("Button clicked");
+        popContainer1.style.display = "none";
+        popup.style.display = "none";
+    });
     const popupT = document.getElementById("textPopup");
     function successPopup() {
         const popContainer = document.getElementsByClassName("popContainer")[0];
@@ -92,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
                 } else {
+                    formData.append('plan', plan);
                     $.ajax({
                         url: 'Routers/inscription2Router.php',
                         type: 'POST',

@@ -70,7 +70,8 @@ class userController{
             'username' => $_POST['username'],
             'idPhoto' => $this->uploadPhoto('idPhoto'),
             'persoPhoto' => $this->uploadPhoto('persoPhoto'),
-            'recu' => $this->uploadPhoto('recu')
+            'recu' => $this->uploadPhoto('recu'),
+            'plan' => $_POST['plan']
         ];
 
         // Check if any field is empty
@@ -94,7 +95,7 @@ class userController{
         //photo d'indetité
         if (isset($_FILES[$name]) && $_FILES[$name]['error'] === UPLOAD_ERR_OK) {
             // Déplacer la photo vers un dossier sur le serveur
-            $targetDir = 'uploads';
+            $targetDir = '../uploads/';
             $targetFile = $targetDir . basename($_FILES[$name]['name']);
             move_uploaded_file($_FILES[$name]['tmp_name'], $targetFile);
             return $targetFile;  // Retourner le chemin de la photo
