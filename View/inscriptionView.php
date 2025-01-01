@@ -112,9 +112,10 @@ class inscriptionView {
                 $r->lightCard("Carte Prestige", "10 000");
                 ?>
             </div>
+
         </div>
         <?php
-        $r->uploadPopup();
+        
     }
 
     public function avisPopup() {
@@ -162,16 +163,23 @@ class inscriptionView {
                         <input type="checkbox" name="payerNow" id="payerNow">
                         <label for="payerNow">S’inscrire pour devenir membre dans l’association ?</label><br>
                     </div>
-                    <div class="buttonContainer">
+                    <div>
+                    <?php
+                    $this->paiementSection();
+                    $r->textPopup();
+                    
+                    ?>
+                    </div>
+                   
+                   
+                   <div class="buttonContainer">
                         <div class="buttonConf">
                             <?php $r->blueButton2("Confirmer", "inscriptionPop"); ?>
                         </div>
                     </div>
                     <?php
-                    $r->textPopup();
-                    $this->paiementSection();
-                    ?>
-                    
+        $r->uploadPopup("recu");
+        ?>
                 </form>
         </body>
         </html>

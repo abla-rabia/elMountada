@@ -66,7 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (machingPass){
             event.preventDefault();
             
-            const formData = new FormData($('#formInsc')[0]);
+                const formData = new FormData($('#formInsc')[0]);
+                if (!checkElement.checked){
             $.ajax({
                 url: 'Routers/inscriptionRouter.php',
                 type: 'POST',
@@ -90,6 +91,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('erreur!');
                 }
             });
+                } else {
+                    $.ajax({
+                        url: 'Routers/inscription2Router.php',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response == 1) {
+                                console.log(response);
+                                successPopup();
+                            } else if (response==3){                
+                                console.log(response);
+                                alert('Veuillez remplire tous les champs ! ');
+                            }
+                            else {                
+                                console.log(response);
+                                alert(response);
+                            }
+                        },
+                        error: function () {
+                            alert('erreur!');
+                        }
+                    }); 
+        }
             }
             else {
                 alert('Mots de passe non identiques ! ');

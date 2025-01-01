@@ -242,56 +242,56 @@ public function famousInput2($label,$value,$type){
     }
 }
 
-    public function titre($titre){
-        ?>
-        <h2 id="titre"><?=$titre?></h2>
-        <?php
-    }
-    public function darkCard(){
-        ?>
-        <div class="cardOffre">
-            <p class="reduction">-30%</p>
-            <h3 class="offerName">Carte Premium</h3>
-            <p class="price">5 000 DA <sub>/an</sub></p>
-            <div class="bar"></div>
-            <ul class="advantages">
-                <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
-            </ul>
-            <button class="choosePlan" type="button">Choisir ce plan</button>
-                
-        </div>
-        <?php
-    }
-    public function lightCard($name,$price){
-        ?>
-        <div class="cardOffre white">
-            <h3 class="offerName"><?=$name?></h3>
-            <p class="price"><?=$price?> <sub>/an</sub></p>
-            <div class="bar"></div>
-            <ul class="advantages">
-                <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
-                <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
-            </ul>
-            <button class="choosePlan" type="button">Choisir ce plan</button>
-                
-        </div>
-        <?php
-    }
-    
+public function titre($titre){
+    ?>
+    <h2 id="titre"><?=$titre?></h2>
+    <?php
+}
+public function darkCard(){
+    ?>
+    <div class="cardOffre">
+        <p class="reduction">-30%</p>
+        <h3 class="offerName">Carte Premium</h3>
+        <p class="price">5 000 DA <sub>/an</sub></p>
+        <div class="bar"></div>
+        <ul class="advantages">
+            <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
+        </ul>
+        <button class="choosePlan" type="button">Choisir ce plan</button>
+            
+    </div>
+    <?php
+}
+public function lightCard($name,$price){
+    ?>
+    <div class="cardOffre white">
+        <h3 class="offerName"><?=$name?></h3>
+        <p class="price"><?=$price?> <sub>/an</sub></p>
+        <div class="bar"></div>
+        <ul class="advantages">
+            <li><i class="fa-solid fa-circle-check"></i>10% de remise sur les hôtels partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>8% de réduction sur les services des cliniques partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>Réductions exclusives sur les frais de scolarité des écoles partenaires.</li>
+            <li><i class="fa-solid fa-circle-check"></i>Priorité pour les dons et les demandes d’aide.</li>
+        </ul>
+        <button class="choosePlan" type="button">Choisir ce plan</button>
+            
+    </div>
+    <?php
+}
 
-public function uploadPopup(){
+
+public function uploadPopup($name){
     ?>
     <div class="popContainer" >
             <div class="popupUpload" id="popupUpload">
                 <H3>Payement de la carte</H3>
                 <div class="textArea">
                     <?php
-                    $this->famousInput("Veuillez attacher le reçu de paiement","Télécharger le reçu","file");
+                    $this->famousInput("Veuillez attacher le reçu de paiement","Télécharger le reçu","file",$name);
                     ?>
                 </div>
                 <?php

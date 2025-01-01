@@ -58,6 +58,37 @@ class userController{
         }
     }
 
+    public function inscriptionMembre(){
+        $r= new userModel();
+        $credentials=[
+            'nom' => $_POST['nom'],
+            'prenom' => $_POST['prenom'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'telNumber' => $_POST['telNumber'],
+            'birthDate' => $_POST['birthDate'],
+            'username' => $_POST['username'],
+            'idPhoto' => $this->uploadPhoto('idPhoto'),
+            'persoPhoto' => $this->uploadPhoto('persoPhoto'),
+            'recu' => $this->uploadPhoto('recu')
+        ];
+
+        // Check if any field is empty
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return 3; 
+            }
+        }
+
+        if(!($resul=$r->problemInscription($credentials))){
+            $r->inscriptionMembre($credentials);
+            return 1; // Pour indiquer que l'instruction a été effectuée avec succès
+        }
+        else{
+            return $resul; // Cas d'erreur username ou email existent déjà
+        }
+    }
+
     //fonction pour gerer les photos envoyées
     private function uploadPhoto($name) {
         //photo d'indetité
