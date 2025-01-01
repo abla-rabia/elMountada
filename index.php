@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 define('ROOT', __DIR__); // Chemin absolu de la racine
 require_once("Controller/userController.php");
 require_once("Controller/homeController.php");
@@ -49,6 +51,15 @@ if (isset($_GET['router'])){
             $r=new carteController();
             $r->afficherPage();
             break; 
+        case 'login':
+            $rts=new userController();
+            $rts->login();
+            break;
+        case 'logout':
+            $rts=new userController();
+            $rts->logout();
+            break;
+        
     }
 }
 else{

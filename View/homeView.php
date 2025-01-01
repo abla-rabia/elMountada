@@ -1,4 +1,5 @@
 <?php
+
 require_once("Controller\homeController.php");
 require_once("commonViews.php");
 class homeView{
@@ -282,7 +283,7 @@ class homeView{
             <body class="home">
             <?php
                 $this->slider();
-                $r->navBarD();
+                $r->navBar();
 
                 $this->newsSection();
                 $this->partenairesSection();

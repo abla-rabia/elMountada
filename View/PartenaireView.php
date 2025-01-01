@@ -151,7 +151,7 @@ public function afficher_page(){
         ?>
         <body>
         <?php
-            $r->navBarD();
+            $r->navBar();
             $this->partnerView();
             ?>
 

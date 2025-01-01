@@ -3,11 +3,11 @@ require_once(ROOT . '/Controller/userController.php');
 require_once(ROOT . '/Controller/dataBaseController.php');
 
 class userModel {
-    public function getUser($userName) {
+    public function getUser($identifier) {
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM user WHERE username = :username";
-        $stmt = $r->query($pdo, $qtf, ['username' => $userName]);
+        $qtf = "SELECT * FROM user WHERE username = :identifier OR email = :identifier";
+        $stmt = $r->query($pdo, $qtf, ['identifier' => $identifier]);
         $user = $stmt->fetch();
         $r->deconnexion($pdo);
         return $user;

@@ -50,7 +50,7 @@ class loginView{
     }
     public function formulaireLogin(){
         ?>
-        <form action="Routers/loginRouter.php" method="post">
+        <form action="index.php?router=login" method="post">
         <?php
             $this->input("Email ou nom utilisateur","userName","text");
             $this->inputPassword();

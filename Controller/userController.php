@@ -1,4 +1,5 @@
 <?php
+
 require_once(ROOT . '/View/loginView.php');
 require_once(ROOT . '/Model/userModel.php');
 
@@ -12,9 +13,18 @@ class userController{
         if ($user){
             if ($mdl->checkPassword($userName,$password)){
                 session_start();
-                $_SESSION['userName']=$userName;
-                $_SESSION['password']=$password;
-                echo "Authentification effectuée avec succès";
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                    'email' => $user['email'],
+                    'nom' => $user['nom'],
+                    'prenom' => $user['prenom'],
+                    'photoProfile' => $user['photoProfile'],
+                    'telNumber' => $user['telNumber'],
+                    'birthDate' => $user['birthDate']
+                ];
+                header("Location: index.php?router=Page%20d'accueil");
+                print_r($_SESSION);
             }
             else{
                 echo "Mot de passe incorrect";
@@ -101,6 +111,14 @@ class userController{
             return $targetFile;  // Retourner le chemin de la photo
         }
         return null; //cas ou la photo n'a pas ete téléchargée
+    }
+    public function logout(){
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_unset(); // Supprime toutes les variables de session
+            session_destroy(); // Détruit la session
+        }
+        header("Location: index.php?router=Page%20d'accueil");
+        exit();
     }
 }
 ?>

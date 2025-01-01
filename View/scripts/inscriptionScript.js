@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     const pass1 = document.querySelector('[name="password"]');
     const pass2 = document.querySelector('[name="password2"]');
-    let machingPass = true;
+    let machingPass = false;
     pass2.addEventListener("change", function (event) {
         if (pass1.value !== event.target.value) {
             pass2.style.border = "1px solid rgba(255, 88, 51, 0.57)";

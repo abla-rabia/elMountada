@@ -1,5 +1,7 @@
 <?php
+
 class commonViews{
+    
     public function button($content){
         ?>
         <button id="boutton"><a href="index.php?router=Page de connexion">Se Connecter</a></button>
@@ -94,7 +96,17 @@ class commonViews{
         <?php
     }
 
-
+    public function navBar(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if (isset($_SESSION['user'])){
+            $this->navBarC();
+        }
+        else{
+            $this->navBarD();
+        }
+    }
 
     public function navBarC(){
         ?>
@@ -121,11 +133,25 @@ class commonViews{
                     <a>Carte</a>
                     <a>Historique</a>
                     <a>Favoris</a>
-                    <a>Se déconnecter</a>
+                    <a href="index.php?router=logout">Se déconnecter</a>
                 </ul>
             </div>
             </div>
         </nav>
+        <script>
+            let img = document.getElementsByClassName("userImg")[0];
+            let box = document.getElementById("userBox");
+            img.addEventListener("click", function (event) {
+                box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
+                event.stopPropagation(); // Prevent the event from propagating to the document
+            });
+            document.addEventListener("click", function (event) {
+                if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
+                box.style.display = "none";
+                }
+            });
+
+        </script>
         
         <?php
     }

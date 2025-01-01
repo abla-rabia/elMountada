@@ -135,7 +135,7 @@ public function afficher_page(){
         ?>
         <body>
         <?php
-            $r->navBarD();
+            $r->navBar();
             $r->titre("Catalogue partenaires");
             $this->searchBar();
             ?>
