@@ -8,6 +8,7 @@ public function entetePage(){
         <title>Mon compte</title>
         <link rel="stylesheet" href="View/css/userInfosStyle.css">
         <link rel="stylesheet" href="View/css/commonStyles.css">
+        <script src="View/scripts/infosScript.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,16 +41,17 @@ public function afficher_page(){
                             $r->memberSideBar("compte");
                         ?>
                         
-                        <form action="" class="compteForm">
+                        <form method="POST" id="compteForm" class="compteForm">
+                        <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
                         <div class="contentContainer">
                             <div class="col">
                             <?php
-                                $r->famousInput2("Username","abla-rabia","text");
-                                $r->famousInput2("Email","la_rabia@esi.dz","email");
+                                $r->famousInput2("Username",$_SESSION['user']['username'],"text","username");
+                                $r->famousInput2("Email",$_SESSION['user']['email'],"email","email");
                             ?>
                             </div>
                             <div class="photo">
-                            <img src="View/assets/user2.png" width="150px" alt="">
+                            <img src="<?= !empty($_SESSION['user']['photoProfile']) ? $_SESSION['user']['photoProfile'] : 'View/assets/user2.png' ?>"  width="150px" height="150px" alt="" id="photoPdp">
                             <div class="inputPhoto">
                                 <label for="photoInput" id="photoPen"><i class="fa-solid fa-pen"></i></label>
                                 <input type="file" name="photoInput" id="photoInput">

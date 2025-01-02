@@ -84,3 +84,7 @@ select {
   flex-direction: column;
   gap: 30px;
 }
+
+body.favoris .sections{
+  margin-top: 10px;
+}

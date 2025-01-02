@@ -117,5 +117,65 @@ class userModel {
             $r->deconnexion($pdo);
         }
     }
-}
+
+    public function modifyPersoInfo($credentials){
+        $r = new dataBaseController();
+        if (isset($credentials)) {
+            $pdo = $r->connexion();
+            $qtf = "UPDATE user SET nom=:nom,prenom=:prenom,telNumber=:telNumber,birthDate=:birthDate WHERE id=:id";
+            $params = [
+                'telNumber' => $credentials['telNumber'],
+                'birthDate' => $credentials['birthDate'],
+                'nom' => $credentials['nom'],
+                'prenom' => $credentials['prenom'],
+                'id' => $credentials['id']
+            ];
+            $res = $r->query($pdo, $qtf, $params);            
+            $r->deconnexion($pdo);
+            echo "abla";
+        }
+    }
+    public function modifyCompteInfo($credentials){
+        $r = new dataBaseController();
+        if (isset($credentials)) {
+            $pdo = $r->connexion();
+            $qtf = "UPDATE user SET username=:username,email=:email WHERE id=:id";
+            $params = [
+                'username' => $credentials['username'],
+                'email' => $credentials['email'],
+                'id' => $credentials['id']
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+            $r->deconnexion($pdo);
+        }
+    }
+    public function modifyPassword($credentials){
+        $r = new dataBaseController();
+        if (isset($credentials)) {
+            $pdo = $r->connexion();
+            $qtf = "UPDATE user SET `password`=:`password` WHERE id=:id";
+            $params = [
+                'password' => password_hash($credentials['password'], PASSWORD_DEFAULT),
+                'id' => $credentials['id']
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+            $r->deconnexion($pdo);
+        }
+    }
+
+    public function modifyPdp($credentials){
+        $r = new dataBaseController();
+        if (isset($credentials)) {
+            $pdo = $r->connexion();
+            $qtf = "UPDATE user SET photoProfile=:photoProfile WHERE id=:id";
+            $params = [
+                'photoProfile' => $credentials['photoProfile'],
+                'id' => $credentials['id']
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+            $r->deconnexion($pdo);
+        }
+    }
+
+} 
 ?>

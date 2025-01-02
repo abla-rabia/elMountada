@@ -127,12 +127,12 @@ class commonViews{
             <div class="userSection">
             <i class="fa-regular fa-bell"></i>
             <div class="user">
-                <img class="userImg" id="nav" src="View/assets/user.png" alt="user img">
+                <img class="userImg" id="nav" src="<?= !empty($_SESSION['user']['photoProfile']) ? $_SESSION['user']['photoProfile'] : 'View/assets/user2.png' ?>" alt="user img">
                 <ul id="userBox">
                     <a href="index.php?router=Mes infos">Profile</a>
                     <a>Carte</a>
                     <a>Historique</a>
-                    <a>Favoris</a>
+                    <a href="index.php?router=favoris">Favoris</a>
                     <a href="index.php?router=logout">Se déconnecter</a>
                 </ul>
             </div>
@@ -249,12 +249,12 @@ public function famousInput($label,$placeholder,$type,$nom){
     }
 }
 
-public function famousInput2($label,$value,$type){
+public function famousInput2($label,$value,$type,$nom){
     if($type!="file"){
     ?>
     <div class="fmsInpLab">
     <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
-    <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$value?>Input">
+    <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$nom?>">
     </div>
     <?php
     }
@@ -262,7 +262,7 @@ public function famousInput2($label,$value,$type){
         ?>
         <div class="fmsInpLab">
         <label class="fmsLabel"for="<?=$label?>Input"><?=$label?></label>
-        <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$value?>Input">
+        <input class="fmsInput" type="<?=$type?>" value="<?=$value?>" name="<?=$nom?>">
     </div>
     <?php
     }

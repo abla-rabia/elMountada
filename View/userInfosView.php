@@ -8,6 +8,7 @@ public function entetePage(){
         <title>Mes information</title>
         <link rel="stylesheet" href="View/css/userInfosStyle.css">
         <link rel="stylesheet" href="View/css/commonStyles.css">
+        <script src="View/scripts/infosScript.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,18 +40,19 @@ public function afficher_page(){
                         <?php
                             $r->memberSideBar("infos");
                         ?>
-                        <form action="" class="infosForm">
+                        <form action="" method="POST" class="infosForm" id="infosForm">
+                        <input type="hidden" name="id" value="<?=$_SESSION['user']['id']?>">
                             <div class="lineContainer">
                         <div class="line">
                             <?php
-                                $r->famousInput2("Prénom","Abla","text");
-                                $r->famousInput2("Nom","Rabia","text");
+                                $r->famousInput2("Prénom",$_SESSION['user']['prenom'],"text","prenom");
+                                $r->famousInput2("Nom",$_SESSION['user']['nom'],"text","nom");
                             ?>
                         </div>
                         <div class="line">
                             <?php
-                                $r->famousInput2("Date de naissance","Abla","date");
-                                $r->famousInput2("Numéro de téléphone","+65345678","tel");
+                                $r->famousInput2("Date de naissance",$_SESSION['user']['birthDate'],"date","birthDate");
+                                $r->famousInput2("Numéro de téléphone",$_SESSION['user']['telNumber'],"tel","telNumber");
                             ?>
                         </div>
                         </div>
@@ -67,20 +69,7 @@ public function afficher_page(){
 
             </div>
         </body>
-        <script>
-            let img = document.getElementsByClassName("userImg")[0];
-            let box = document.getElementById("userBox");
-            img.addEventListener("click", function (event) {
-                box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
-                event.stopPropagation(); // Prevent the event from propagating to the document
-            });
-            document.addEventListener("click", function (event) {
-                if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
-                box.style.display = "none";
-                }
-            });
-
-        </script>
+        
     </html>
     <?php
 

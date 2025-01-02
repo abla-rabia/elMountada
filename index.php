@@ -59,7 +59,27 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->logout();
             break;
-        
+        case 'modifyPersoInfo':
+            $rts=new userController();
+            $rts->modifyPersoInfo();
+            break;
+        case 'modifyCompteInfo':
+            $rts=new userController();
+            $rts->modifyCompteInfo();
+            break;
+
+        case 'modifyPassword':
+            $rts=new userController();
+            $rts->modifyPassword();
+            break;
+        case 'favoris':
+            $rts=new userController();
+            $rts->afficherPageFavoris();
+            break;
+        case 'modifyPdp':
+            $rts=new userController();
+            $rts->modifyPdp();
+            break;
     }
 }
 else{

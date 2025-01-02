@@ -378,6 +378,7 @@ div.cardOffre button {
 
 .userImg {
   height: 34px;
+  width: 34px;
   cursor: pointer;
   border-radius: 100%;
 }

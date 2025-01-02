@@ -8,6 +8,7 @@ public function entetePage(){
         <title>Mes information</title>
         <link rel="stylesheet" href="View/css/userInfosStyle.css">
         <link rel="stylesheet" href="View/css/commonStyles.css">
+        <script src="View/scripts/infosScript.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,8 +44,8 @@ public function afficher_page(){
                             <div class="lineContainer">
                         <div class="line">
                             <?php
-                                $r->famousInput2("Mot de passe","********","password");
-                                $r->famousInput2("Cofirmer le mot de passe","********","password");
+                                $r->famousInput("Mot de passe","********","password","password");
+                                $r->famousInput("Cofirmer le mot de passe","********","password","password");
                             ?>
                         </div>
                         <ul id="rules">
