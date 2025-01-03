@@ -1,6 +1,7 @@
 <?php
 require_once(ROOT . '/Controller/userController.php');
 require_once(ROOT . '/Controller/dataBaseController.php');
+require_once(ROOT . '/utils/qrCodeUtils.php');
 
 class userModel {
     public function getUser($identifier) {
@@ -153,7 +154,7 @@ class userModel {
         $r = new dataBaseController();
         if (isset($credentials)) {
             $pdo = $r->connexion();
-            $qtf = "UPDATE user SET `password`=:`password` WHERE id=:id";
+            $qtf = "UPDATE user SET password = :password WHERE id = :id";
             $params = [
                 'password' => password_hash($credentials['password'], PASSWORD_DEFAULT),
                 'id' => $credentials['id']
@@ -177,5 +178,142 @@ class userModel {
         }
     }
 
-} 
+
+    public function getUsers(){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM user WHERE id NOT IN ( SELECT id FROM `admin` )";
+        $stmt = $r->query($pdo, $qtf, []);
+        $users = $stmt->fetchAll();
+        $r->deconnexion($pdo);
+        return $users;
+    }
+
+    public funciton searchUser($searchKey){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf="SELECT * FROM user WHERE nom LIKE :searchKey OR prenom LIKE :searchKey OR email LIKE :searchKey OR username LIKE :searchKey";
+        $params = [
+            'searchKey' => '%' . $searchKey . '%'
+        ];
+        $stmt = $r->query($pdo, $qtf, $params);
+        $users = $stmt->fetchAll();
+        $r->deconnexion($pdo);
+        return $users;
+    }
+
+    public function getMembers(){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM membre WHERE id NOT IN ( SELECT id FROM `admin` )";
+        $stmt = $r->query($pdo, $qtf, []);
+        $users = $stmt->fetchAll();
+        $r->deconnexion($pdo);
+        return $users;
+    }
+    public function getSimpleUsers(){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM user WHERE id NOT IN ( SELECT id FROM membre )";
+        $stmt = $r->query($pdo, $qtf, []);
+        $users = $stmt->fetchAll();
+        $r->deconnexion($pdo);
+        return $users;
+    }
+
+    public function approuverMembre($id_user,$type_carte){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        //création de la carte first
+        $id_carte=$this->genererCarte($id_user,$type_carte);
+        //création d'une ligne dans la table membre
+        $qtf="INSERT INTO membre (id, carte) VALUES (:id,:carte)";
+        $params = [
+            'id' => $id_user,
+            'carte' => $id_carte
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+
+    public function getIdCarte($type_carte){
+        if (isset($type_carte)){
+            $r = new dataBaseController();
+            $pdo = $r->connexion();
+            $qtf = "SELECT * FROM carte WHERE type=:type_carte";
+            $stmt = $r->query($pdo, $qtf, ['type_carte' => $type_carte]);
+            $carte = $stmt->fetch();
+            $r->deconnexion($pdo);
+            return $carte['id'];
+        }
+    }
+    //fonction pour générer la carte membre 
+    public function genererCarte($id_user,$type_carte){
+        $s= new qrGenerator();
+        $id_type_carte=$this->getIdCarte($type_carte);
+        $codeQr=$s->generateQrCode($id_user,$id_type_carte);
+        $id_carte=$this->genererCarte($id_type_carte,$codeQr);
+        return $id_carte;
+
+    }
+    public function genererCarte($id_type_carte,$codeQr){
+        if (isset($id_type_carte) && isset($codeQr)){
+            $r = new dataBaseController();
+            $pdo = $r->connexion();
+            $qtf="INSERT INTO cartem (code_qr, `type`) VALUES (:code_qr,:type)";
+            $params = [
+                'code_qr' => $codeQr,
+                'type' => $id_type_carte
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+            $idCarte=$pdo->lastInsertId();
+            $r->deconnexion($pdo);
+            return $idCarte;
+        }
+    }
+    
+    public function getCarteById($id){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM cartem WHERE id=:id";
+        $stmt = $r->query($pdo, $qtf, ['id' => $id]);
+        $carte = $stmt->fetch();
+        $r->deconnexion($pdo);
+        return $carte;
+    }
+
+    public function getFavoris($id){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT p.id, p.photo, p.ville, p.nom, p.description, p.siteweb, p.numtel, p.contactemail FROM favoris f JOIN partenaire p ON f.id_partenaire = p.id WHERE f.id_user = :id_user";
+        $stmt = $r->query($pdo, $qtf, ['id_user' => $id]);
+        $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $favoris;
+    }
+
+    public function addFavoris($id_user,$id_partenaire){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf="INSERT INTO favoris (id_user, id_partenaire) VALUES (:id_user,:id_partenaire)";
+        $params = [
+            'id_user' => $id_user,
+            'id_partenaire' => $id_partenaire
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+
+    public function deleteFavoris($id_user, $id_partenaire) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "DELETE FROM favoris WHERE id_user = :id_user AND id_partenaire = :id_partenaire";
+        $params = [
+            'id_user' => $id_user,
+            'id_partenaire' => $id_partenaire
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
 ?>

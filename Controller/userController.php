@@ -5,6 +5,7 @@ require_once(ROOT . '/View/FavorisView.php');
 require_once(ROOT . '/Model/userModel.php');
 
 
+
 class userController{
     public function login(){
         $userName=$_POST['userName'];
@@ -28,12 +29,15 @@ class userController{
                 print_r($_SESSION);
             }
             else{
-                echo "Mot de passe incorrect";
+                
+                return "Mot de passe incorrect";
+                
             }
         }
         else{
-            echo "Utilisateur inexistant";
+            return "Utilisateur inéxistant";
         }
+        return 1;
     }
     public function afficherPageLogin(){
         $v=new loginView();
@@ -187,17 +191,18 @@ class userController{
         $r= new userModel();
         $credentials=[
             'password' => $_POST['password'],
-            'id' => $_SESSION['id']
+            'id' => $_SESSION['user']['id']
         ];
         if (empty($credentials['password'])) {
-            return "Erreur : le mot de passe ne peut pas etre vide !"; 
+            return "Erreur : le mot de passe ne peut pas être vide !"; 
         }
-        $result=passwordRules($credentials['password']);
+        $result=$this->passwordRules($credentials['password']);
         if ($result!=1){
-            return $result;
+            echo $result;
+            return;
         }
         $r->modifyPassword($credentials);
-        return 1;
+        echo 1;
     }
     
     public function passwordRules($password) {
@@ -236,6 +241,130 @@ class userController{
         
     }
 
+
+    //fonction que retient les utilisateurs : get users
+    public function getUsers(){
+        $r= new userModel();
+        $users=$r->getUsers();
+        return $users;
+    }
+//fonction qui retourne tous les infos d'un utilisateur selon son id 
+    public function getUser($id){
+        $r= new userModel();
+        if (isset($id)){
+            $user=$r->getUser($id);
+            return $user;
+        }
+    }
+//fonction de recherche par mot clé
+    public function searchUser(){
+        $searchKey=$_POST['searchUser'];
+        $r= new userModel();
+        if (isset($searchKey)){
+            return $r->searchUser($searchKey);
+        }
+        else{
+            return $this->getUsers();
+        }
+    }
+
+    //fonction de filtre par date d'inscription
+    public function filtreDateInscription($users) {
+        $date = $_POST['dateInsc'];
+        if (isset($date)) {
+            $filteredUsers = array_filter($users, function($user) use ($date) {
+                return $user['date_inscription'] === $date;
+            });
+            return $filteredUsers;
+        } else {
+            return $users;
+        }
+    }
+    //fonction de tri par date inscription ordre croissant 
+    public function sortDateCroissant($users){
+        if (isset($users)){
+            usort($users, function ($a, $b) {
+                return $a['date_inscription'] <=> $b['date_inscription'];
+            });
+        } 
+        return $users;
+    }
+    //fonction de tri par date inscription ordre décroissant 
+    public function sortDateDecroissant($users){
+        if (isset($users)){
+            usort($users, function ($a, $b) {
+                return $b['date_inscription'] <=> $a['date_inscription'];
+            });
+        } 
+        return $users;
+    }
+
+    //fonction de tri par ordre alphabetique croissant de 'nom'
+    public function sortNomCroissant($users){
+        if (isset($users)){
+            usort($users, function ($a, $b) {
+                return strcmp($a['nom'], $b['nom']);
+            });
+        } 
+        return $users;
+    }
+
+    //fonction de tri par ordre alphabetique décroissant de 'nom'
+    public function sortNomDecroissant($users){
+        if (isset($users)){
+            usort($users, function ($a, $b) {
+                return strcmp($b['nom'], $a['nom']);
+            });
+        } 
+        return $users;
+    }
+    public function getMembers(){
+        $r= new userModel();
+        $users=$r->getMembers();
+        return $users;
+    }
+
+    public function getSimpleUsers(){
+        $r= new userModel();
+        $users=$r->getSimpleUsers();
+        return $users;
+    }
     
+    //fonction pour rendre un user membre : 
+    public function approuverMembre($id){
+        $r= new userModel();
+        if (isset($id)){
+            $r->approuverMembre($id);
+        }
+    }
+    //fonction qui retourne la carte by id_carte
+    public function getCarteById($id){
+        $r= new userModel();
+        if (isset($id)){
+            return $r->getCarteById($id);
+        }
+    }
+
+    public function getFavoris(){
+        if (isset($_SESSION['user'])){
+            $id_user=$_SESSION['user']['id'];
+        }
+        elseif (isset($_SESSION['member'])){
+            $id_user=$_SESSION['member']['id'];
+        }
+        $r= new userModel();
+        return $r->getFavoris($id_user);
+    }
+
+    public function addFavoris($id_partenaire){
+        if (isset($_SESSION['user'])){
+            $id_user=$_SESSION['user']['id'];
+        }
+        elseif (isset($_SESSION['member'])){
+            $id_user=$_SESSION['member']['id'];
+        }
+        $r= new userModel();
+        $r->addFavoris($id_user,$id_partenaire);
+    }
 }
 ?>

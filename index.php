@@ -53,7 +53,11 @@ if (isset($_GET['router'])){
             break; 
         case 'login':
             $rts=new userController();
-            $rts->login();
+            $res=$rts->login();
+            if($res!=1){
+                header("Location: index.php?router=Page%20de%20connexion");
+                echo "<script>alert('hello')</script>";
+            }
             break;
         case 'logout':
             $rts=new userController();

@@ -40,12 +40,12 @@ public function afficher_page(){
                         <?php
                             $r->memberSideBar("secure");
                         ?>
-                        <form action="" class="infosForm">
+                        <form action="" class="infosForm" id="secureForm">
                             <div class="lineContainer">
                         <div class="line">
                             <?php
                                 $r->famousInput("Mot de passe","********","password","password");
-                                $r->famousInput("Cofirmer le mot de passe","********","password","password");
+                                $r->famousInput("Cofirmer le mot de passe","********","password","password2");
                             ?>
                         </div>
                         <ul id="rules">
@@ -68,20 +68,6 @@ public function afficher_page(){
 
             </div>
         </body>
-        <script>
-            let img = document.getElementsByClassName("userImg")[0];
-            let box = document.getElementById("userBox");
-            img.addEventListener("click", function (event) {
-                box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
-                event.stopPropagation(); // Prevent the event from propagating to the document
-            });
-            document.addEventListener("click", function (event) {
-                if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
-                box.style.display = "none";
-                }
-            });
-
-        </script>
     </html>
     <?php
 
