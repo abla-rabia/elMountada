@@ -20,7 +20,7 @@ body.t{
   display: flex;
   height: 70vh;
   width: 100%;
-  justify-content: center;
+  justify-content: space-between;
 }
 .subContent.carte {
   display: flex;
@@ -108,5 +108,10 @@ ul#rules{
 .content .subContent .paiement{
   display: flex;
   margin: 0;
+  width: 100%;
+}
+
+
+.subContent .users{
   width: 100%;
 }

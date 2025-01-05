@@ -189,7 +189,16 @@ class userModel {
         return $users;
     }
 
-    public funciton searchUser($searchKey){
+    public function isMember($id) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM membre WHERE id=:id";
+        $stmt = $r->query($pdo, $qtf, ['id' => $id]);
+        $user = $stmt->fetch();
+        $r->deconnexion($pdo);
+        return $user ? true : false;
+    }
+    public function searchUser($searchKey){
         $r = new dataBaseController();
         $pdo = $r->connexion();
         $qtf="SELECT * FROM user WHERE nom LIKE :searchKey OR prenom LIKE :searchKey OR email LIKE :searchKey OR username LIKE :searchKey";
@@ -225,7 +234,7 @@ class userModel {
         $r = new dataBaseController();
         $pdo = $r->connexion();
         //création de la carte first
-        $id_carte=$this->genererCarte($id_user,$type_carte);
+        $id_carte=$this->genererCartee($id_user,$type_carte);
         //création d'une ligne dans la table membre
         $qtf="INSERT INTO membre (id, carte) VALUES (:id,:carte)";
         $params = [
@@ -248,7 +257,7 @@ class userModel {
         }
     }
     //fonction pour générer la carte membre 
-    public function genererCarte($id_user,$type_carte){
+    public function genererCartee($id_user,$type_carte){
         $s= new qrGenerator();
         $id_type_carte=$this->getIdCarte($type_carte);
         $codeQr=$s->generateQrCode($id_user,$id_type_carte);

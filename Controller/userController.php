@@ -2,6 +2,7 @@
 
 require_once(ROOT . '/View/loginView.php');
 require_once(ROOT . '/View/FavorisView.php');
+require_once(ROOT . '/View/adminGetMembersView.php');
 require_once(ROOT . '/Model/userModel.php');
 
 
@@ -45,6 +46,10 @@ class userController{
     }
     public function afficherPageFavoris(){
         $v=new FavorisView();
+        $v->afficher_page();
+    }
+    public function afficherPageUsers(){
+        $v=new adminUsersView();
         $v->afficher_page();
     }
     public function inscriptionSimple(){
@@ -246,7 +251,16 @@ class userController{
     public function getUsers(){
         $r= new userModel();
         $users=$r->getUsers();
-        return $users;
+        header('Content-Type: application/json');
+        echo json_encode($users);
+        
+    }
+    public function isMember($id){
+        $r= new userModel();
+        if (isset($id)){
+            $result=$r->isMember($id);
+            return $result;
+        }
     }
 //fonction qui retourne tous les infos d'un utilisateur selon son id 
     public function getUser($id){

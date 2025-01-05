@@ -51,6 +51,10 @@ if (isset($_GET['router'])){
             $r=new carteController();
             $r->afficherPage();
             break; 
+        case 'users':
+            $r=new userController();
+            $r->afficherPageUsers();
+            break; 
         case 'login':
             $rts=new userController();
             $res=$rts->login();
@@ -84,6 +88,12 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->modifyPdp();
             break;
+
+        case 'getUsers':
+            $rts=new userController();
+            $rts->getUsers();
+            break;
+        
     }
 }
 else{
