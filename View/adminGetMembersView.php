@@ -22,8 +22,8 @@ class adminUsersView {
     public function userPopup($nom, $prenom, $username, $email, $type, $paiement) {
         $r = new commonViews();
         ?>
-        <div class="popContainer" id="userPopup">
-            <div class="popupUpload" id="textPopup">
+        <div class="popContainer" >
+            <div class="popupUpload" id="userPopup">
                 <h3>Information de l'utilisateur</h3>
                 <div class="textArea">
                     <p>Nom : <span id="popupNom"></span></p>
@@ -124,21 +124,21 @@ class adminUsersView {
                         $('#userPopup').show();
                     }
 
-                    document.getElementById("closeUploadPop").addEventListener("click", function () {
+                    document.getElementById("closeUserbtn").addEventListener("click", function () {
                     console.log("Button clicked");
                     popContainer.style.display = "none";
-                    popup.style.display = "none";
+                    popupT.style.display = "none";
                 });
                 
                 function successPopup() {
-                    
+                    const popupT = document.getElementById("userPopup");
                     popContainer.style.display = "flex";
                     popupT.style.display = "flex";
                 }
                 window.addEventListener("click", (event) => {
                     if (event.target === popContainer) {
                         popContainer.style.display = "none";
-                        popup.style.display = "none";
+                        popupT.style.display = "none";
                     }
                 });
                 </script>
