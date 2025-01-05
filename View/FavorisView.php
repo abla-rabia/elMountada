@@ -1,5 +1,5 @@
 <?php
-require_once("Controller\userController.php");
+require_once(ROOT . '/Controller/userController.php');
 require_once("commonViews.php");
 class FavorisView{
 public function entetePage(){

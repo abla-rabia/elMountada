@@ -188,6 +188,15 @@ class userModel {
         $r->deconnexion($pdo);
         return $users;
     }
+    public function getCartes(){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM carte";
+        $stmt = $r->query($pdo, $qtf, []);
+        $cartes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $cartes;
+    }
 
     public function isMember($id) {
         $r = new dataBaseController();
@@ -241,6 +250,13 @@ class userModel {
             'id' => $id_user,
             'carte' => $id_carte
         ];
+
+        $res = $r->query($pdo, $qtf, $params);
+        $qtf="UPDATE user SET approuve = TRUE WHERE id=:id;";
+        $params = [
+            'id' => $id_user
+        ];
+        
         $res = $r->query($pdo, $qtf, $params);
         $r->deconnexion($pdo);
     }
@@ -323,6 +339,19 @@ class userModel {
         ];
         $res = $r->query($pdo, $qtf, $params);
         $r->deconnexion($pdo);
+    }
+
+    public function getRecu($userId){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT p.recu FROM paiementuser pu JOIN paiement p ON pu.id_paiement = p.id WHERE pu.id_user = :id_user";
+        $params = [
+            'id_user' => $userId
+        ];
+        $stmt = $r->query($pdo, $qtf, $params);
+        $recu = $stmt->fetch(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $recu;
     }
 }
 ?>

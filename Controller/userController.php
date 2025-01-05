@@ -147,6 +147,15 @@ class userController{
         header("Location: index.php?router=Page%20d'accueil");
         exit();
     }
+    public function getRecu(){
+        $userId = $_POST['userId']; 
+        $r= new userModel();
+        if(isset($userId)){
+            $recu=$r->getRecu($userId);
+            header('Content-Type: application/json');
+            echo json_encode($recu);
+        }
+    }
 
     public function modifyPersoInfo(){
         
@@ -255,6 +264,14 @@ class userController{
         echo json_encode($users);
         
     }
+    //fonction que retient les types de cartes existantes : get cartes
+    public function getCartes(){
+        $r= new userModel();
+        $cartes=$r->getCartes();
+        header('Content-Type: application/json');
+        echo json_encode($cartes);
+        
+    }
     public function isMember($id){
         $r= new userModel();
         if (isset($id)){
@@ -345,10 +362,13 @@ class userController{
     }
     
     //fonction pour rendre un user membre : 
-    public function approuverMembre($id){
+    public function approuverMembre(){
+        $id=$_POST['id'];
+        $type_carte=$_POST['carteType'];
         $r= new userModel();
         if (isset($id)){
-            $r->approuverMembre($id);
+            $r->approuverMembre($id,$type_carte);
+            echo 1;
         }
     }
     //fonction qui retourne la carte by id_carte

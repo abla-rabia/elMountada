@@ -19,28 +19,54 @@ class adminUsersView {
         <?php   
     }
 
-    public function userPopup($nom, $prenom, $username, $email, $type, $paiement) {
+    public function userPopup() {
         $r = new commonViews();
         ?>
         <div class="popContainer" >
             <div class="popupUpload" id="userPopup">
                 <h3>Information de l'utilisateur</h3>
                 <div class="textArea">
+
                     <p>Nom : <span id="popupNom"></span></p>
                     <p>Prénom : <span id="popupPrenom"></span></p>
                     <p>Username : <span id="popupUsername"></span></p>
                     <p>Email : <span id="popupEmail"></span></p>
                     <p>Type : <span id="popupType"></span></p>
-                    <p id="popupPaiement" style="display: none;">Reçu : </p>
+                    <p id="popupPaiement" style="display: flex; justify-content:space-between;">Reçu : <button type='button' id='fileRecu'>Télécharger le reçu</button></p>
+                    <input type="hidden" id="popupId" data-user-id="">
                 </div>
                 <?php
+                $r->blueButton2("Approuver l'utilisateur", "approuverBtn");
                 $r->blueButton2("Fermer", "closeUserbtn");
                 ?>
             </div>
         </div>
         <?php
     }
-
+    public function approuverPopup() {
+        $r = new commonViews();
+        ?>
+        <div class="popContainer" >
+            <div class="popupUpload" id="approuverPopup">
+                <h3>Approuver l'utilisateur</h3>
+                <div class="textArea">
+                    <form action="" class="approuver" id="formApprouver">
+                        <input type="hidden" name="id">
+                        <label for="carteType">Type de carte:</label>
+                        <select name="carteType" id="carteType">
+                            
+                        </select>
+                    </form>
+                </div>
+                <?php
+                $r->blueButton2("Confirmer", "approuverUser");
+                $r->blueButton2("Annuler", "closeUserbtn2");
+                ?>
+                
+            </div>
+        </div>
+        <?php
+    }
     public function afficher_page() {
         $r = new commonViews();
         ?>
@@ -78,7 +104,8 @@ class adminUsersView {
                             </div>
                         </div>
                 </div>
-                <?php $this->userPopup('', '', '', '', '', false); ?>
+                <?php $this->userPopup(); ?>
+                <?php $this->approuverPopup(); ?>
                 <script>
                     $(document).ready(function() {
                         // AJAX request to fetch users
@@ -96,7 +123,7 @@ class adminUsersView {
                                         '<td>' + user['nom'] + '</td>' +
                                         '<td>' + user['prenom'] + '</td>' +
                                         '<td>' + user['date_inscription'] + '</td>' +
-                                        '<td>' + (user['carte'] !== undefined ? 'Member' : 'User') + '</td>' +
+                                        '<td id="approuveTd">' + (user['approuve'] ? 'Membre' : 'User') + '</td>' +
                                         '<td><button class="action-btn" onclick=\'handleUserAction(' + JSON.stringify(user) + ')\'>Action</button></td>' +
                                     '</tr>');
                                 });
@@ -106,28 +133,65 @@ class adminUsersView {
                             }
                         });
                     });
+                    
                     const popupT = document.getElementById("userPopup");
                     const popContainer = document.getElementsByClassName("popContainer")[0];
                     function handleUserAction(user) {
                         console.log(user)
                         successPopup()
                         $('#popupNom').text(user.nom);
+                        $('#popupId').val(user.id);
                         $('#popupPrenom').text(user.prenom);
                         $('#popupUsername').text(user.username);
                         $('#popupEmail').text(user.email);
-                        $('#popupType').text(user.carte !== undefined ? 'Member' : 'User');
-                        if (user.carte !== undefined) {
+                        $('#popupType').text(user.approuve ? 'Membre' : 'User');
+                        if (user.paiement==1) {
                             $('#popupPaiement').show();
+                            $('#fileRecu').on('click', function() {
+                                handleClickRecu(user);
+                            });
                         } else {
                             $('#popupPaiement').hide();
                         }
+                        if(user.approuve){
+                            $('#approuverBtn').hide();
+                        } else {
+                            $('#approuverBtn').show();
+                        }
                         $('#userPopup').show();
+                        
                     }
-
+                    function handleClickRecu(user){
+                        $.ajax({
+                            url: 'index.php?router=getRecu', // Endpoint URL
+                            type: 'POST', // HTTP method
+                            data: { userId: user.id },
+                            dataType: 'json',
+                            success: function(data) {
+                                var imageUrl = data.recu.replace('../', ''); // Remove '../' from the path
+                                var a = document.createElement('a');
+                                a.href =  imageUrl; // Prepend 'View/' to the path
+                                a.download = imageUrl.split('/').pop(); 
+                                a.click();
+                                console.log(data);
+                                console.log(a.href);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        });
+                        
+                    }
+                    const popContainer1 = document.getElementsByClassName("popContainer")[1];
                     document.getElementById("closeUserbtn").addEventListener("click", function () {
                     console.log("Button clicked");
                     popContainer.style.display = "none";
                     popupT.style.display = "none";
+                });
+                document.getElementById("closeUserbtn2").addEventListener("click", function () {
+                    console.log("Button clicked");
+                    popContainer1.style.display = "none";
+                    document.getElementById("approuverPopup").style.display="none";
                 });
                 
                 function successPopup() {
@@ -139,8 +203,74 @@ class adminUsersView {
                     if (event.target === popContainer) {
                         popContainer.style.display = "none";
                         popupT.style.display = "none";
+                        
+                    }
+                    if (event.target === popContainer1) {
+                        popContainer1.style.display = "none";
+                        document.getElementById("approuverPopup").style.display="none";
+                        
                     }
                 });
+
+                document.getElementById("approuverBtn").addEventListener("click", function () {
+                    popContainer.style.display = "none";
+                    popupT.style.display = "none";
+                    document.getElementById("approuverPopup").style.display = "flex";
+                    popContainer1.style.display = "flex";
+                    
+                    // Pass the user ID to the approuverPopup function
+                    const userId = parseInt($('#popupId').val());
+                    $('#approuverPopup input[name="id"]').val(userId);
+                });
+                $(document).ready(function() {
+                        // AJAX request to fetch users
+                        $.ajax({
+                            url: 'index.php?router=getCartes', // Endpoint URL
+                            type: 'GET', // HTTP method
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log('Response data:', data)
+                                const carteSelect = $('#carteType');
+                                data.forEach(function(carte) {
+                                    carteSelect.append('<option value="' + carte['type'] + '">' + carte['type'] + '</option>');
+                                });
+                                
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        });
+                    });
+                    $(document).ready(function () {
+                    $('#approuverUser').on('click', function (event) {            
+                    event.preventDefault();
+            
+                    const formData = new FormData($('#formApprouver')[0]);
+                    $.ajax({
+                        url: 'index.php?router=approuver',
+                        type: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            if (response == 1) {
+                                console.log(response);
+                                alert('Utilisateur approuvé avec succés !')
+                                popContainer1.style.display = "none";
+                                document.getElementById("approuverPopup").style.display="none";
+                                $('#popupType').text('Membre');
+                                $("#approuveTd").text("Membre");
+                            
+                            }
+                            else {                
+                                console.log(response);
+                                alert(response);
+                            }
+                        },
+                        error: function () {
+                            alert('erreur!');
+                        }
+                    });})})
                 </script>
             </body>
         </html>

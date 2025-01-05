@@ -93,6 +93,18 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->getUsers();
             break;
+        case 'getCartes':
+            $rts=new userController();
+            $rts->getCartes();
+            break;
+        case 'approuver':
+            $rts=new userController();
+            $rts->approuverMembre();
+            break;
+        case 'getRecu':
+            $rts=new userController();
+            $rts->getRecu();
+            break;
         
     }
 }
