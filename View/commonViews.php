@@ -8,7 +8,7 @@ class commonViews{
         <?php
     }
 
-    public function carte($type){
+    public function carte($type,$nom,$prenom,$id){
         ?>
         <div class="carteMembre">
             <div class="top">
@@ -24,18 +24,18 @@ class commonViews{
                         <p>identifiant : </p>
                     </div>
                     <div class="valuesCard">
-                        <p>Rabia</p>
-                        <p>Abla</p>
-                        <p>id8657753683</p>
+                        <p id="userNom"><?=$nom?></p>
+                        <p id="userPrenom"><?=$prenom?></p>
+                        <p id="userId"><?=$id?></p>
                     </div>
                     </div>
                     <div class="barreCode">
-                        <img src="View/assets/barre.png" alt="" width=140px>
+                        <img src="View/assets/barre.png" alt="" id="userQR" width=140px>
                     </div>
                 </div>
             </div>
             <div class="down">
-                <p>Carte <?=$type?></p>
+                <p>Carte <span id="typecarte"></span></p>
             </div>
         </div>
         <?php
@@ -100,7 +100,7 @@ class commonViews{
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        if (isset($_SESSION['user'])){
+        if (isset($_SESSION['user']) || isset($_SESSION['member'])){
             $this->navBarC();
         }
         else{
@@ -127,10 +127,10 @@ class commonViews{
             <div class="userSection">
             <i class="fa-regular fa-bell"></i>
             <div class="user">
-                <img class="userImg" id="nav" src="<?= !empty($_SESSION['user']['photoProfile']) ? $_SESSION['user']['photoProfile'] : 'View/assets/user2.png' ?>" alt="user img">
+                <img class="userImg" id="nav" src="<?= !empty($_SESSION['user']['photoProfile']) ? $_SESSION['user']['photoProfile'] : (!empty($_SESSION['member']['photoProfile']) ? $_SESSION['member']['photoProfile'] : 'View/assets/user2.png') ?>" alt="user img">
                 <ul id="userBox">
                     <a href="index.php?router=Mes infos">Profile</a>
-                    <a>Carte</a>
+                    <a href="index.php?router=carte">Carte</a>
                     <a>Historique</a>
                     <a href="index.php?router=favoris">Favoris</a>
                     <a href="index.php?router=logout">Se déconnecter</a>
@@ -348,7 +348,7 @@ public function textPopup(){
                 <label for="commentaire" class="fmsLabel" id="contentPop"></label>
                 </div>
                 <?php
-                $this->blueButton("Aller à la page d'accueil","Page d\'accueil");
+                $this->blueButton("Aller à la page d'accueil","Page d'accueil");
                 ?>
             </div>
             </div>

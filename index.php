@@ -48,8 +48,8 @@ if (isset($_GET['router'])){
             $r->afficherPage();
             break; 
         case 'carte':
-            $r=new carteController();
-            $r->afficherPage();
+            $r=new userController();
+            $r->afficherPageCarte();
             break; 
         case 'users':
             $r=new userController();
@@ -105,7 +105,23 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->getRecu();
             break;
-        
+        case 'getOffres':
+            $rts=new userController();
+            $rts->getOffres();
+            break;
+        case 'getCarte':
+            $rts=new userController();
+            $rts->getCarteById();
+            break;
+        case 'searchUser':
+            $rts=new userController();
+            $rts->searchUser();
+            break;
+        case 'paiement':
+            $rts=new userController();
+            $rts->paiement();
+            break;
+    
     }
 }
 else{

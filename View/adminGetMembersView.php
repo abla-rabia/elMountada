@@ -19,14 +19,33 @@ class adminUsersView {
         <?php   
     }
 
+    public function searchBar() {
+        ?>
+        <form action="" id="users" class="searchBar">
+            <div class="searchBar">
+                <i class="fas fa-search"></i>
+                <input type="text" onkeyup="fetchUsers()" name="search" id="seachBar" placeholder="Rechercher un utilisateur">
+            </div>
+            <div class="filtresTri">
+                <input onchange="fetchUsers()" type="date" id="dateMin" name="dateMin" style="background: #f3f3f3;border-radius:4px;">
+                <input onchange="fetchUsers()" type="date" id="dateMax" name="dateMax" style="background: #f3f3f3;border-radius:4px;">
+                <select name="filtreUsers" id="filtreUsers" onchange="fetchUsers()">
+                    <option value="0">Filtrer par</option>
+                    <option value="1">Utilisateurs</option>
+                    <option value="2">Membres</option>           
+                </select>
+            </div>
+        </form>
+        <?php
+    }
+
     public function userPopup() {
         $r = new commonViews();
         ?>
-        <div class="popContainer" >
+        <div class="popContainer">
             <div class="popupUpload" id="userPopup">
                 <h3>Information de l'utilisateur</h3>
                 <div class="textArea">
-
                     <p>Nom : <span id="popupNom"></span></p>
                     <p>Prénom : <span id="popupPrenom"></span></p>
                     <p>Username : <span id="popupUsername"></span></p>
@@ -43,78 +62,213 @@ class adminUsersView {
         </div>
         <?php
     }
+
     public function approuverPopup() {
         $r = new commonViews();
         ?>
-        <div class="popContainer" >
+        <div class="popContainer">
             <div class="popupUpload" id="approuverPopup">
                 <h3>Approuver l'utilisateur</h3>
                 <div class="textArea">
                     <form action="" class="approuver" id="formApprouver">
                         <input type="hidden" name="id">
                         <label for="carteType">Type de carte:</label>
-                        <select name="carteType" id="carteType">
-                            
-                        </select>
+                        <select name="carteType" id="carteType"></select>
                     </form>
                 </div>
                 <?php
                 $r->blueButton2("Confirmer", "approuverUser");
                 $r->blueButton2("Annuler", "closeUserbtn2");
                 ?>
-                
             </div>
         </div>
         <?php
     }
+
     public function afficher_page() {
         $r = new commonViews();
         ?>
         <html>
-            <?php
-            $this->entetePage();
-            ?>
+            <?php $this->entetePage(); ?>
             <body class="to">
-            <?php
-                $r->navBarC();
-                ?>
+                <?php $r->navBarC(); ?>
                 <div class="content">
-                    <?php
-                        $r->titre("Liste des utilisateurs");
-                        ?>
-                        <div class="subContent">
-                            <?php
-                                $r->adminSideBar("Utilisateurs");
-                            ?>
-                            <div class="users">
-                                <div class="search">
-
-                                </div>
-                                <table id="all">
-                                    <tr class="head">
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Date d'inscription</th>
-                                        <th>Type</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </table>
+                    <?php $r->titre("Liste des utilisateurs"); ?>
+                    <div class="subContent">
+                        <?php $r->adminSideBar("Utilisateurs"); ?>
+                        <div class="users">
+                            <div class="search">
+                                <?php $this->searchBar() ?>
                             </div>
+                            <table id="all">
+                                <tr class="head">
+                                    <th onclick="sortTable('username')">Username</th>
+                                    <th onclick="sortTable('email')">Email</th>
+                                    <th onclick="sortTable('nom')">Nom</th>
+                                    <th onclick="sortTable('prenom')">Prénom</th>
+                                    <th onclick="sortTable('date')">Date d'inscription</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </table>
                         </div>
+                    </div>
                 </div>
                 <?php $this->userPopup(); ?>
                 <?php $this->approuverPopup(); ?>
                 <script>
                     $(document).ready(function() {
-                        // AJAX request to fetch users
+                        fetchUsers();
+                        $('#seachBar').on('keyup', fetchUsers);
+                        $('#dateMin, #dateMax, #filtreUsers').on('change', fetchUsers);
+                    });
+
+                    
+
+                    const popupT = document.getElementById("userPopup");
+                    const popContainer = document.getElementsByClassName("popContainer")[0];
+
+                    function handleUserAction(user) {
+                        successPopup();
+                        $('#popupNom').text(user.nom);
+                        $('#popupId').val(user.id);
+                        $('#popupPrenom').text(user.prenom);
+                        $('#popupUsername').text(user.username);
+                        $('#popupEmail').text(user.email);
+                        $('#popupType').text(user.approuve ? 'Membre' : 'User');
+                        if (user.paiement == 1) {
+                            $('#popupPaiement').show();
+                            $('#fileRecu').on('click', function() {
+                                handleClickRecu(user);
+                            });
+                        } else {
+                            $('#popupPaiement').hide();
+                        }
+                        if (user.approuve) {
+                            $('#approuverBtn').hide();
+                        } else {
+                            $('#approuverBtn').show();
+                        }
+                        $('#userPopup').show();
+                    }
+
+                    function handleClickRecu(user) {
                         $.ajax({
-                            url: 'index.php?router=getUsers', // Endpoint URL
-                            type: 'GET', // HTTP method
+                            url: 'index.php?router=getRecu',
+                            type: 'POST',
+                            data: { userId: user.id },
                             dataType: 'json',
                             success: function(data) {
-                                console.log('Response data:', data)
+                                var imageUrl = data.recu.replace('../', '');
+                                var a = document.createElement('a');
+                                a.href = imageUrl;
+                                a.download = imageUrl.split('/').pop();
+                                a.click();
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        });
+                    }
+
+                    const popContainer1 = document.getElementsByClassName("popContainer")[1];
+                    document.getElementById("closeUserbtn").addEventListener("click", function() {
+                        popContainer.style.display = "none";
+                        popupT.style.display = "none";
+                    });
+                    document.getElementById("closeUserbtn2").addEventListener("click", function() {
+                        popContainer1.style.display = "none";
+                        document.getElementById("approuverPopup").style.display = "none";
+                    });
+
+                    function successPopup() {
+                        popContainer.style.display = "flex";
+                        popupT.style.display = "flex";
+                    }
+
+                    window.addEventListener("click", (event) => {
+                        if (event.target === popContainer) {
+                            popContainer.style.display = "none";
+                            popupT.style.display = "none";
+                        }
+                        if (event.target === popContainer1) {
+                            popContainer1.style.display = "none";
+                            document.getElementById("approuverPopup").style.display = "none";
+                        }
+                    });
+
+                    document.getElementById("approuverBtn").addEventListener("click", function() {
+                        popContainer.style.display = "none";
+                        popupT.style.display = "none";
+                        document.getElementById("approuverPopup").style.display = "flex";
+                        popContainer1.style.display = "flex";
+                        const userId = parseInt($('#popupId').val());
+                        $('#approuverPopup input[name="id"]').val(userId);
+                    });
+
+                    $(document).ready(function() {
+                        $.ajax({
+                            url: 'index.php?router=getCartes',
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                const carteSelect = $('#carteType');
+                                data.forEach(function(carte) {
+                                    carteSelect.append('<option value="' + carte['type'] + '">' + carte['type'] + '</option>');
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Error fetching users:', error);
+                            }
+                        });
+                    });
+
+                    $(document).ready(function() {
+                        $('#approuverUser').on('click', function(event) {
+                            event.preventDefault();
+                            const formData = new FormData($('#formApprouver')[0]);
+                            $.ajax({
+                                url: 'index.php?router=approuver',
+                                type: 'POST',
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                success: function(response) {
+                                    if (response == 1) {
+                                        alert('Utilisateur approuvé avec succès !');
+                                        popContainer1.style.display = "none";
+                                        document.getElementById("approuverPopup").style.display = "none";
+                                        $('#popupType').text('Membre');
+                                        $("#approuveTd").text("Membre");
+                                    } else {
+                                        alert(response);
+                                    }
+                                },
+                                error: function() {
+                                    alert('Erreur!');
+                                }
+                            });
+                        });
+                    });
+
+                    function fetchUsers() {
+                        const searchValue = $('#seachBar').val();
+                        const dateMin = $('#dateMin').val();
+                        const dateMax = $('#dateMax').val();
+                        const filterType = $('#filtreUsers').val();
+
+                        $.ajax({
+                            url: 'index.php?router=searchUser',
+                            type: 'POST',
+                            data: {
+                                searchUser: searchValue,
+                                dateMin: dateMin,
+                                dateMax: dateMax,
+                                filterType: filterType
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#all tr:not(.head)').remove();
                                 const usersTable = $('#all');
                                 data.forEach(function(user) {
                                     usersTable.append('<tr>' +
@@ -132,146 +286,95 @@ class adminUsersView {
                                 console.error('Error fetching users:', error);
                             }
                         });
-                    });
-                    
-                    const popupT = document.getElementById("userPopup");
-                    const popContainer = document.getElementsByClassName("popContainer")[0];
-                    function handleUserAction(user) {
-                        console.log(user)
-                        successPopup()
-                        $('#popupNom').text(user.nom);
-                        $('#popupId').val(user.id);
-                        $('#popupPrenom').text(user.prenom);
-                        $('#popupUsername').text(user.username);
-                        $('#popupEmail').text(user.email);
-                        $('#popupType').text(user.approuve ? 'Membre' : 'User');
-                        if (user.paiement==1) {
-                            $('#popupPaiement').show();
-                            $('#fileRecu').on('click', function() {
-                                handleClickRecu(user);
-                            });
-                        } else {
-                            $('#popupPaiement').hide();
-                        }
-                        if(user.approuve){
-                            $('#approuverBtn').hide();
-                        } else {
-                            $('#approuverBtn').show();
-                        }
-                        $('#userPopup').show();
-                        
                     }
-                    function handleClickRecu(user){
-                        $.ajax({
-                            url: 'index.php?router=getRecu', // Endpoint URL
-                            type: 'POST', // HTTP method
-                            data: { userId: user.id },
-                            dataType: 'json',
-                            success: function(data) {
-                                var imageUrl = data.recu.replace('../', ''); // Remove '../' from the path
-                                var a = document.createElement('a');
-                                a.href =  imageUrl; // Prepend 'View/' to the path
-                                a.download = imageUrl.split('/').pop(); 
-                                a.click();
-                                console.log(data);
-                                console.log(a.href);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error fetching users:', error);
-                            }
-                        });
-                        
-                    }
-                    const popContainer1 = document.getElementsByClassName("popContainer")[1];
-                    document.getElementById("closeUserbtn").addEventListener("click", function () {
-                    console.log("Button clicked");
-                    popContainer.style.display = "none";
-                    popupT.style.display = "none";
-                });
-                document.getElementById("closeUserbtn2").addEventListener("click", function () {
-                    console.log("Button clicked");
-                    popContainer1.style.display = "none";
-                    document.getElementById("approuverPopup").style.display="none";
-                });
-                
-                function successPopup() {
-                    const popupT = document.getElementById("userPopup");
-                    popContainer.style.display = "flex";
-                    popupT.style.display = "flex";
-                }
-                window.addEventListener("click", (event) => {
-                    if (event.target === popContainer) {
-                        popContainer.style.display = "none";
-                        popupT.style.display = "none";
-                        
-                    }
-                    if (event.target === popContainer1) {
-                        popContainer1.style.display = "none";
-                        document.getElementById("approuverPopup").style.display="none";
-                        
-                    }
-                });
 
-                document.getElementById("approuverBtn").addEventListener("click", function () {
-                    popContainer.style.display = "none";
-                    popupT.style.display = "none";
-                    document.getElementById("approuverPopup").style.display = "flex";
-                    popContainer1.style.display = "flex";
-                    
-                    // Pass the user ID to the approuverPopup function
-                    const userId = parseInt($('#popupId').val());
-                    $('#approuverPopup input[name="id"]').val(userId);
-                });
-                $(document).ready(function() {
-                        // AJAX request to fetch users
-                        $.ajax({
-                            url: 'index.php?router=getCartes', // Endpoint URL
-                            type: 'GET', // HTTP method
-                            dataType: 'json',
-                            success: function(data) {
-                                console.log('Response data:', data)
-                                const carteSelect = $('#carteType');
-                                data.forEach(function(carte) {
-                                    carteSelect.append('<option value="' + carte['type'] + '">' + carte['type'] + '</option>');
-                                });
-                                
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error fetching users:', error);
+                    function sortTable(column) {
+                        let order = $(this).data('order') || 'asc';
+                        const rows = $('#all tr:not(.head)').get();
+                        
+                        rows.sort(function(a, b) {
+                            const A = $(a).children('td').eq(getColumnIndex(column)).text().toLowerCase();
+                            const B = $(b).children('td').eq(getColumnIndex(column)).text().toLowerCase();
+                            
+                            if (order === 'asc') {
+                                return A.localeCompare(B);
+                            } else {
+                                return B.localeCompare(A);
                             }
                         });
-                    });
-                    $(document).ready(function () {
-                    $('#approuverUser').on('click', function (event) {            
-                    event.preventDefault();
-            
-                    const formData = new FormData($('#formApprouver')[0]);
-                    $.ajax({
-                        url: 'index.php?router=approuver',
-                        type: 'POST',
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: function (response) {
-                            if (response == 1) {
-                                console.log(response);
-                                alert('Utilisateur approuvé avec succés !')
-                                popContainer1.style.display = "none";
-                                document.getElementById("approuverPopup").style.display="none";
-                                $('#popupType').text('Membre');
-                                $("#approuveTd").text("Membre");
-                            
-                            }
-                            else {                
-                                console.log(response);
-                                alert(response);
-                            }
-                        },
-                        error: function () {
-                            alert('erreur!');
+                        
+                        $.each(rows, function(index, row) {
+                            $('#all').append(row);
+                        });
+                        
+                        $(this).data('order', order === 'asc' ? 'desc' : 'asc');
+                    }
+
+                    function getColumnIndex(column) {
+                        switch (column) {
+                            case 'username': return 0;
+                            case 'email': return 1;
+                            case 'nom': return 2;
+                            case 'prenom': return 3;
+                            case 'date': return 4;
+                            default: return 0;
                         }
-                    });})})
+                    }
                 </script>
+                <style>
+                    form.searchBar {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 40px;
+                        padding: 0;
+                    }
+                    form.searchBar div.searchBar {
+                        width: 100%;
+                        display: flex;
+                        gap: 8px;
+                        align-items: center;
+                    }
+                    form.searchBar .filtresTri {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 10px;
+                    }
+                    form.searchBar .filtresTri select {
+                        width: fit-content;
+                    }
+                    div.searchBar i {
+                        color: #001a23;
+                        opacity: 0.4;
+                    }
+                    div.searchBar,
+                    select {
+                        border-radius: 6px;
+                        background: #f3f3f3;
+                        padding: 8px 8px;
+                        border: 0;
+                        color: #001a23;
+                        opacity: 0.8;
+                        outline: none;
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                    input {
+                        font-size: 12px;
+                        border: none;
+                        outline: none;
+                        font-weight: 500;
+                        flex-grow: 1;
+                        background-color: transparent;
+                    }
+                    input::placeholder {
+                        color: #001a23;
+                        opacity: 0.2;
+                        font-size: 12px;
+                    }
+                    select {
+                        font-weight: 500;
+                    }
+                </style>
             </body>
         </html>
         <?php

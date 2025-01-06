@@ -15,7 +15,8 @@ class userController{
         $user=$mdl->getUser($userName);
         if ($user){
             if ($mdl->checkPassword($userName,$password)){
-                session_start();
+                
+                if($user["approuve"]==0){
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'username' => $user['username'],
@@ -25,7 +26,20 @@ class userController{
                     'photoProfile' => $user['photoProfile'],
                     'telNumber' => $user['telNumber'],
                     'birthDate' => $user['birthDate']
-                ];
+                ];}
+                else{
+                    $_SESSION['member'] = [
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                        'email' => $user['email'],
+                        'nom' => $user['nom'],
+                        'carte' => $user['carte'],
+                        'prenom' => $user['prenom'],
+                        'photoProfile' => $user['photoProfile'],
+                        'telNumber' => $user['telNumber'],
+                        'birthDate' => $user['birthDate']
+                    ];
+                }
                 header("Location: index.php?router=Page%20d'accueil");
                 print_r($_SESSION);
             }
@@ -42,6 +56,10 @@ class userController{
     }
     public function afficherPageLogin(){
         $v=new loginView();
+        $v->afficher_page();
+    }
+    public function afficherPageCarte(){
+        $v=new CarteView();
         $v->afficher_page();
     }
     public function afficherPageFavoris(){
@@ -112,6 +130,25 @@ class userController{
         else{
             return $resul; // Cas d'erreur username ou email existent déjà
         }
+    }
+    public function paiement(){
+        $r= new userModel();
+        $credentials=[
+            'recu' => $this->uploadPhoto2('recu'),
+            'plan' => $_POST['plan'],
+            'id' => $_SESSION['user']['id']
+        ];
+
+        // Check if any field is empty
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return 3; 
+            }
+        }
+
+            $r->paiement($credentials);
+            echo 1; // Pour indiquer que l'instruction a été effectuée avec succès
+        
     }
 
     //fonction pour gerer les photos envoyées using this till fixing routers issue
@@ -288,67 +325,52 @@ class userController{
         }
     }
 //fonction de recherche par mot clé
-    public function searchUser(){
-        $searchKey=$_POST['searchUser'];
-        $r= new userModel();
-        if (isset($searchKey)){
-            return $r->searchUser($searchKey);
-        }
-        else{
-            return $this->getUsers();
-        }
+public function searchUser(){
+    $r = new userModel();
+    $users = $r->getUsers(); // Obtenir tous les utilisateurs d'abord
+
+    // Filtrer par recherche
+    if (!empty($_POST['searchUser'])) {
+        $searchKey = strtolower($_POST['searchUser']);
+        $users = array_filter($users, function($user) use ($searchKey) {
+            return strpos(strtolower($user['username']), $searchKey) !== false ||
+                   strpos(strtolower($user['email']), $searchKey) !== false ||
+                   strpos(strtolower($user['nom']), $searchKey) !== false ||
+                   strpos(strtolower($user['prenom']), $searchKey) !== false;
+        });
     }
 
-    //fonction de filtre par date d'inscription
-    public function filtreDateInscription($users) {
-        $date = $_POST['dateInsc'];
-        if (isset($date)) {
-            $filteredUsers = array_filter($users, function($user) use ($date) {
-                return $user['date_inscription'] === $date;
-            });
-            return $filteredUsers;
-        } else {
-            return $users;
-        }
-    }
-    //fonction de tri par date inscription ordre croissant 
-    public function sortDateCroissant($users){
-        if (isset($users)){
-            usort($users, function ($a, $b) {
-                return $a['date_inscription'] <=> $b['date_inscription'];
-            });
-        } 
-        return $users;
-    }
-    //fonction de tri par date inscription ordre décroissant 
-    public function sortDateDecroissant($users){
-        if (isset($users)){
-            usort($users, function ($a, $b) {
-                return $b['date_inscription'] <=> $a['date_inscription'];
-            });
-        } 
-        return $users;
+    // Filtrer par date
+    if (!empty($_POST['dateMin'])) {
+        $dateMin = $_POST['dateMin'];
+        $users = array_filter($users, function($user) use ($dateMin) {
+            return $user['date_inscription'] >= $dateMin;
+        });
     }
 
-    //fonction de tri par ordre alphabetique croissant de 'nom'
-    public function sortNomCroissant($users){
-        if (isset($users)){
-            usort($users, function ($a, $b) {
-                return strcmp($a['nom'], $b['nom']);
-            });
-        } 
-        return $users;
+    if (!empty($_POST['dateMax'])) {
+        $dateMax = $_POST['dateMax'];
+        $users = array_filter($users, function($user) use ($dateMax) {
+            return $user['date_inscription'] <= $dateMax;
+        });
     }
 
-    //fonction de tri par ordre alphabetique décroissant de 'nom'
-    public function sortNomDecroissant($users){
-        if (isset($users)){
-            usort($users, function ($a, $b) {
-                return strcmp($b['nom'], $a['nom']);
-            });
-        } 
-        return $users;
+    // Filtrer par type (User/Membre)
+    if (!empty($_POST['filterType'])) {
+        $filterType = $_POST['filterType'];
+        $users = array_filter($users, function($user) use ($filterType) {
+            if ($filterType == "1") return $user['approuve'] == 0; // Users
+            if ($filterType == "2") return $user['approuve'] == 1; // Membres
+            return true; // Option "0" - Tous
+        });
     }
+
+    header('Content-Type: application/json');
+    echo json_encode(array_values($users));
+}
+
+
+   
     public function getMembers(){
         $r= new userModel();
         $users=$r->getMembers();
@@ -372,10 +394,12 @@ class userController{
         }
     }
     //fonction qui retourne la carte by id_carte
-    public function getCarteById($id){
+    public function getCarteById(){
+        $id=$_SESSION['member']['carte'];
         $r= new userModel();
         if (isset($id)){
-            return $r->getCarteById($id);
+            header('Content-Type: application/json');
+            echo json_encode($r->getCarteById($id));
         }
     }
 
@@ -399,6 +423,19 @@ class userController{
         }
         $r= new userModel();
         $r->addFavoris($id_user,$id_partenaire);
+    }
+    //fonction pour avoir les informations sur les offres d'un membre connécté
+    public function getOffres(){
+        if (isset($_SESSION['user'])){
+            $id_user=$_SESSION['user']['id'];
+        }
+        elseif (isset($_SESSION['member'])){
+            $id_user=$_SESSION['member']['id'];
+        }
+        $r= new userModel();
+        $offres=$r->getOffres($id);
+        header('Content-Type: application/json');
+        echo json_encode($offres);
     }
 }
 ?>

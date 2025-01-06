@@ -7,7 +7,11 @@ class userModel {
     public function getUser($identifier) {
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM user WHERE username = :identifier OR email = :identifier";
+        $qtf =    $qtf = "SELECT u.*,
+                    CASE WHEN u.approuve = TRUE THEN m.carte ELSE NULL END as carte
+                    FROM user u 
+                    LEFT JOIN membre m ON u.id = m.id 
+                    WHERE (u.username = :identifier OR u.email = :identifier)";
         $stmt = $r->query($pdo, $qtf, ['identifier' => $identifier]);
         $user = $stmt->fetch();
         $r->deconnexion($pdo);
@@ -106,6 +110,41 @@ class userModel {
             $qtf3="INSERT INTO paiementuser (id_user, id_paiement) VALUES (:id_user,:id_paiement)";
             $params3 = [
                 'id_user' => $idUser,
+                'id_paiement' => $idPaiement
+            ];
+            $res = $r->query($pdo, $qtf3, $params3);
+            $qtf4="INSERT INTO paiementcarte (type_carte, id_paiement) VALUES (:type_carte,:id_paiement)";
+            $params4 = [
+                'type_carte' => $credentials['plan'],
+                'id_paiement' => $idPaiement
+            ];
+            $res = $r->query($pdo, $qtf4, $params4);
+            $r->deconnexion($pdo);
+        }
+    }
+    public function paiement($credentials) {
+        $r = new dataBaseController();
+        if (isset($credentials)) {
+            $pdo = $r->connexion();
+            $qtf = "UPDATE user SET paiement = :paiement WHERE id = :id";
+            $params = [
+                'paiement'=>1,
+                'id'=>$credentials['id']
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+            $user=$res->fetch(PDO::FETCH_ASSOC);
+            //insertion d'une ligne dans la table paiement
+            $qtf2="INSERT INTO paiement (montant, recu) VALUES (:montant,:recu)";
+            $params2 = [
+                'montant' => NULL,
+                'recu' => $credentials['recu']
+            ];
+            $res = $r->query($pdo, $qtf2, $params2);
+            $idPaiement = $pdo->lastInsertId();
+            //maintenant, on insere un ligne dans la table paiementUser pour avoir une association entre les deux table 
+            $qtf3="INSERT INTO paiementuser (id_user, id_paiement) VALUES (:id_user,:id_paiement)";
+            $params3 = [
+                'id_user' => $credentials['id'],
                 'id_paiement' => $idPaiement
             ];
             $res = $r->query($pdo, $qtf3, $params3);
@@ -300,7 +339,7 @@ class userModel {
     public function getCarteById($id){
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM cartem WHERE id=:id";
+        $qtf = "SELECT cm.*, c.type as carte_type FROM cartem cm JOIN carte c ON cm.type = c.id WHERE cm.id = :id";
         $stmt = $r->query($pdo, $qtf, ['id' => $id]);
         $carte = $stmt->fetch();
         $r->deconnexion($pdo);
@@ -352,6 +391,49 @@ class userModel {
         $recu = $stmt->fetch(PDO::FETCH_ASSOC);
         $r->deconnexion($pdo);
         return $recu;
+    }
+
+    public function getOffres($id){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT 
+    o.offre_id,
+    o.contenu,
+    o.type,
+    p.ville,
+    p.categorie,
+    p.nom
+FROM 
+    (
+        SELECT 
+            offr.id AS offre_id,
+            offr.partenaireId,
+            offr.contenu,
+            offr.type
+        FROM 
+            offre AS offr
+        JOIN 
+            carteoffre AS co ON co.offre_id = offr.id
+        WHERE 
+            co.carte_id = (
+                SELECT 
+                    m.carte
+                FROM 
+                    membre AS m
+                WHERE 
+                    m.id = :id
+            )
+    ) AS o
+JOIN 
+    partenaire AS p ON p.id = o.partenaireId;
+                ";
+        $params = [
+            'id' => $id
+        ];
+        $stmt = $r->query($pdo, $qtf, $params);
+        $offres = $stmt->fetch(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $offres;
     }
 }
 ?>
