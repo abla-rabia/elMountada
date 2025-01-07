@@ -217,10 +217,37 @@ class commonViews{
     }
 
     //la carte d'un partenaire 
-    public function partenaireCard(){
+    public function partenaireCard( $id, $nom, $description){
+        ?>
+        <div class="cardContainer" id="<?=$id?>">
+            <div style="position: relative;">
+                <img src="View/assets/slider1.png" alt="Hotel img">
+                <?php $this->hear(false)?>
+            </div>
+            <div class="title">
+                <h4><?=$nom?></h4>
+                <p class="offreCard">50% OFF</p>
+            </div>
+            <p class="description">
+                <?=$description?>
+            </p>
+            <?php
+            $this->blueButton("En savoir plus","Partenaire");
+            ?>
+
+        </div>
+        <?php
+    }
+    public function hear($filled){
+        ?>
+        <i class="<?= $filled ? 'fa-solid fa-heart' : 'fa-regular fa-heart' ?>" style="position: absolute; top: 10px; right: 10px; color: white;"></i>
+        <?php
+    }
+    public function partenaireCardH(){
         ?>
         <div class="cardContainer">
             <img src="View/assets/slider1.png" alt="Hotel img">
+            
             <div class="title">
                 <h4>Nom partenaire</h4>
                 <p class="offreCard">50% OFF</p>

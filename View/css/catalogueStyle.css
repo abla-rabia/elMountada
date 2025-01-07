@@ -73,6 +73,8 @@ select {
 .cartesPartenaire {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap; /* Enables wrapping to the next row */
+  gap: 20px; /* Space between items */
 }
 .sectionPart {
   display: flex;

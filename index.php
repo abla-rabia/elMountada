@@ -24,8 +24,8 @@ if (isset($_GET['router'])){
             $r->afficherPage();
             break; 
         case 'Catalogue':
-            $r=new catalogueController();
-            $r->afficherPage();
+            $r=new partenaireController();
+            $r->afficherPageCatalogue();
             break; 
         case 'Partenaire':
             $r=new partenaireController();
@@ -121,6 +121,31 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->paiement();
             break;
+        case 'categories':
+            $rts=new partenaireController();
+            $rts->getCategories();
+            break;
+        case 'getPartCateg':
+            $rts=new partenaireController();
+            $rts->getPartenairesByCategorie();
+            break;
+        case 'getSection':
+            $controller = new partenaireController();
+            if (isset($_GET['categorie'])) {
+                echo $controller->getSection($_GET['categorie']);
+            }
+            break;
+        case 'getPartCarte':
+            $controller = new partenaireController();
+            if (isset($_GET['partenaireId']) && isset($_GET['partenaireNom']) && isset($_GET['partenaireDescription'])) {
+                echo $controller->getPartCarte($_GET['partenaireId'], $_GET['partenaireNom'], $_GET['partenaireDescription']);
+            }
+            break;
+        case 'searchPart':
+            $rts=new partenaireController();
+            $rts->searchPart();
+            break;
+
     
     }
 }
