@@ -156,6 +156,19 @@ if (isset($_GET['router'])){
             $rts=new partenaireController();
             $rts->searchPart();
             break;
+        case 'addPartenaire':
+            $rts=new partenaireController();
+            $rts->addPartenaire();
+            
+            break;
+        case 'adminPartenairesView':
+            $rts=new partenaireController();
+            $rts->afficherPageAdmin();
+            break;
+        case 'addNewPart':
+            $rts=new partenaireController();
+            $rts->afficherPageAjoutPart();
+            break;
 
     
     }

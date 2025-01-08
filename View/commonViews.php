@@ -197,7 +197,7 @@ class commonViews{
         <div class="sidebar">
             <ul>
                 <li id="utilisateurs" ><a id="<?= $current == 'Utilisateurs' ? 'current' : '' ?>" href="index.php?router=users">Utilisateurs</a></li>
-                <li id="partenaire" ><a id="<?= $current == 'Partenaire' ? 'current' : '' ?>" href="index.php?router=Partenaire">Partenaire</a></li>
+                <li id="partenaire" ><a id="<?= $current == 'Partenaire' ? 'current' : '' ?>" href="index.php?router=adminPartenairesView">Partenaire</a></li>
                 <li id="administration" ><a id="<?= $current == 'Administration' ? 'current' : '' ?>" href="index.php?router=Administration">Administration</a></li>
                 <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
             </ul>

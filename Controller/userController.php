@@ -4,12 +4,14 @@ require_once(ROOT . '/View/loginView.php');
 require_once(ROOT . '/View/FavorisView.php');
 require_once(ROOT . '/View/adminGetMembersView.php');
 require_once(ROOT . '/Model/userModel.php');
+require_once(ROOT . '/Model/partenaireModel.php');
 
 class userController {
     public function login() {
         $userName = $_POST['userName'];
         $password = $_POST['password'];
         $mdl = new userModel();
+        $mdl2 = new partenaireModel();
         $user = $mdl->getUser($userName);
 
         if ($user) {
@@ -43,7 +45,22 @@ class userController {
             } else {
                 return "Mot de passe incorrect";
             }
-        } else {
+        }elseif ($partenaire = $mdl2->getPartenaire($userName)){
+            if ($mdl2->checkPartenairePassword($userName, $password)) {
+            $_SESSION['partenaire'] = [
+                'id' => $partenaire['id'],
+                'username' => $partenaire['username'],
+                'email' => $partenaire['email']
+
+            ];
+            header("Location: index.php?router=Page%20d'accueil");
+        }else{
+            return "Mot de passe incorrect";
+        }
+            
+        }
+        
+        else {
             return "Utilisateur inéxistant";
         }
         return 1;

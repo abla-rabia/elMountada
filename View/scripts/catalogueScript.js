@@ -57,15 +57,23 @@ $(document).ready(function () {
                             categoryContainer.append(cartesPartenaire);
 
                             // Add partner cards
-                            partnersByCategory[categorie].forEach(function(partenaire) {
+                            partnersByCategory[categorie].forEach(function (partenaire) {
+                                const descriptionWords = partenaire.description.split(' ');
+                                const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
                                 $.ajax({
-                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${partenaire.description}`,
+                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
                                     type: 'GET',
                                     success: function(cardHtml) {
                                         cartesPartenaire.append(cardHtml);
                                     }
                                 });
                             });
+                            if (partnersByCategory[categorie].length === 2) {
+                                cartesPartenaire.css({
+                                    'justify-content': 'flex-start',
+                                    'gap': '8vw'
+                                });
+                            }
                         }
                     });
                 });
@@ -105,15 +113,28 @@ $(document).ready(function () {
                                     categoryContainer.append(cartesPartenaire);
 
                                     // Show max 3 partners
-                                    response.slice(0, 3).forEach(function(partenaire) {
+                                    response.slice(0, 3).forEach(function (partenaire) {
+                                        const descriptionWords = partenaire.description.split(' ');
+                                        const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
                                         $.ajax({
-                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${partenaire.description}`,
+                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
                                             type: 'GET',
                                             success: function(cardHtml) {
                                                 cartesPartenaire.append(cardHtml);
                                             }
                                         });
                                     });
+
+                                    // Check if response length is 2
+                                    if (response.length === 2) {
+                                        cartesPartenaire.css({
+                                            'justify-content': 'flex-start',
+                                            'gap': '8vw'
+                                        });
+                                    }
+                                    if (response.length === 0) {
+                                        categoryContainer.remove();
+                                    }
                                 },
                                 error: function() {
                                     alert('Erreur!');
@@ -215,15 +236,23 @@ $('#tri').on('change', function () {
                     cityContainer.append(cartesPartenaire);
 
                     // Ajouter les cartes des partenaires
-                    partnersByCity[ville].forEach(function(partenaire) {
+                    partnersByCity[ville].forEach(function (partenaire) {
+                        const descriptionWords = partenaire.description.split(' ');
+                        const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
                         $.ajax({
-                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${partenaire.description}`,
+                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
                             type: 'GET',
                             success: function(cardHtml) {
                                 cartesPartenaire.append(cardHtml);
                             }
                         });
                     });
+                    if (partnersByCity[ville].length === 2) {
+                        cityContainer.css({
+                            'justify-content': 'flex-start',
+                            'gap': '8vw'
+                        });
+                    }
                 });
             }
         });

@@ -1,8 +1,37 @@
 <?php
-require_once(ROOT . '/Controller/partenairesController.php');
+require_once(ROOT . '/Controller/partenaireController.php');
 require_once(ROOT . '/Controller/dataBaseController.php');
 require_once(ROOT . '/utils/qrCodeUtils.php');
 class partenaireModel{
+
+
+    public function getPartenaire($identifier) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT *
+                FROM partenaire 
+                WHERE (username = :identifier OR email = :identifier)";
+        $stmt = $r->query($pdo, $qtf, ['identifier' => $identifier]);
+        $partenaire = $stmt->fetch();
+        $r->deconnexion($pdo);
+        return $partenaire;
+    }
+
+    public function checkPartenairePassword($userName, $password) {
+        $r = new dataBaseController();
+        if (isset($userName) && isset($password)) {
+            $pdo = $r->connexion();
+            $partenaire = $this->getPartenaire($userName);
+            $pswd = $partenaire['password'];
+            if (password_verify($password, $pswd)) {
+                $r->deconnexion($pdo);
+                return true;
+            } else {
+                $r->deconnexion($pdo);
+                return false;
+            }
+        }
+    }
 public function getCategories(){
     $r = new dataBaseController();
     $pdo = $r->connexion();
@@ -45,6 +74,102 @@ public function getPartenairesByCategorie($categ){
     $partenaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $r->deconnexion($pdo);
     return $partenaires;
+}
+
+public function problemAddPartenaire($credentials) {
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM partenaire WHERE email = :email UNION SELECT * FROM user WHERE email = :email";
+        $res = $r->query($pdo, $qtf, ['email' => $credentials['email']]);
+        if ($res->rowCount() > 0) {
+            $r->deconnexion($pdo);
+            return "L'email est déjà utilisé";
+        }
+
+        $qtf = "SELECT * FROM partenaire WHERE username = :username UNION SELECT * FROM user WHERE username = :username";
+        $res = $r->query($pdo, $qtf, ['username' => $credentials['username']]);
+        if ($res->rowCount() > 0) {
+            $r->deconnexion($pdo);
+            return "Le nom d'utilisateur est déjà utilisé";
+        }
+
+        $r->deconnexion($pdo);
+        return false; // tout est bon
+    }
+    return true; // cas où le user n'a rien entré ...
+}
+public function addPartenaire($credentials) {
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "INSERT INTO partenaire (nom, `description`, ville, photo, logo, categorie, username, email, `password`, telNumber, website, contactmail) VALUES (:nom, :description, :ville, :photo, :logo, :categorie, :username, :email, :password, :telNumber, :website, :contactmail)";
+        $params = [
+            'nom' => $credentials['nom'],
+            'description' => $credentials['description'],
+            'ville' => $credentials['ville'],
+            'photo' => $credentials['photo'],
+            'logo' => $credentials['logo'],
+            'categorie' => $credentials['categorie'],
+            'username' => $credentials['username'],
+            'email' => $credentials['email'],
+            'password' => password_hash($credentials['password'], PASSWORD_DEFAULT),
+            'telNumber' => $credentials['telNumber'],
+            'website' => $credentials['website'],
+            'contactmail' => $credentials['contactmail']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
+
+public function deletePartenaire($id) {
+    $r = new dataBaseController();
+    if (isset($id)) {
+        $pdo = $r->connexion();
+        $qtf = "DELETE from partenaire WHERE id=:id";
+        $params = [
+            'id' => $id
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
+
+public function modifyPartenaire($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "UPDATE partenaire SET nom=:nom, description=:description, ville=:ville, photo=:photo, logo=:logo, categorie=:categorie, username=:username, email=:email, telNumber=:telNumber, website=:website, contactmail=:contactmail WHERE id=:id";
+        $params = [
+            'nom' => $credentials['nom'],
+            'description' => $credentials['description'],
+            'ville' => $credentials['ville'],
+            'categorie' => $credentials['categorie'],
+            'username' => $credentials['username'],
+            'email' => $credentials['email'],
+            'telNumber' => $credentials['telNumber'],
+            'website' => $credentials['website'],
+            'contactmail' => $credentials['contactmail'],
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);            
+        $r->deconnexion($pdo);
+    }
+}
+
+public function modifyPassword($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "UPDATE partenaire SET password = :password WHERE id = :id";
+        $params = [
+            'password' => password_hash($credentials['password'], PASSWORD_DEFAULT),
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
 }
 }
 ?>

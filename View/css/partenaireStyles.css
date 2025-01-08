@@ -202,8 +202,10 @@ p.wilaya {
   font-weight: 500;
 }
 .textArea textarea {
-  border-radius: 11.054px;
-  border: 1.105px solid #eff0f6;
+  border-radius: 6px;
+  border: 1px solid var(--Neutral-300, #eff0f6);
+  background: var(--Neutral-100, #fff);
+  padding: 8px 12px;
   display: flex;
   height: 120px;
   padding: 15.903px 22.718px;

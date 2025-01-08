@@ -38,14 +38,14 @@ class userModel {
         $r = new dataBaseController();
         if (isset($credentials)) {
             $pdo = $r->connexion();
-            $qtf = "SELECT * FROM user WHERE email = :email";
+            $qtf = "SELECT * FROM user WHERE email = :email UNION SELECT * FROM partenaire WHERE email = :email";
             $res = $r->query($pdo, $qtf, ['email' => $credentials['email']]);
             if ($res->rowCount() > 0) {
                 $r->deconnexion($pdo);
                 return "L'email est déjà utilisé";
             }
 
-            $qtf = "SELECT * FROM user WHERE username = :username";
+            $qtf = "SELECT * FROM user WHERE username = :username UNION SELECT * FROM partenaire WHERE username = :username";
             $res = $r->query($pdo, $qtf, ['username' => $credentials['username']]);
             if ($res->rowCount() > 0) {
                 $r->deconnexion($pdo);
