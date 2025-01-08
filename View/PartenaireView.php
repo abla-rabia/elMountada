@@ -1,5 +1,5 @@
 <?php
-require_once("Controller\partenaireController.php");
+require_once(ROOT . '/Controller/partenaireController.php');
 require_once("commonViews.php");
 class partenaireView{
 public function entetePage($nomPartenaire){
@@ -13,6 +13,7 @@ public function entetePage($nomPartenaire){
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="View/scripts/partenaireScript.js"></script>
         
     </head>
     <?php   
@@ -25,14 +26,14 @@ public function partnerView(){
                 <div class="leftPart">
                     <div class="navigation">
                         <p>Catalogue ></p>
-                        <p class="cat">Hôtel ></p>
-                        <p class="name">Sofitel</p>
+                        <p class="cat" id="categp"> ></p>
+                        <p class="name" id="nomp"></p>
                     </div>
                     
-                    <h2 class="title">Sofitel</h2>
-                    <p id="description">This (Hons) Business and Management BSc course from University of Essex Online will help you adapt to the ever-changing world of business. We’ll examine a range of real-world business examples and use them to develop the broad skillset that a good manager should be able to draw from.</p>
+                    <h2 class="title" id="nompL"></h2>
+                    <p id="descriptionp">This (Hons) Business and Management BSc course from University of Essex Online will help you adapt to the ever-changing world of business. We’ll examine a range of real-world business examples and use them to develop the broad skillset that a good manager should be able to draw from.</p>
                         
-                        <p class="wilaya"><i class="fa-solid fa-location-dot"></i>Wilaya : Alger</p>
+                        <p class="wilaya"><i class="fa-solid fa-location-dot"></i>Wilaya : <span id="wilayaP"></span></p>
                 </div>
                 
             </div>
@@ -48,9 +49,9 @@ public function aboutSection(){
                     </p>
                     <h3>Contact</h3>
                     <ul class="contact">
-                        <li><i class="fa-solid fa-phone-volume"></i> +213 555 55 55 88</li>
-                        <li><i class="fa-solid fa-envelope"></i> la_rabia@esi.dz</li>
-                        <li><i class="fa-solid fa-globe"></i> <a href="#">Notre site</a></li>
+                        <li><i class="fa-solid fa-phone-volume"></i> <span id="phoneP">+213 555 55 55 88</span></li>
+                        <li><i class="fa-solid fa-envelope"></i> <span id="emailP">la_rabia@esi.dz</span></li>
+                        <li><i class="fa-solid fa-globe"></i> <a href="#" id="webP">Notre site</a></li>
                     </ul>
                 </section>
     <?php
@@ -140,34 +141,33 @@ public function avisSection(){
 }
 
 
-public function afficher_page(){
+public function afficher_page($id){
     $r = new commonViews();
     ?>
-    <html >
-        
-        <?php
-        $this->entetePage("Sofitel");
-        ?>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <?php
+            $this->entetePage("Sofitel");
+            ?>
+        </head>
         <body>
-        <?php
+        <input type="hidden" name="id" id="partId" value="<?=$id?>">
+            <?php
             $r->navBar();
             $this->partnerView();
             ?>
-
-            
+    
             <div class="sections">
-                
                 <?php
                 $this->aboutSection();
                 $this->avisSection();
                 ?>
-                
             </div>
             <?php
             $r->avisPopup();
             ?>
         </body>
-
     </html>
     <?php
 

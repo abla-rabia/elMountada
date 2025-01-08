@@ -231,9 +231,8 @@ class commonViews{
             <p class="description">
                 <?=$description?>
             </p>
-            <?php
-            $this->blueButton("En savoir plus","Partenaire");
-            ?>
+            <a href="index.php?router=Partenaire&idPartenaire=<?=$id?>"><button type="click" class="famousButton">En savoir plus</button></a>
+            
 
         </div>
         <?php
@@ -254,7 +253,7 @@ class commonViews{
             </div>
             <p class="description">
                 Write an amazing description in this dedicated card section. Each word counts. 
-            </p>
+            </p><td>
             <?php
             $this->blueButton("En savoir plus","Partenaire");
             ?>

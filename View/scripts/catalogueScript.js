@@ -104,12 +104,13 @@ $(document).ready(function () {
                                     const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
                                     categoryContainer.append(cartesPartenaire);
 
-                                    response.forEach(function(partenaire) {
+                                    // Show max 3 partners
+                                    response.slice(0, 3).forEach(function(partenaire) {
                                         $.ajax({
                                             url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${partenaire.description}`,
                                             type: 'GET',
-                                            success: function(sectionHtml) {
-                                                cartesPartenaire.append(sectionHtml);
+                                            success: function(cardHtml) {
+                                                cartesPartenaire.append(cardHtml);
                                             }
                                         });
                                     });
@@ -165,6 +166,78 @@ $(document).ready(function () {
         };
         loadFilteredPartners(searchParams);
     });
+    // Remplacez le gestionnaire de tri existant par celui-ci
+$('#tri').on('change', function () {
+    const filterType = $(this).val();
+    if (filterType === "0") {
+        loadInitialContent();
+        return;
+    }
+    if (filterType === "1") { // Tri par wilaya
+        // Vider les sections existantes
+        $('.sections').empty();
+
+        // Récupérer tous les partenaires
+        $.ajax({
+            url: 'index.php?router=getPartenaires',
+            type: 'GET',
+            success: function(response) {
+                // Grouper les partenaires par ville
+                const partnersByCity = {};
+                response.forEach(function(partenaire) {
+                    if (!partnersByCity[partenaire.ville]) {
+                        partnersByCity[partenaire.ville] = [];
+                    }
+                    partnersByCity[partenaire.ville].push(partenaire);
+                });
+
+                // Trier les villes selon l'ordre
+                const sortedCities = Object.keys(partnersByCity).sort(function(a, b) {
+                    return  a.localeCompare(b) ;
+                });
+
+                // Créer les sections pour chaque ville
+                sortedCities.forEach(function(ville) {
+                    const sections = $('.sections');
+                    const cityContainer = $('<div>')
+                        .addClass('category-container')
+                        .attr('id', `city-${ville}`);
+                    sections.append(cityContainer);
+
+                    // Créer le titre de la section ville
+                    const sectionTitle = $('<div>')
+                        .addClass('section-title')
+                        .text(ville);
+                    cityContainer.append(sectionTitle);
+
+                    // Créer le conteneur des cartes
+                    const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
+                    cityContainer.append(cartesPartenaire);
+
+                    // Ajouter les cartes des partenaires
+                    partnersByCity[ville].forEach(function(partenaire) {
+                        $.ajax({
+                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${partenaire.description}`,
+                            type: 'GET',
+                            success: function(cardHtml) {
+                                cartesPartenaire.append(cardHtml);
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    } else if (filterType === "2") { // Tri par catégorie
+        const categSections = $('.category-container').toArray();
+        categSections.sort(function(a, b) {
+            const A = $(a).find('.section-title').text().toLowerCase();
+            const B = $(b).find('.section-title').text().toLowerCase();
+            return  A.localeCompare(B) ;
+        });
+
+        $('.sections').empty().append(categSections);
+    }
+});
 
     // Category filter event listener
     $('#categories').on('change', function() {

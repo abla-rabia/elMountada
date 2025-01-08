@@ -186,7 +186,7 @@ h2#titre {
   color: #001a23;
 }
 
-h3#sectionTitle {
+h3#sectionTitle,.section-title {
   font-size: 18px;
   font-weight: 600;
   gap: 6px;

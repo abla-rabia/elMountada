@@ -95,8 +95,7 @@ public function searchBar(){
         </select>
         <select name="tri" id="tri">
             <option value="0">Trier par</option>
-            <option value="1">Wilaya</option>
-            <option value="2">Catégorie</option>           
+            <option value="1">Wilaya</option>           
         </select>
         </div>
     </form>

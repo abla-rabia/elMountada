@@ -29,7 +29,10 @@ if (isset($_GET['router'])){
             break; 
         case 'Partenaire':
             $r=new partenaireController();
-            $r->afficherPage();
+            $id = $_GET['idPartenaire'] ?? null; // Use null as fallback if the parameter is not present
+            if ($id) {
+                $r->sendIdPartenaireView($id); 
+            }
             break; 
         case 'Inscription':
             $r=new inscriptionController();
@@ -128,6 +131,14 @@ if (isset($_GET['router'])){
         case 'getPartCateg':
             $rts=new partenaireController();
             $rts->getPartenairesByCategorie();
+            break;
+        case 'getPartenaireById':
+            $rts=new partenaireController();
+            $rts->getPartenaireById();
+            break;
+        case 'getPartenaires':
+            $rts=new partenaireController();
+            $rts->getPartenaires();
             break;
         case 'getSection':
             $controller = new partenaireController();
