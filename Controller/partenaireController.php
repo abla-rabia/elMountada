@@ -2,6 +2,8 @@
 
 require_once(ROOT . '/Model/partenaireModel.php');
 require_once(ROOT . '/View/adminPartenairesView.php');
+require_once(ROOT . '/View/modifyPartView.php');
+require_once(ROOT . '/View/adminOffresView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
 class partenaireController{
     public function afficherPage($id){
@@ -19,6 +21,10 @@ class partenaireController{
     public function afficherPageAdmin(){
         $v=new adminPartenairesView();
         $v->afficher_page();
+    }
+    public function afficherModification($id){
+        $v=new modifyPartView();
+        $v->afficher_page($id);
     }
     public function getCategories() {
         $r = new partenaireModel();
@@ -145,45 +151,54 @@ class partenaireController{
         $id=$_POST['id'];
         $r = new partenaireModel();
         $r->deletePartenaire($id);
+        header('Content-Type: application/json');
+        $response = ['success' => true, 'message' => 'Partenaire supprimé avec succès'];
+        echo json_encode($response);
     }
 
 
     public function modifyPartenaire() {
-        $r = new userModel();
-        $credentials = [
-            'nom' => $_POST['nom'],
-            'description' => $_POST['description'],
-            'ville' => $_POST['ville'],
-            'categorie' => $_POST['categorie'],
-            'username' => $_POST['username'],
-            'email' => $_POST['email'],
-            'telNumber' => $_POST['telNumber'],
-            'website' => $_POST['website'],
-            'contactmail' => $_POST['contactmail'],
-            'id' => $_POST['id']
-        ];
-
-        foreach ($credentials as $key => $value) {
-            if (empty($value)) {
-                return "Erreur : $key ne peut pas etre vide !";
+        try {
+            if (!isset($_POST['id'])) {
+                echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                return;
             }
+    
+            $credentials = [
+                'nom' => $_POST['nom'] ?? '',
+                'ville' => $_POST['ville'] ?? '',
+                'categorie' => $_POST['categorie'] ?? '',
+                'description' => $_POST['description'] ?? '',
+                'telNumber' => $_POST['tel'] ?? '',
+                'website' => $_POST['site'] ?? '',
+                'contactmail' => $_POST['mail'] ?? '',
+                'id' => $_POST['id']
+            ];
+            
+            // Validation
+            foreach ($credentials as $key => $value) {
+                if (empty($value)) {
+                    echo json_encode(['success' => false, 'message' => "Le champ $key ne peut pas être vide!"]);
+                    return;
+                }
+            }
+    
+            $r = new partenaireModel();
+            $result = $r->modifyPartenaire($credentials);
+            
+            if ($result === true) {
+                echo json_encode(['success' => true, 'message' => 'Partenaire modifié avec succès']);
+            } else {
+                echo json_encode(['success' => false, 'message' => $result]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Erreur: ' . $e->getMessage()]);
         }
-
-        $_SESSION['partenaire']['nom'] = $credentials['nom'];
-        $_SESSION['partenaire']['description'] = $credentials['description'];
-        $_SESSION['partenaire']['ville'] = $credentials['ville'];
-        $_SESSION['partenaire']['categorie'] = $credentials['categorie'];
-        $_SESSION['partenaire']['email'] = $credentials['email'];
-        $_SESSION['partenaire']['telNumber'] = $credentials['telNumber'];
-        $_SESSION['partenaire']['website'] = $credentials['website'];
-        $_SESSION['partenaire']['contactmail'] = $credentials['contactmail'];
-        $resu = $r->modifyPartenaire($credentials);
-        return $resu;
     }
 
 
     public function modifyPassword() {
-        $r = new userModel();
+        $r = new partenaireModel();
         $credentials = [
             'password' => $_POST['password'],
             'id' => $_SESSION['partenaire']['id']
@@ -202,5 +217,69 @@ class partenaireController{
         $r->modifyPassword($credentials);
         echo 1;
     }
+
+    public function  afficherPageOffres(){
+        $v=new adminOffresView();
+        $v->afficher_page();
+    }
+
+    //fonctionnalités sur les remises et offres 
+    //1- création remise 
+    public function addRemise() {
+        
+        $r = new partenaireModel();
+        $credentials = [
+            'contenu' => $_POST['contenu'],
+            'partenaireId' => $_POST['partenaireId'],
+            'carteId' => $_POST['carteId'],
+            'type' => 'remise'
+        ];
+        
+
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return 3;
+            }
+        }
+        if (!($resul = $r->problemAddRemise($credentials))) {
+            
+            $r->addOffre($credentials);
+            return 1;
+        } else {
+            return $resul;
+        }
+    }
+    public function addAvantage() {
+        
+        $r = new partenaireModel();
+        $credentials = [
+            'contenu' => $_POST['contenu'],
+            'partenaireId' => $_POST['partenaireId'],
+            'carteId' => $_POST['carteId'],
+            'type' => 'avantage'
+        ];
+        
+
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return 3;
+            }
+        }
+        if (!($resul = $r->problemAddRemise($credentials))) {
+            
+            $r->addOffre($credentials);
+            return 1;
+        } else {
+            return $resul;
+        }
+    }
+
+    public function getRemises(){
+        $r = new partenaireModel();
+        $remises = $r->getRemises();
+        header('Content-Type: application/json');
+        echo json_encode($remises);
+    }
+
 }
 ?>

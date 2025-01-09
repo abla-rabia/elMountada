@@ -48,8 +48,8 @@ function fetchPartenaires() {
                     '<td>' + partenaire['ville'] + '</td>' +
                     '<td>' + partenaire['contactmail'] + '</td>' +
                     '<td>' + partenaire['telNumber'] + '</td>' +
-                    '<td><button class="action-btn">Modifier</button></td>' +
-                    '<td><button class="action-btn">Supprimer</button></td>' +
+                    '<td><button class="action-btn" onclick="handleDelete(' + partenaire['id'] + ',\'' + partenaire['nom'] + '\')">Supprimer</button></td>' +
+                    '<td><button class="action-btn" onclick="handleModify(' + partenaire['id'] + ')">Modifier</button></td>' +
                 '</tr>');
             });
         },
@@ -90,4 +90,36 @@ function getColumnIndex(column) {
         case 'telNum': return 4;
         default: return 0;
     }
+}
+
+function handleDelete(id,nom) {
+    $.ajax({
+        url: 'index.php?router=deletePartenaire',
+        type: 'POST',
+        data: { 'id': id },
+        dataType: 'json',
+        success: function () {
+            alert("Partenaire avec l'id " + id + " supprimé avec succès !");
+            $('tr').filter(function() {
+                return $(this).find('td').eq(0).text() == nom;
+            }).remove();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error deleting partenaire:', error);
+        }
+    });
+}
+
+function handleModify(id) {
+    $.ajax({
+        url: `index.php?router=getModifyPage&id=${id}`,
+        type: 'GET',  
+        success: function(response) {
+            window.location.href = `index.php?router=getModifyPage&id=${id}`;
+        },
+        error: function(xhr, status, error) {
+            console.error('Error accessing modify page:', error);
+            alert("Erreur lors de l'accès à la page de modification");
+        }
+    });
 }

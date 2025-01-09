@@ -140,14 +140,12 @@ public function modifyPartenaire($credentials){
     $r = new dataBaseController();
     if (isset($credentials)) {
         $pdo = $r->connexion();
-        $qtf = "UPDATE partenaire SET nom=:nom, description=:description, ville=:ville, photo=:photo, logo=:logo, categorie=:categorie, username=:username, email=:email, telNumber=:telNumber, website=:website, contactmail=:contactmail WHERE id=:id";
+        $qtf = "UPDATE partenaire SET nom=:nom, ville=:ville,  categorie=:categorie, telNumber=:telNumber, website=:website, contactmail=:contactmail, `description`=:description WHERE id=:id";
         $params = [
             'nom' => $credentials['nom'],
-            'description' => $credentials['description'],
             'ville' => $credentials['ville'],
             'categorie' => $credentials['categorie'],
-            'username' => $credentials['username'],
-            'email' => $credentials['email'],
+            'description' => $credentials['description'],
             'telNumber' => $credentials['telNumber'],
             'website' => $credentials['website'],
             'contactmail' => $credentials['contactmail'],
@@ -155,6 +153,7 @@ public function modifyPartenaire($credentials){
         ];
         $res = $r->query($pdo, $qtf, $params);            
         $r->deconnexion($pdo);
+        return true;
     }
 }
 
@@ -171,5 +170,27 @@ public function modifyPassword($credentials){
         $r->deconnexion($pdo);
     }
 }
+public function addOffre($credentials) {
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "INSERT INTO offre (contenu, partenaireId,`type` ) VALUES (:contenu, :partenaireId, :type)";
+        $params = [
+            'contenu' => $credentials['contenu'],
+            'partenaireId' => $credentials['partenaireId'],
+            'type' => $credentials['type']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $idOffre=$pdo->lastInsertId();
+        $qtf = "INSERT INTO carteoffre (carte_id, offre_id ) VALUES (:carte_id, :offre_id)";
+        $params = [
+            'carte_id' => $credentials['carteId'],
+            'offre_id' => $idOffre
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
+
 }
 ?>

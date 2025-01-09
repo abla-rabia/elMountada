@@ -38,7 +38,6 @@ class addPartenaireView {
                             </div><br>
                             <select name="ville" id="ville">
                                 <option value="0">Ville</option>
-                                <option value="0">Wilaya</option>
                                 <option value="Adrar">Adrar</option>
                                 <option value="Chlef">Chlef</option>
                                 <option value="Laghouat">Laghouat</option>

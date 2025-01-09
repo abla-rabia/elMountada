@@ -169,7 +169,26 @@ if (isset($_GET['router'])){
             $rts=new partenaireController();
             $rts->afficherPageAjoutPart();
             break;
-
+        case 'deletePartenaire':
+            $rts=new partenaireController();
+            $rts->deletePartenaire();
+            break;
+        case 'getModifyPage':
+            if (isset($_GET['id'])) {
+                $controller = new PartenaireController();
+                $controller->afficherModification($_GET['id']);
+            }
+            break;
+            
+        case 'modifierPartenaire':
+            $controller = new PartenaireController();
+            $controller->modifyPartenaire();
+            break;
+        case 'adminOffres':
+            $controller = new PartenaireController();
+            $controller->afficherPageOffres();
+            break;
+    
     
     }
 }
