@@ -5,11 +5,16 @@ require_once(ROOT . '/View/adminPartenairesView.php');
 require_once(ROOT . '/View/modifyPartView.php');
 require_once(ROOT . '/View/adminOffresView.php');
 require_once(ROOT . '/View/partenaireView.php');
+require_once(ROOT . '/View/offresView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
 class partenaireController{
     public function afficherPage($id){
         $v=new partenaireView();
         $v->afficher_page($id);
+    }
+    public function afficherPageOffresV(){
+        $v=new offresView();
+        $v->afficher_page();
     }
     public function afficherPageAjoutPart(){
         $v=new addPartenaireView();
@@ -108,10 +113,10 @@ class partenaireController{
         $view->afficher_page($id);
         
     }
-    public function getPartCarte($id,$nom,$description) {
+    public function getPartCarte($id,$nom,$description,$remise) {
         $view = new commonViews();
         ob_start();
-        $view->partenaireCard($id,$nom,$description);
+        $view->partenaireCard($id,$nom,$description,$remise);
         return ob_get_clean();
     }
 
@@ -336,7 +341,89 @@ class partenaireController{
         $v=new addOffreView();
         $v->afficher_page();
     }
+
+    public function searchOffres() {
+        $r = new partenaireModel();
+        $offres = $r->getAllOffres();
     
+        if (!empty($_POST['searchOffre'])) {
+            $searchKey = strtolower($_POST['searchOffre']);
+            $offres = array_filter($offres, function($offre) use ($searchKey) {
+                return strpos(strtolower($offre['offreContenu']), $searchKey) !== false ||
+                       strpos(strtolower($offre['offreType']), $searchKey) !== false ||
+                       strpos(strtolower($offre['partenaireCategorie']), $searchKey) !== false||
+                       strpos(strtolower($offre['partenaireNom']), $searchKey) !== false;
+            });
+        }
     
+        if (!empty($_POST['filterType'])) {
+            $filterType = $_POST['filterType'];
+            $offres = array_filter($offres, function($offre) use ($filterType) {
+                return $offre['offreType'] == $filterType;
+            });
+        }
+        if (!empty($_POST['filterVille'])) {
+            $filterVille = $_POST['filterVille'];
+            $offres = array_filter($offres, function($offre) use ($filterVille) {
+                return $offre['partenaireVille'] == $filterVille;
+            });
+        }
+        if (!empty($_POST['filterCategorie'])) {
+            $filterCategorie = $_POST['filterCategorie'];
+            $offres = array_filter($offres, function($offre) use ($filterCategorie) {
+                return $offre['partenaireCategorie'] == $filterCategorie;
+            });
+        }
+    
+        header('Content-Type: application/json');
+        echo json_encode(array_values($offres));
+    }
+    
+    public function getRandom10Offres(){
+        $r = new partenaireModel();
+        $offres = $r->getAllOffres();
+        shuffle($offres);
+        $randomOffres = array_slice($offres, 0, 10);
+        $randomOffres = $this->ensureTenElements($randomOffres);
+        header('Content-Type: application/json');
+        echo json_encode($randomOffres);
+    }
+
+    private function ensureTenElements($array) {
+        $count = count($array);
+        if ($count < 10) {
+            $repeats = array();
+            while (count($repeats) + $count < 10) {
+                $repeats = array_merge($repeats, $array);
+            }
+            $repeats = array_slice($repeats, 0, 10 - $count);
+            $array = array_merge($array, $repeats);
+        }
+        return $array;
+    }
+
+    public function getRemiseByPartenaireId(){
+        try {
+            if (!isset($_GET['id'])) {
+                throw new Exception('ID parameter is missing');
+            }
+            
+            $id = $_GET['id'];
+            $r = new partenaireModel();
+            $remise = $r->getRemiseByPartenaireId($id);
+            
+            // Make sure no output has been sent before headers
+            if (!headers_sent()) {
+                header('Content-Type: application/json');
+            }
+            
+            echo json_encode(['remise' => $remise]);
+            exit;
+        } catch (Exception $e) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => $e->getMessage()]);
+            exit;
+        }
+    }
 }
 ?>

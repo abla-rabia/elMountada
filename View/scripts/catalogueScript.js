@@ -55,18 +55,32 @@ $(document).ready(function () {
                             // Create cartes partenaire container
                             const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
                             categoryContainer.append(cartesPartenaire);
-
+                            
                             // Add partner cards
                             partnersByCategory[categorie].forEach(function (partenaire) {
+                                let remise = "";
+                                //load d'une remise
+                                $.ajax({
+                                    url: `index.php?router=getRemiseByPartenaireId`,
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    data: {'id': partenaire.id},
+                                    success: function (data) {
+                                        console.log("hillo");
+                                        remise = data.remise;
+                                        
+                                    }
+                                });
                                 const descriptionWords = partenaire.description.split(' ');
                                 const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
                                 $.ajax({
-                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
+                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
                                     type: 'GET',
                                     success: function(cardHtml) {
                                         cartesPartenaire.append(cardHtml);
                                     }
                                 });
+                                
                             });
                             if (partnersByCategory[categorie].length === 2) {
                                 cartesPartenaire.css({
@@ -108,21 +122,38 @@ $(document).ready(function () {
                                 url: 'index.php?router=getPartCateg',
                                 type: 'POST',
                                 data: { 'categorie': categorie.nomcateg },
-                                success: function(response) {
+                                
+                                success: function (response) {
                                     const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
                                     categoryContainer.append(cartesPartenaire);
-
+                                    console.log(response);
+                                    
+                                    
                                     // Show max 3 partners
                                     response.slice(0, 3).forEach(function (partenaire) {
+                                        let remise = "";
+                                        $.ajax({
+                                            url: `index.php?router=getRemiseByPartenaireId`,
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            data: {'id': partenaire.id},
+                                            success: function (data) {
+                                                remise = data.remise;
+                                                
+                                            
+                                        
                                         const descriptionWords = partenaire.description.split(' ');
                                         const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
+                                        console.log("remise : ", remise);
                                         $.ajax({
-                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
+                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
                                             type: 'GET',
                                             success: function(cardHtml) {
                                                 cartesPartenaire.append(cardHtml);
                                             }
                                         });
+                                    }
+                                });
                                     });
 
                                     // Check if response length is 2
@@ -234,13 +265,23 @@ $('#tri').on('change', function () {
                     // Créer le conteneur des cartes
                     const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
                     cityContainer.append(cartesPartenaire);
-
+                    
                     // Ajouter les cartes des partenaires
                     partnersByCity[ville].forEach(function (partenaire) {
+                        let remise = "";
+                        $.ajax({
+                            url: `index.php?router=getRemiseByPartenaireId`,
+                            type: 'GET',
+                            dataType: 'json',
+                            data: {'id': partenaire.id},
+                            success: function(data) {
+                                remise = data.remise;
+                            }
+                        });
                         const descriptionWords = partenaire.description.split(' ');
                         const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
                         $.ajax({
-                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}`,
+                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
                             type: 'GET',
                             success: function(cardHtml) {
                                 cartesPartenaire.append(cardHtml);

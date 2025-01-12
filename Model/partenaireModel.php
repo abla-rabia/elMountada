@@ -299,6 +299,45 @@ public function deleteOffre($id) {
         $r->deconnexion($pdo);
     }
 }
-
+public function getAllOffres() {
+    $r = new dataBaseController();
+    $pdo = $r->connexion();
+    $qtf = "SELECT 
+                o.id AS offreId,
+                o.type AS offreType,
+                o.contenu AS offreContenu,
+                c.id AS carteId,
+                c.type AS carteType,
+                p.nom AS partenaireNom,
+                p.ville AS partenaireVille,
+                p.categorie AS partenaireCategorie
+            FROM offre o
+            JOIN carteoffre co ON o.id = co.offre_id
+            JOIN carte c ON c.id = co.carte_id
+            JOIN partenaire p ON o.partenaireId = p.id";
+    $stmt = $r->query($pdo, $qtf, []);
+    $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $r->deconnexion($pdo);
+    return $offres;
+}
+public function getRemiseByPartenaireId($id){
+    try {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT 
+                o.contenu 
+            FROM offre o
+            JOIN partenaire p ON o.partenaireId = p.id
+            WHERE p.id = :id AND o.type = 'remise'";
+        $stmt = $r->query($pdo, $qtf, ['id' => $id]);
+        $offre = $stmt->fetch(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        
+        return $offre ? $offre['contenu'] : '';
+    } catch (Exception $e) {
+        error_log("Error in getRemiseByPartenaireId: " . $e->getMessage());
+        return '';
+    }
+}
 }
 ?>

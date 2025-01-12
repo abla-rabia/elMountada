@@ -11,11 +11,13 @@ class homeView{
             <link rel="stylesheet" href="View/css/homeStyle.css">
             <link rel="stylesheet" href="View/css/commonStyles.css">
             <link rel="preconnect" href="https://fonts.googleapis.com">
-            <script src="View/scripts/homeScript.js"></script>
+            
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="View/scripts/homeScript.js"></script>
+            
             
         </head>
         <?php   
@@ -112,72 +114,12 @@ class homeView{
         $this->titleSection("Nos Offres")
         ?>
         <table id="offersTable">
-        <tr>
-            <td>Ville</td>
-            <td>Catégorie</td>
-            <td>Partenaire</td>
-            <td>Offre</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
-        <tr>
-            <td>Alger</td>
-            <td>Hotel</td>
-            <td>Sofitel</td>
-            <td>50%</td>
-        </tr>
+        <tr class="head">
+        <td onclick="sortTable('partenaireVille')">Ville</td>
+        <td onclick="sortTable('partenaireCategorie')">Catégorie</td>
+        <td onclick="sortTable('partenaireNom')">Partenaire</td>
+        <td onclick="sortTable('offreContenu')">Offre</td>
+    </tr>
        </table>
         </div>
         <?php

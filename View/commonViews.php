@@ -77,7 +77,7 @@ class commonViews{
             <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
             <a href="index.php?router=Page%20d'accueil">Accueil</a>
             <a href="index.php?router=Catalogue">Partenaires</a>
-            <a href="">Offres</a>
+            <a href="index.php?router=afficherPageOffresV">Offres</a>
             <li id="subMenuP">
                 Dons & bénévolats
                 <ul id="subMenu">
@@ -114,7 +114,7 @@ class commonViews{
             <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
             <a href="index.php?router=Page%20d'accueil">Accueil</a>
             <a href="index.php?router=Catalogue">Partenaires</a>
-            <a href="">Offres</a>
+            <a href="index.php?router=afficherPageOffresV">Offres</a>
             <li id="subMenuP">
                 Dons & bénévolats
                 <ul id="subMenu">
@@ -217,7 +217,7 @@ class commonViews{
     }
 
     //la carte d'un partenaire 
-    public function partenaireCard( $id, $nom, $description){
+    public function partenaireCard( $id, $nom, $description,$remise){
         ?>
         <div class="cardContainer" id="<?=$id?>">
             <div style="position: relative;">
@@ -226,7 +226,9 @@ class commonViews{
             </div>
             <div class="title">
                 <h4><?=$nom?></h4>
-                <p class="offreCard">50% OFF</p>
+                <?php if ($remise!=""){?>
+                <p class="offreCard"><span><?="$remise"?></span> OFF</p>
+                <?php }?>
             </div>
             <p class="description">
                 <?=$description?>

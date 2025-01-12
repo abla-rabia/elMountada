@@ -69,3 +69,73 @@ document.addEventListener("DOMContentLoaded", function () {
 
   
 });
+
+
+//le fetch du tableau d'offres 
+$(document).ready(function() {
+  fetchOffres();
+  
+});
+
+function fetchOffres() {
+
+  $.ajax({
+      url: 'index.php?router=getRandom10Offres',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+          updateOffresTable(data);
+      },
+      error: function(xhr, status, error) {
+          console.error('Error fetching offers:', error);
+      }
+  });
+}
+
+// Nouvelle fonction pour mettre à jour la table
+function updateOffresTable(data) {
+  const offresTable = $('#offersTable');
+  offresTable.find('tr:not(.head)').remove();
+  
+  data.forEach(function(offre) {
+      offresTable.append(`<tr>
+          <td>${offre.partenaireVille}</td>
+          <td>${offre.partenaireCategorie}</td>
+          <td>${offre.partenaireNom}</td>
+          <td>${offre.offreContenu}</td>
+      </tr>`);
+  });
+}
+
+//le tri :
+function sortTable(column) {
+  const table = $('#offersTable');
+  const rows = table.find('tr:not(.head)').get();
+  const currentOrder = table.data('order') || 'asc';
+  const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+  
+  rows.sort(function(a, b) {
+      const A = $(a).children('td').eq(getColumnIndex(column)).text().toLowerCase();
+      const B = $(b).children('td').eq(getColumnIndex(column)).text().toLowerCase();
+      
+      return currentOrder === 'asc' 
+          ? A.localeCompare(B) 
+          : B.localeCompare(A);
+  });
+  
+  rows.forEach(function(row) {
+      table.append(row);
+  });
+  
+  table.data('order', newOrder);
+}
+
+function getColumnIndex(column) {
+  const columns = {
+      'partenaireVille': 0,
+      'partenaireCategorie': 1,
+      'partenaireNom': 2,
+      'offreContenu': 3
+  };
+  return columns[column] || 0;
+}

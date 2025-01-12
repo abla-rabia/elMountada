@@ -148,8 +148,8 @@ if (isset($_GET['router'])){
             break;
         case 'getPartCarte':
             $controller = new partenaireController();
-            if (isset($_GET['partenaireId']) && isset($_GET['partenaireNom']) && isset($_GET['partenaireDescription'])) {
-                echo $controller->getPartCarte($_GET['partenaireId'], $_GET['partenaireNom'], $_GET['partenaireDescription']);
+            if (isset($_GET['partenaireId']) && isset($_GET['partenaireNom']) && isset($_GET['partenaireDescription'])&& isset($_GET['remise'])) {
+                echo $controller->getPartCarte($_GET['partenaireId'], $_GET['partenaireNom'], $_GET['partenaireDescription'],$_GET['remise']);
             }
             break;
         case 'searchPart':
@@ -213,6 +213,23 @@ if (isset($_GET['router'])){
         case 'modifyOffre':
             $controller = new PartenaireController();
             $controller->modifyOffre();
+            break;
+        case 'afficherPageOffresV':
+            $controller = new PartenaireController();
+            $controller->afficherPageOffresV();
+            break;
+        case 'searchOffres':
+            $controller = new PartenaireController();
+            $controller->searchOffres();
+            break;
+
+        case 'getRandom10Offres':
+            $controller = new PartenaireController();
+            $controller->getRandom10Offres();
+            break;
+        case 'getRemiseByPartenaireId':
+            $controller = new PartenaireController();
+            $controller->getRemiseByPartenaireId();
             break;
     
     
