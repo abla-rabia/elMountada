@@ -4,6 +4,7 @@ require_once(ROOT . '/Model/partenaireModel.php');
 require_once(ROOT . '/View/adminPartenairesView.php');
 require_once(ROOT . '/View/modifyPartView.php');
 require_once(ROOT . '/View/adminOffresView.php');
+require_once(ROOT . '/View/partenaireView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
 class partenaireController{
     public function afficherPage($id){
@@ -218,9 +219,9 @@ class partenaireController{
         echo 1;
     }
 
-    public function  afficherPageOffres(){
+    public function  afficherPageOffres($id){
         $v=new adminOffresView();
-        $v->afficher_page();
+        $v->afficher_page($id);
     }
 
     //fonctionnalités sur les remises et offres 
@@ -244,7 +245,7 @@ class partenaireController{
         if (!($resul = $r->problemAddRemise($credentials))) {
             
             $r->addOffre($credentials);
-            return 1;
+            echo 1;
         } else {
             return $resul;
         }
@@ -268,18 +269,74 @@ class partenaireController{
         if (!($resul = $r->problemAddRemise($credentials))) {
             
             $r->addOffre($credentials);
-            return 1;
+            echo 1;
         } else {
             return $resul;
         }
     }
 
     public function getRemises(){
+        $id_partenaire=$_POST['idPartenaire'];
         $r = new partenaireModel();
-        $remises = $r->getRemises();
+        $remises = $r->getRemises($id_partenaire);
         header('Content-Type: application/json');
         echo json_encode($remises);
     }
+    public function getAvantages(){
+        $id_partenaire=$_POST['idPartenaire'];
+        $r = new partenaireModel();
+        $avantages = $r->getAvantages($id_partenaire);
+        header('Content-Type: application/json');
+        echo json_encode($avantages);
+    }
 
+    public function modifyOffre() {
+        try {
+            if (!isset($_POST['id'])) {
+                echo json_encode(['success' => false, 'message' => 'ID manquant']);
+                return;
+            }
+    
+            $credentials = [
+                'contenu' => $_POST['contenu'] ?? '',
+                'id_carte' => $_POST['carteType'] ?? '',
+                'id' => $_POST['id']
+            ];
+            
+            // Validation
+            foreach ($credentials as $key => $value) {
+                if (empty($value)) {
+                    echo json_encode(['success' => false, 'message' => "Le champ $key ne peut pas être vide!"]);
+                    return;
+                }
+            }
+    
+            $r = new partenaireModel();
+            $result = $r->modifyOffre($credentials);
+            
+            if ($result === true) {
+                echo 1;
+            } else {
+                echo json_encode(['success' => false, 'message' => $result]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Erreur: ' . $e->getMessage()]);
+        }
+    }
+    public function deleteOffre() {
+        $id=$_POST['id'];
+        $r = new partenaireModel();
+        $r->deleteOffre($id);
+        header('Content-Type: application/json');
+        $response = ['success' => true, 'message' => 'Partenaire supprimé avec succès'];
+        echo json_encode($response);
+    }
+    //page d'ajout d'un offre
+    public function afficherPageAjoutOffre(){
+        $v=new addOffreView();
+        $v->afficher_page();
+    }
+    
+    
 }
 ?>

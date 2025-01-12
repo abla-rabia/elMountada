@@ -17,6 +17,8 @@ class adminOffresView {
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <script src="View/scripts/offrePart.js"></script>
+            <link rel="stylesheet" href="View/css/offresViewstyle.css">
+            
         </head>
         <?php   
     }
@@ -36,14 +38,69 @@ public function cartsStats(){
     </div>
     <?php
 }
-  
+    public function addPopup($type,$partenaireId) {
+        $r = new commonViews();
+        $title = $type === 'remise' ? 'Ajouter une remise' : 'Ajouter un avantage';
+        $inputLabel = $type === 'remise' ? 'Taux de remise' : 'Contenu';
+        $inputId = $type === 'remise' ? 'remiseTaux' : 'contenuAvantage';
+        $inputPlaceholder = $type === 'remise' ? '50%' : 'contenu de l avantage';
+        $closeBtn= $type === 'remise' ? 'closeBtn1' : 'closeBtn2';
+        ?>
+        <div class="popContainer">
+            <div class="popupUpload" id="add<?= ucfirst($type) ?>Popup">
+                <h3><?= $title ?></h3>
+                <div class="textArea">
+                    <form action="" class="approuver" id="formAdd<?= ucfirst($type) ?>">                        
+                        <input type="hidden" name="partenaireId" value="<?=$partenaireId?>">
+                        <label for="carteType">Type de carte:</label>
+                        <select name="carteId" class="carteType" id="carteType"></select>
+                        <?php $r->famousInput($inputLabel, $inputPlaceholder, "text", "contenu") ?>
+                    </form>
+                </div>
+                <?php
+                $r->blueButton2("Ajouter", "add" . ucfirst($type));
+                $r->blueButton2("Annuler", $closeBtn);
+                ?>
+            </div>
+        </div>
+        <?php
+    }
+    public function modifyPopup($type, $partenaireId) {
+        $r = new commonViews();
+        $title = $type === 'remise' ? 'Modifier une remise' : 'Modifier un avantage';
+        $inputLabel = $type === 'remise' ? 'Taux de remise' : 'Contenu';
+        $inputId = $type === 'remise' ? 'remiseTaux' : 'contenuAvantage';
+        $inputPlaceholder = $type === 'remise' ? '50%' : 'contenu de l avantage';
+        $closeBtn = $type === 'remise' ? 'closeBtn1' : 'closeBtn2';
+        ?>
+        <div class="popContainer">
+            <div class="popupUpload" id="modify<?= ucfirst($type) ?>Popup">
+                <h3><?= $title ?></h3>
+                <div class="textArea">
+                    <form action="" class="approuver" id="formModify<?= ucfirst($type) ?>">                        
+                        <input type="hidden" name="partenaireId" value="<?=$partenaireId?>">
+                        <input type="hidden" name="id" >
+                        <label for="carteType">Type de carte:</label>
+                        <select name="carteId" class="carteType" id="carteType"></select>
+                        <?php $r->famousInput2($inputLabel, $inputPlaceholder, "text", "contenu") ?>
+                    </form>
+                </div>
+                <?php
+                $r->blueButton2("Modifier", "modify" . ucfirst($type));
+                $r->blueButton2("Annuler", $closeBtn);
+                ?>
+            </div>
+        </div>
+        <?php
+    }
  
-    public function afficher_page() {
+    public function afficher_page($id) {
         $r = new commonViews();
         ?>
         <html>
             <?php $this->entetePage(); ?>
             <body class="to">
+                <input type="hidden" name="id" id="id" value="<?=$id?>">
                 <?php $r->navBarC(); ?>
                 <div class="content">
                     <?php $r->titre("Remises et Avantages"); ?>
@@ -57,6 +114,7 @@ public function cartsStats(){
                             <div class="offresTables">
                             <div class="offreTable">
                             <?php $r->sectionTitle("Remises"); ?>
+                            <div class="tablee">
                             <table id="remisesTable" >
                             
                                 <tr class="head">
@@ -65,10 +123,13 @@ public function cartsStats(){
                                     <th>Modifier</th>
                                     <th>Supprimer</th>
                                 </tr>
+                                
                             </table>
+                            </div>
                             </div>
                             <div class="offreTable">
                             <?php $r->sectionTitle("Avantages"); ?>
+                            <div class="tablee">
                             <table id="avantagesTable" >
                             
                                 <tr class="head">
@@ -79,6 +140,7 @@ public function cartsStats(){
                                 </tr>
                             </table>
                             </div>
+                            </div>
                         </div>
                         <div class="buttons offres">
                             <button onclick="ajouterAvantage()">Ajouter Avantage</button>
@@ -87,118 +149,17 @@ public function cartsStats(){
                         </div>
                         </div>
                     </div>
+                    <?php 
+                    $this->addPopup('remise',$id); 
+                    $this->addPopup('avantage',$id); 
+                    $this->modifyPopup('remise',$id); 
+                    $this->modifyPopup('avantage',$id); 
+                    ?>
                 </div>
-               
-                <style>
-                    body .users{
-                        margin-top:-20px;
-                    }
-                    div.cartesStats{
-                        display:flex;
-                        justify-content:space-between;
-                        gap:40px;
-                        
-                    }
-                    div.cartesStats .carteStat{
-                        display : flex;
-                        gap:20px;
-                        background-color:#a6dfb5;
-                        border-radius:8px;
-                        width:100%;
-                        align-items:center;
-                        padding:6px 16px;
-                    }
-                    div.cartesStats .carteStat .numberCircle{
-                        background-color:white;
-                        border-radius:50%;
-                        width: 44px;
-                        height:44px;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                    }
-                    div.cartesStats .carteStat .numberCircle p{
-                        color:rgba(0, 26, 35, 0.8);
-                        font-weight:700;
-
-                    }
-                    div.cartesStats .carteStat p{
-                        color:white;
-                        font-weight:500;
-                    }
-                    div.offresTables{
-                        display: flex;
-                        justify-content:space-between;
-                        gap:40px;
-
-                    }
-                    div.offresTables th{
-                        font-weight:500;
-                        font-size:12px;
-
-                    }
-                    div.offresTables table {
-                        display: flex;
-                        justify-content: space-between;
-                        gap: 40px;
-                        border-collapse: separate;
-                        border-spacing: 0;
-                        border-radius: 10px 10px 0 0;
-                        overflow: hidden;
-                        width: 100%;
-                    }
-                    div.offresTables .offreTable {
-                        width: 100%;
-                        height: 280px; /* Set the max height */
-                        overflow-y: auto; /* Add vertical scroll bar if content exceeds max height */
-                    }
-                    div.offresTables td {
-                        text-align: center;
-                        padding: 14px 0;
-                        border: none;
-                        font-size: 12px;
-                        font-weight: 500;
-                        color: #001a23;
-                    }
-                    div.offresTables tr {
-                        padding: 8px;
-                    }
-                    div.offresTables tr:nth-child(odd) {
-                        background-color: rgba(12, 26, 75, 0.04);
-                        width: 100%;
-                    }
-                    div.offresTables tr:first-child {
-                        background-color: rgba(0, 26, 35, 1);
-                        border-radius: 8px 8px 0 0;
-                        color: white;
-                        width: 100%;
-                        display: flex;
-                        justify-content: space-between;
-                    }
-                    div.offresTables tbody {
-                        width: 100%;
-                    }
-                    .buttons.offres{
-                        display: flex;
-                        justify-content: space-between;
-                        gap:50px;
-                        margin-top:30px;
-                    }
-                    .buttons.offres button{
-                        width:100%;
-                        color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  
-  border: 0;
-  padding: 10px 28px;
-  cursor: pointer;
-  border-radius: 6px;
-  background: var(--blue-2, #001a23);
-                    }
-
-                </style>
+                
+                
             </body>
+            
         </html>
         <?php
     }

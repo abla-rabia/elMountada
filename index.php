@@ -179,14 +179,40 @@ if (isset($_GET['router'])){
                 $controller->afficherModification($_GET['id']);
             }
             break;
+        case 'getOffrePage':
+            if (isset($_GET['id'])) {
+                $controller = new PartenaireController();
+                $controller->afficherPageOffres($_GET['id']);
+            }
+            break;
             
         case 'modifierPartenaire':
             $controller = new PartenaireController();
             $controller->modifyPartenaire();
             break;
-        case 'adminOffres':
+        case 'ajouterRemise':
             $controller = new PartenaireController();
-            $controller->afficherPageOffres();
+            $controller->addRemise();
+            break;
+        case 'ajouterAvantage':
+            $controller = new PartenaireController();
+            $controller->addAvantage();
+            break;
+        case 'getRemises':
+            $controller = new PartenaireController();
+            $controller->getRemises();
+            break;
+        case 'getAvantages':
+            $controller = new PartenaireController();
+            $controller->getAvantages();
+            break;
+        case 'deleteOffre':
+            $controller = new PartenaireController();
+            $controller->deleteOffre();
+            break;
+        case 'modifyOffre':
+            $controller = new PartenaireController();
+            $controller->modifyOffre();
             break;
     
     

@@ -126,6 +126,7 @@ class adminPartenairesView {
                                     <th onclick="sortTable('ville')">Ville</th>
                                     <th onclick="sortTable('email')">Email</th>
                                     <th onclick="sortTable('telNum')">Numéro de téléphone</th>
+                                    <th>Offre</th>
                                     <th>Modifier</th>
                                     <th>Supprimer</th>
                                 </tr>

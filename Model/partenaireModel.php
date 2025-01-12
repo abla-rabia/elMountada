@@ -191,6 +191,114 @@ public function addOffre($credentials) {
         $r->deconnexion($pdo);
     }
 }
+public function getAvantages($id_partenaire){
+    $r = new dataBaseController();
+    if (isset($id_partenaire)) {
+        $pdo = $r->connexion();
+        $qtf = "SELECT 
+                    o.id AS offreId,
+                    o.type AS offreType,
+                    o.partenaireId,
+                    o.contenu AS offreContenu,
+                    c.id AS carteId,
+                    c.type AS carteType,
+                    c.montant AS carteMontant
+                FROM offre o 
+                JOIN carteoffre co ON o.id = co.offre_id 
+                JOIN carte c ON c.id = co.carte_id 
+                WHERE o.partenaireId = :partenaireId 
+                AND o.type = :type";
+        $params = [
+            'partenaireId' => $id_partenaire,
+            'type' => 'avantage'
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        
+        $avantages = $res->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $avantages;
+    }
+}
+public function getRemises($id_partenaire){
+    $r = new dataBaseController();
+    if (isset($id_partenaire)) {
+        $pdo = $r->connexion();
+        $qtf = "SELECT 
+                    o.id AS offreId,
+                    o.type AS offreType,
+                    o.partenaireId,
+                    o.contenu AS offreContenu,
+                    c.id AS carteId,
+                    c.type AS carteType,
+                    c.montant AS carteMontant
+                FROM offre o 
+                JOIN carteoffre co ON o.id = co.offre_id 
+                JOIN carte c ON c.id = co.carte_id 
+                WHERE o.partenaireId = :partenaireId 
+                AND o.type = :type";
+        $params = [
+            'partenaireId' => $id_partenaire,
+            'type' => 'remise'
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        
+        $remises = $res->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $remises;
+    }
+}
+public function modifyOffre($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "UPDATE offre SET contenu=:contenu WHERE id=:id";
+        $params = [
+            'contenu' => $credentials['contenu'],
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+
+        $qtf = "UPDATE carteoffre SET carte_id=:carte_id WHERE offre_id=:id";
+        $params = [
+            'carte_id' => $credentials['id_carte'],
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+
+        $r->deconnexion($pdo);
+        return true;
+    }
+    return false;
+}
+public function problemAddRemise($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM offre WHERE contenu = :contenu";
+        $res = $r->query($pdo, $qtf, ['contenu' => $credentials['contenu']]);
+        if ($res->rowCount() > 0) {
+            $r->deconnexion($pdo);
+            return "L'offre existe déja";
+        }
+
+        $r->deconnexion($pdo);
+        return false; // tout est bon
+    }
+    return true; // cas où le user n'a rien entré ...
+}
+
+public function deleteOffre($id) {
+    $r = new dataBaseController();
+    if (isset($id)) {
+        $pdo = $r->connexion();
+        $qtf = "DELETE from offre WHERE id=:id";
+        $params = [
+            'id' => $id
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
 
 }
 ?>

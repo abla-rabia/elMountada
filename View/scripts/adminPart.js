@@ -48,6 +48,7 @@ function fetchPartenaires() {
                     '<td>' + partenaire['ville'] + '</td>' +
                     '<td>' + partenaire['contactmail'] + '</td>' +
                     '<td>' + partenaire['telNumber'] + '</td>' +
+                    '<td><button class="action-btn" onclick="handleOffre(' + partenaire['id'] + ')">Offres</button></td>' +
                     '<td><button class="action-btn" onclick="handleDelete(' + partenaire['id'] + ',\'' + partenaire['nom'] + '\')">Supprimer</button></td>' +
                     '<td><button class="action-btn" onclick="handleModify(' + partenaire['id'] + ')">Modifier</button></td>' +
                 '</tr>');
@@ -120,6 +121,19 @@ function handleModify(id) {
         error: function(xhr, status, error) {
             console.error('Error accessing modify page:', error);
             alert("Erreur lors de l'accès à la page de modification");
+        }
+    });
+}
+function handleOffre(id) {
+    $.ajax({
+        url: `index.php?router=getOffrePage&id=${id}`,
+        type: 'GET',  
+        success: function(response) {
+            window.location.href = `index.php?router=getOffrePage&id=${id}`;
+        },
+        error: function(xhr, status, error) {
+            console.error('Error accessing offre page:', error);
+            alert("Erreur lors de l'accès à la page des offres");
         }
     });
 }

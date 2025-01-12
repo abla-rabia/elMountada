@@ -1,0 +1,117 @@
+body .users{
+    margin-top:-20px;
+}
+body{
+    overflow: hidden;
+}
+div.cartesStats{
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+    
+}
+div.cartesStats .carteStat{
+    display : flex;
+    gap:20px;
+    background-color:#a6dfb5;
+    border-radius:8px;
+    width:100%;
+    align-items:center;
+    padding:6px 16px;
+}
+div.cartesStats .carteStat .numberCircle{
+    background-color:white;
+    border-radius:50%;
+    width: 44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+div.cartesStats .carteStat .numberCircle p{
+    color:rgba(0, 26, 35, 0.8);
+    font-weight:700;
+
+}
+div.cartesStats .carteStat p{
+    color:white;
+    font-weight:500;
+}
+div.offresTables{
+    display: flex;
+    justify-content:space-between;
+    gap:40px;
+
+}
+div.offresTables th{
+    font-weight:500;
+    font-size:12px;
+
+}
+div.offresTables table {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    width: 100%;
+}
+.tablee{
+    height: 280px; /* Set the max height */
+    overflow-y: auto; /* Add vertical scroll bar if content exceeds max height */
+}
+div.offresTables .offreTable {
+    width: 100%;
+    height: 280px; /* Set the max height */
+    
+}
+div.offresTables td {
+    text-align: center;
+    padding: 14px 0;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: #001a23;
+}
+div.offresTables tr {
+    padding: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+div.offresTables tr:nth-child(odd) {
+    background-color: rgba(12, 26, 75, 0.04);
+    width: 100%;
+}
+div.offresTables tr:first-child {
+    background-color: rgba(0, 26, 35, 1);
+    border-radius: 8px 8px 0 0;
+    color: white;
+    width: 100%;
+    display: flex;
+    padding:8px;
+    justify-content: space-between;
+}
+div.offresTables tbody {
+    width: 100%;
+}
+.buttons.offres{
+    display: flex;
+    justify-content: space-between;
+    gap:50px;
+    margin-top:30px;
+}
+.buttons.offres button{
+    width:100%;
+    color: #fff;
+font-size: 14px;
+font-weight: 500;
+
+border: 0;
+padding: 10px 28px;
+cursor: pointer;
+border-radius: 6px;
+background: var(--blue-2, #001a23);
+}
