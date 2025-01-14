@@ -81,7 +81,7 @@ class commonViews{
             <li id="subMenuP">
                 Dons & bénévolats
                 <ul id="subMenu">
-                    <a>Demande d'aide</a>
+                    <a href="index.php?router=pageAide">Demande d'aide</a>
                     <a>Bénévolat</a>
                     <a>Faire un don</a>
                 </ul>
@@ -118,7 +118,7 @@ class commonViews{
             <li id="subMenuP">
                 Dons & bénévolats
                 <ul id="subMenu">
-                    <a>Demande d'aide</a>
+                <a href="index.php?router=pageAide">Demande d'aide</a>
                     <a>Bénévolat</a>
                     <a>Faire un don</a>
                 </ul>
@@ -200,6 +200,8 @@ class commonViews{
                 <li id="partenaire" ><a id="<?= $current == 'Partenaire' ? 'current' : '' ?>" href="index.php?router=adminPartenairesView">Partenaire</a></li>
                 <li id="administration" ><a id="<?= $current == 'Administration' ? 'current' : '' ?>" href="index.php?router=Administration">Administration</a></li>
                 <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
+                <li id="aides" ><a id="<?= $current == 'Aides' ? 'current' : '' ?>" href="index.php?router=adminAide">Gestion des aides</a></li>
+            <li id="dons" ><a id="<?= $current == 'Dons' ? 'current' : '' ?>" href="index.php?router=pageDons">Gestion des dons</a></li>
             </ul>
         </div>
         <?php

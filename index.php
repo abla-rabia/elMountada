@@ -11,6 +11,7 @@ require_once("Controller/inscriptionController.php");
 require_once("Controller/userInfosController.php");
 require_once("Controller/securityController.php");
 require_once("Controller/userCompteController.php");
+require_once("Controller/donsBenevolatsAidesController.php");
 require_once("Controller/carteController.php");
 if (isset($_GET['router'])){
     $action=$_GET['router'];
@@ -231,7 +232,50 @@ if (isset($_GET['router'])){
             $controller = new PartenaireController();
             $controller->getRemiseByPartenaireId();
             break;
-    
+    case 'typesAide':
+        $controller = new donsBenevolatsAidesController();
+        $controller->getTypesAide();
+        break;
+    case 'addAide':
+        $controller = new donsBenevolatsAidesController();
+        $controller->addAide();
+        break;
+    case 'pageAide':
+        $controller = new donsBenevolatsAidesController();
+        $controller->afficher_pageAddAide();
+        break;
+    case 'adminAide':
+        $controller = new donsBenevolatsAidesController();
+        $controller->afficherPageAdminAide();
+        break;
+    case 'addTypeAide':
+        $controller = new donsBenevolatsAidesController();
+        $controller->addTypeAide();
+        break;
+    case 'getAides':
+        $controller = new donsBenevolatsAidesController();
+        $controller->getAides();
+        break;
+        case 'pageDons':
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficher_pageDons();
+            break;
+        case 'pageAddDon':
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficher_pageAddDon();
+            break;
+    case 'addDon':
+        $controller = new donsBenevolatsAidesController();
+        $controller->addDon();
+        break;
+    case 'getDons':
+        $controller = new donsBenevolatsAidesController();
+        $controller->getDons();
+        break;
+    case 'approuverDon':
+        $controller = new donsBenevolatsAidesController();
+        $controller->approuverDon();
+        break;
     
     }
 }
