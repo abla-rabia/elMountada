@@ -13,6 +13,7 @@ require_once("Controller/securityController.php");
 require_once("Controller/userCompteController.php");
 require_once("Controller/donsBenevolatsAidesController.php");
 require_once("Controller/carteController.php");
+require_once("Controller/EventAnnonceController.php");
 if (isset($_GET['router'])){
     $action=$_GET['router'];
     switch ($action){
@@ -276,7 +277,26 @@ if (isset($_GET['router'])){
         $controller = new donsBenevolatsAidesController();
         $controller->approuverDon();
         break;
-    
+    case 'adminEventsView':
+        $controller = new EventAnnonceController();
+        $controller->afficherPageAdminEvents();
+        break;
+    case 'addEvent':
+        $controller = new EventAnnonceController();
+        $controller->addEvent();
+        break;
+    case 'getEvents':
+        $controller = new EventAnnonceController();
+        $controller->getEvents();
+        break;
+    case 'evenementView':
+        $controller = new EventAnnonceController();
+        $controller->afficherPageEvenement();
+        break;
+    case 'approuverBenevolat':
+        $controller = new EventAnnonceController();
+        $controller->addBenevole();
+        break;
     }
 }
 else{

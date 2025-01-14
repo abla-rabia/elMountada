@@ -202,6 +202,7 @@ class commonViews{
                 <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
                 <li id="aides" ><a id="<?= $current == 'Aides' ? 'current' : '' ?>" href="index.php?router=adminAide">Gestion des aides</a></li>
             <li id="dons" ><a id="<?= $current == 'Dons' ? 'current' : '' ?>" href="index.php?router=pageDons">Gestion des dons</a></li>
+            <li id="evenements" ><a id="<?= $current == 'Événements' ? 'current' : '' ?>" href="index.php?router=adminEventsView">Événements</a></li>
             </ul>
         </div>
         <?php
