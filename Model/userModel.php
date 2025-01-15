@@ -431,9 +431,35 @@ JOIN
             'id' => $id
         ];
         $stmt = $r->query($pdo, $qtf, $params);
-        $offres = $stmt->fetch(PDO::FETCH_ASSOC);
+        $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $r->deconnexion($pdo);
         return $offres;
     }
+public function getOffresByCarteId($carteId) {
+    $r = new dataBaseController();
+    $pdo = $r->connexion();
+    $qtf = "SELECT 
+                o.id AS offre_id,
+                o.contenu,
+                o.type,
+                p.ville,
+                p.categorie,
+                p.nom
+            FROM 
+                offre o
+            JOIN 
+                carteoffre co ON co.offre_id = o.id
+            JOIN 
+                partenaire p ON o.partenaireId = p.id
+            WHERE 
+                co.carte_id = :carte_id";
+    $params = [
+        'carte_id' => $carteId
+    ];
+    $stmt = $r->query($pdo, $qtf, $params);
+    $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $r->deconnexion($pdo);
+    return $offres;
+}
 }
 ?>

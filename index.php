@@ -297,6 +297,22 @@ if (isset($_GET['router'])){
         $controller = new EventAnnonceController();
         $controller->addBenevole();
         break;
+    case 'scan':
+        $controller = new PartenaireController();
+        $controller->afficherPagePartenaireScan();
+        break;
+    case 'verifyQRCode':
+        $controller = new userController();
+        $controller->verifyQRCode();
+        break;
+        case 'getOffresId':
+            $controller = new userController();
+            $controller->getOffres();
+            break;
+            case 'getOffresByCardId':
+                $controller = new userController();
+                $controller->getRemisesByCarte();
+                break;
     }
 }
 else{

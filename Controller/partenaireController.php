@@ -2,8 +2,10 @@
 
 require_once(ROOT . '/Model/partenaireModel.php');
 require_once(ROOT . '/View/adminPartenairesView.php');
+require_once(ROOT . '/Controller/userController.php');
 require_once(ROOT . '/View/modifyPartView.php');
 require_once(ROOT . '/View/adminOffresView.php');
+require_once(ROOT . '/View/partenaireScanView.php');
 require_once(ROOT . '/View/partenaireView.php');
 require_once(ROOT . '/View/offresView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
@@ -11,6 +13,10 @@ class partenaireController{
     public function afficherPage($id){
         $v=new partenaireView();
         $v->afficher_page($id);
+    }
+    public function afficherPagePartenaireScan() {
+        $v = new partenaireScanView();
+        $v->afficher_page();
     }
     public function afficherPageOffresV(){
         $v=new offresView();
@@ -425,5 +431,8 @@ class partenaireController{
             exit;
         }
     }
+
+    
+    
 }
 ?>

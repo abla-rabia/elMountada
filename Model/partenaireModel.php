@@ -339,5 +339,24 @@ public function getRemiseByPartenaireId($id){
         return '';
     }
 }
+public function verifyQRCode($qr_code) {
+    $r = new dataBaseController();
+    $pdo = $r->connexion();
+    
+    // Récupérer les informations de la carte et du membre
+    $qtf = "SELECT u.*, cm.*, c.type as carte_type 
+            FROM cartem cm 
+            JOIN carte c ON cm.type = c.id 
+            JOIN membre m ON m.carte = cm.id 
+            JOIN user u ON u.id = m.id 
+            WHERE cm.code_qr = :qr_code";
+            
+    $stmt = $r->query($pdo, $qtf, ['qr_code' => $qr_code]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    $r->deconnexion($pdo);
+    return $result;
+}
+
 }
 ?>

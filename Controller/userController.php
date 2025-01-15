@@ -329,7 +329,9 @@ class userController {
         $r = new userModel();
         if (isset($id)) {
             $user = $r->getUser($id);
-            return $user;
+            header('Content-Type: application/json');
+            echo json_encode($user);
+            
         }
     }
 
@@ -432,11 +434,77 @@ class userController {
             $id_user = $_SESSION['member']['id'];
         }
         $r = new userModel();
-        $offres = $r->getOffres($id);
+        $offres = $r->getOffres($_POST['id']);
         header('Content-Type: application/json');
         echo json_encode($offres);
     }
 
+    public function getRemisesByCarte($id) {
+        $r = new userModel();
+        $offres= $r->getOffresByCarteId($id);
+        header('Content-Type: application/json');
+        echo json_encode($offres);
+    }
+    public function verifyQRCode() {
+        if (!isset($_POST['qr_code'])) {
+            $this->sendJsonResponse(false, 'Code QR manquant');
+            return;
+        }
+        
+        $qr_code = json_decode($_POST['qr_code'], true);
+        
+        if (!$qr_code) {
+            $this->sendJsonResponse(false, 'Format de code QR invalide');
+            return;
+        }
+        
+        if (!isset($qr_code['id_membre']) || !isset($qr_code['id_type_carte'])) {
+            $this->sendJsonResponse(false, 'Données QR Code manquantes');
+            return;
+        }
+        
+        // Get user data without echoing
+        $user = $this->getUserData($qr_code['id_membre']);
+        
+        // Get remises without echoing
+        $remises = $this->getRemisesData($qr_code['id_type_carte']);
+        
+        $response = [
+            'success' => true,
+            'user' => $user,
+            'carte' => [
+                'type' => $qr_code['id_type_carte'],
+                'remises' => $remises
+            ]
+        ];
+        
+        $this->sendJsonResponse(true, '', $response);
+    }
     
+    private function getUserData($id) {
+        $r = new userModel();
+        return $r->getUser($id);
+    }
+    
+    private function getRemisesData($id) {
+        $r = new userModel();
+        return $r->getOffresByCarteId($id);
+    }
+    
+    private function sendJsonResponse($success, $message = '', $data = null) {
+        header('Content-Type: application/json');
+        $response = ['success' => $success];
+        
+        if (!empty($message)) {
+            $response['message'] = $message;
+        }
+        
+        if ($data !== null) {
+            $response = array_merge($response, $data);
+        }
+        
+        echo json_encode($response);
+        exit;
+    }
 }
 ?>
