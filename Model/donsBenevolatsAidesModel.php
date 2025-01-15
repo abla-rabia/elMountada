@@ -86,7 +86,7 @@ class DonsBenevolatsAidesModel {
         $query = "SELECT d.*, u.nom, u.prenom 
                  FROM dons d 
                  JOIN user u ON d.id_user = u.id 
-                 ORDER BY d.date_ajout DESC";
+                 ORDER BY d.date_ajout DESC"; 
         $stmt = $r->query($pdo, $query, []);
         $dons = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $r->deconnexion($pdo);
@@ -102,5 +102,27 @@ class DonsBenevolatsAidesModel {
         $r->deconnexion($pdo);
         return $res;
     }
+    public function getDonsByUserId($id){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $query = "SELECT * FROM dons WHERE id_user = :id_user";
+        $params = ['id_user' => $id];
+        $stmt = $r->query($pdo, $query, $params);
+        $dons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $dons;
+    }
+
+    public function getBenevolatsByUserId($id){
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $query = "SELECT e.* FROM benevoles_events b JOIN events e ON e.id = b.id_event WHERE b.id_user = :id_user";
+        $params = ['id_user' => $id];
+        $stmt = $r->query($pdo, $query, $params);
+        $benevolats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $benevolats;
+    }
+    
 }
 ?>

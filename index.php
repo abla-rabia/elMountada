@@ -98,6 +98,10 @@ if (isset($_GET['router'])){
             $rts=new userController();
             $rts->getUsers();
             break;
+            case 'getUser':
+                $rts=new userController();
+                $rts->getUserData();
+                break;
         case 'getCartes':
             $rts=new userController();
             $rts->getCartes();
@@ -305,14 +309,14 @@ if (isset($_GET['router'])){
         $controller = new userController();
         $controller->verifyQRCode();
         break;
-        case 'getOffresId':
-            $controller = new userController();
-            $controller->getOffres();
-            break;
-            case 'getOffresByCardId':
-                $controller = new userController();
-                $controller->getRemisesByCarte();
-                break;
+    case 'getOffresId':
+        $controller = new userController();
+        $controller->getOffres();
+        break;
+    case 'getRemisesUser':
+        $controller = new userController();
+        $controller->getRemisesUser();
+        break;
     }
 }
 else{

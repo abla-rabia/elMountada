@@ -357,6 +357,20 @@ public function verifyQRCode($qr_code) {
     $r->deconnexion($pdo);
     return $result;
 }
+public function getOffresByIdPart($id_partenaire) {
+    $r = new dataBaseController();
+    $pdo = $r->connexion();
+    $qtf = "SELECT o.id AS offreId
+            FROM offre o
+            WHERE o.partenaireId = :partenaireId";
+    $params = [
+        'partenaireId' => $id_partenaire
+    ];
+    $stmt = $r->query($pdo, $qtf, $params);
+    $offres = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    $r->deconnexion($pdo);
+    return $offres;
+}
 
 }
 ?>

@@ -9,30 +9,33 @@ class partenaireScanView {
             <title>Scanner User</title>
             <link rel="stylesheet" href="View/css/userInfosStyle.css">
             <link rel="stylesheet" href="View/css/commonStyles.css">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js"></script>
-            
             <style>
-                body.scan{
-                    overflow-y:hidden;
+                *{
+                    font-family: "Montserrat", sans-serif;
+                }
+                body.scan {
+                    overflow-y: hidden;
                 }
                 .container {
                     display: flex; 
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    min-height: 100vh;
+                    min-height: 70vh;
                     padding: 20px;
-                    
                 }
-
                 .button-container {
                     display: flex;
                     gap: 40px;
                     margin-bottom: 30px;
                 }
-
                 .scan-button {
                     width: 200px;
                     height: 200px;
@@ -48,17 +51,14 @@ class partenaireScanView {
                     justify-content: center;
                     padding: 20px;
                 }
-
                 .scan-button:hover {
                     background-color: #003a4d;
                     transform: scale(1.05);
                 }
-
                 .scan-button i {
                     font-size: 64px;
                     margin-bottom: 15px;
                 }
-
                 .button-description {
                     text-align: center;
                     color: #666;
@@ -66,7 +66,6 @@ class partenaireScanView {
                     font-size: 14px;
                     max-width: 200px;
                 }
-
                 .popup {
                     display: none;
                     position: fixed;
@@ -79,7 +78,6 @@ class partenaireScanView {
                     align-items: center;
                     z-index: 1000;
                 }
-
                 .popup-content {
                     background: white;
                     padding: 30px;
@@ -89,7 +87,6 @@ class partenaireScanView {
                     max-width: 400px;
                     position: relative;
                 }
-
                 #username {
                     width: 100%;
                     padding: 12px;
@@ -98,7 +95,6 @@ class partenaireScanView {
                     border-radius: 8px;
                     font-size: 16px;
                 }
-
                 .close-btn {
                     position: absolute;
                     top: 10px;
@@ -109,11 +105,59 @@ class partenaireScanView {
                     font-size: 24px;
                     cursor: pointer;
                 }
-
                 #videoElement {
                     width: 100%;
                     max-width: 640px;
                     border-radius: 8px;
+                }
+                #username-results ,#qr-reader-results{
+                    margin-top: 20px;
+                    max-height: 300px;
+                    overflow-y: auto;
+                }
+                #username-results .success-scan,
+                #username-results .error-scan,
+                #qr-reader-results .success-scan,
+                #qr-reader-results .error-scan {
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                }
+                #username-results .success-scan {
+                    background-color: #e8f5e9;
+                    border: 1px solid #a5d6a7;
+                }
+                #username-results .error-scan {
+                    background-color: #ffebee;
+                    border: 1px solid #ffcdd2;
+                }
+                #username-results ul {
+                    list-style: none;
+                    padding-left: 0;
+                }
+                #username-results li {
+                    margin: 10px 0;
+                    padding: 10px;
+                    background-color: #f5f5f5;
+                    border-radius: 4px;
+                }
+                #qr-reader-results .success-scan {
+                    background-color: #e8f5e9;
+                    border: 1px solid #a5d6a7;
+                }
+                #qr-reader-results .error-scan {
+                    background-color: #ffebee;
+                    border: 1px solid #ffcdd2;
+                }
+                #qr-reader-results ul {
+                    list-style: none;
+                    padding-left: 0;
+                }
+                #qr-reader-results li {
+                    margin: 10px 0;
+                    padding: 10px;
+                    background-color: #f5f5f5;
+                    border-radius: 4px;
                 }
             </style>
         </head>
@@ -125,12 +169,12 @@ class partenaireScanView {
         ?>
         <html>
             <?php $this->entetePage(); ?>
-            <body class="scan">
+            <body class="scan to">
                 <?php $r->navBarC(); ?>
+                <div class="content">
                 <?php $r->titre("Scanner user"); ?>
                 
                 <div class="container">
-                
                     <div class="button-container">
                         <div>
                             <button class="scan-button" id="scanUserBtn">
@@ -139,12 +183,12 @@ class partenaireScanView {
                             </button>
                             <p class="button-description">Scannez le QR code de l'utilisateur</p>
                         </div>
-                        <div >
+                        <div>
                             <button class="scan-button" id="enterUsernameBtn">
                                 <i class="fas fa-user"></i>
                                 <span>Entrer le nom</span>
                             </button>
-                            <p class="button-description">Saisissez manuellement le nom d'utilisateur </p>
+                            <p class="button-description">Saisissez manuellement le nom d'utilisateur</p>
                         </div>
                     </div>
 
@@ -155,14 +199,29 @@ class partenaireScanView {
                             <h2>Scanner le QR Code</h2>
                             <div id="qr-reader"></div>
                             <div id="qr-reader-results"></div>
+                            
                         </div>
                     </div>
 
-                    <script>
+                    <!-- Username Input Popup -->
+                    <div class="popup" id="usernamePopup">
+                        <div class="popup-content" style="display:flex;flex-direction:column;">
+                            <button class="close-btn">&times;</button>
+                            <h2>Entrer le nom d'utilisateur</h2>
+                            <input type="text" id="username" placeholder="Nom d'utilisateur ou email">
+                            <button class="scan-button" id="validateUsernameBtn" style="width: auto; height: auto; padding: 10px 20px;">
+                                Valider
+                            </button>
+                            <div id="username-results"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         let html5QrcodeScanner = null;
 
-                        // Fonction pour initialiser le scanner
                         function initializeScanner() {
                             if (html5QrcodeScanner) {
                                 html5QrcodeScanner.clear();
@@ -175,22 +234,18 @@ class partenaireScanView {
                                     qrbox: {width: 250, height: 250},
                                     showTorchButtonIfSupported: true,
                                 },
-                                /* verbose= */ false
+                                false
                             );
 
                             html5QrcodeScanner.render(onScanSuccess, onScanError);
                         }
 
-                        // Fonction appelée lors d'un scan réussi
                         function onScanSuccess(decodedText, decodedResult) {
-                            // Arrêter le scanner
                             console.log(decodedText);
-                            console.log("brooo")
                             console.log(decodedResult);
                             if (html5QrcodeScanner) {
                                 html5QrcodeScanner.pause();
                             }
-                            
 
                             $.ajax({
                                 url: 'index.php?router=verifyQRCode',
@@ -201,35 +256,35 @@ class partenaireScanView {
                                     console.log(response);
                                     const resultDiv = document.getElementById('qr-reader-results');
                                     if (response.success) {
-        let userInfo = '';
-        if (response.user) {
-            userInfo = `<p>Nom: ${response.user.nom} ${response.user.prenom}</p>`;
-        } else {
-            userInfo = `<p>Utilisateur non trouvé</p>`;
-        }
+                                        let userInfo = '';
+                                        if (response.user) {
+                                            userInfo = `<p>Nom: ${response.user.nom} ${response.user.prenom}</p>`;
+                                        } else {
+                                            userInfo = `<p>Utilisateur non trouvé</p>`;
+                                        }
 
-        let remisesInfo = '';
-        if (response.carte.remises && response.carte.remises.length > 0) {
-            remisesInfo = '<h4>Avantages disponibles:</h4><ul>';
-            response.carte.remises.forEach(remise => {
-                remisesInfo += `
-                    <li>${remise.contenu}${remise.type === 'remise' ? '%' : ''} 
-                        (${remise.type}) - ${remise.nom}</li>
-                `;
-            });
-            remisesInfo += '</ul>';
-        } else {
-            remisesInfo = `<p>Aucune remise disponible pour cette carte</p>`;
-        }
+                                        let remisesInfo = '';
+                                        if (response.carte.remises && response.carte.remises.length > 0) {
+                                            remisesInfo = '<h4>Avantages disponibles:</h4><ul>';
+                                            response.carte.remises.forEach(remise => {
+                                                remisesInfo += `
+                                                    <li>${remise.contenu}${remise.type === 'remise' ? '%' : ''} 
+                                                        (${remise.type}) - ${remise.nom}</li>
+                                                `;
+                                            });
+                                            remisesInfo += '</ul>';
+                                        } else {
+                                            remisesInfo = `<p>Aucune remise disponible pour cette carte</p>`;
+                                        }
 
-        resultDiv.innerHTML = `
-            <div class="success-scan">
-                <h3>Membre vérifié !</h3>
-                ${userInfo}
-                ${remisesInfo}
-            </div>
-        `;
-    } else {
+                                        resultDiv.innerHTML = `
+                                            <div class="success-scan">
+                                                <h3>Membre vérifié !</h3>
+                                                ${userInfo}
+                                                ${remisesInfo}
+                                            </div>
+                                        `;
+                                    } else {
                                         resultDiv.innerHTML = `
                                             <div class="error-scan">
                                                 <p>Code QR invalide ou expiré</p>
@@ -248,17 +303,13 @@ class partenaireScanView {
                                         </div>
                                     `;
                                 },
-
                             });
-                           
                         }
 
                         function onScanError(error) {
-                            // Gérer les erreurs silencieusement
                             console.warn(`Erreur de scan: ${error}`);
                         }
 
-                        // Ouvrir le popup et démarrer le scanner
                         document.getElementById('scanUserBtn').addEventListener('click', function() {
                             document.getElementById('scannerPopup').style.display = 'flex';
                             setTimeout(() => {
@@ -266,7 +317,6 @@ class partenaireScanView {
                             }, 100);
                         });
 
-                        // Fermer le popup et arrêter le scanner
                         document.querySelectorAll('.close-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
                                 if (html5QrcodeScanner) {
@@ -277,22 +327,84 @@ class partenaireScanView {
                             });
                         });
                     });
-                    </script>
 
-                    <!-- Username Input Popup -->
-                    <div class="popup" id="usernamePopup">
-                        <div class="popup-content" style="display:flex;flex-direction:column;">
-                            <button class="close-btn">&times;</button>
-                            <h2>Entrer le nom d'utilisateur</h2>
-                            <input type="text" id="username" placeholder="Nom d'utilisateur">
-                            <button class="scan-button" style="width: auto; height: auto; padding: 10px 20px;">
-                                Valider
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                    document.getElementById('validateUsernameBtn').addEventListener('click', function() {
+                        const username = document.getElementById('username').value.trim();
+                        
+                        if (!username) {
+                            alert('Veuillez entrer un nom d\'utilisateur ou email');
+                            return;
+                        }
 
-                <script>
+                       
+
+                        $.ajax({
+                            url: 'index.php?router=getRemisesUser',
+                            method: 'POST',
+                            data: { 
+                                identifier: username
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                console.log(response);
+                                const resultDiv = document.getElementById('username-results');
+                                if (response.success) {
+                                    let userInfo = '';
+                                    if (response.user) {
+                                        userInfo = `<p>Nom: ${response.user.nom} ${response.user.prenom}</p>`;
+                                    } else {
+                                        userInfo = `<p>Utilisateur non trouvé</p>`;
+                                    }
+
+                                    let remisesInfo = '';
+                                    if (response.carte.remises && response.carte.remises.length > 0) {
+                                        remisesInfo = '<h4>Avantages disponibles:</h4><ul>';
+                                        response.carte.remises.forEach(remise => {
+                                            remisesInfo += `
+                                                <li>${remise.contenu}${remise.type === 'remise' ? '%' : ''} 
+                                                    (${remise.type}) - ${remise.nom}</li>
+                                            `;
+                                        });
+                                        remisesInfo += '</ul>';
+                                    } else {
+                                        remisesInfo = `<p>Aucune remise disponible pour cette carte</p>`;
+                                    }
+
+                                    resultDiv.innerHTML = `
+                                        <div class="success-scan">
+                                            <h3>Membre vérifié !</h3>
+                                            ${userInfo}
+                                            ${remisesInfo}
+                                        </div>
+                                    `;
+                                } else {
+                                    resultDiv.innerHTML = `
+                                        <div class="error-scan">
+                                            <p>Utilisateur invalide ou non trouvé</p>
+                                        </div>
+                                    `;
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Status:', status);
+                                console.error('Error:', error);
+                                console.error('Response:', xhr.responseText);
+                                const resultDiv = document.getElementById('username-results');
+                                resultDiv.innerHTML = `
+                                    <div class="error-scan">
+                                        <p>Erreur lors de la vérification : ${error}</p>
+                                    </div>
+                                `;
+                            }
+                        });
+                    });
+
+                    document.getElementById('username').addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            document.getElementById('validateUsernameBtn').click();
+                        }
+                    });
+
                     document.getElementById('scanUserBtn').addEventListener('click', () => {
                         document.getElementById('scannerPopup').style.display = 'flex';
                         startCamera();
@@ -304,7 +416,14 @@ class partenaireScanView {
 
                     document.querySelectorAll('.close-btn').forEach(btn => {
                         btn.addEventListener('click', (e) => {
-                            e.target.closest('.popup').style.display = 'none';
+                            const popup = e.target.closest('.popup');
+                            popup.style.display = 'none';
+                            
+                            if (popup.id === 'usernamePopup') {
+                                document.getElementById('username').value = '';
+                                document.getElementById('username-results').innerHTML = '';
+                            }
+                            
                             if (videoStream) {
                                 videoStream.getTracks().forEach(track => track.stop());
                             }

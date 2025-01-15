@@ -446,6 +446,7 @@ class userController {
         echo json_encode($offres);
     }
     public function verifyQRCode() {
+        $ss=new partenaireModel();
         if (!isset($_POST['qr_code'])) {
             $this->sendJsonResponse(false, 'Code QR manquant');
             return;
@@ -477,13 +478,52 @@ class userController {
                 'remises' => $remises
             ]
         ];
+        //$id_partenaire=$_SESSION['partenaire']['ide'];
+        $offres_id=$ss->getOffresByIdPart($id_partenaire);
+
+        $r->addProfit($user['id'],19,$offres_id);
+        
+        $this->sendJsonResponse(true, '', $response);
+    }
+
+
+    public function getRemisesUser() {
+        $ss=new partenaireModel();
+        $r = new userModel();
+        $identifier=$_POST['identifier'];
+        
+        // Get user data without echoing
+        $user = $r->getUser($identifier);
+        
+        // Get remises without echoing
+        if (!isset($user['carte'])) {
+            $this->sendJsonResponse(false, 'Carte non trouvée pour cet utilisateur');
+            return;
+        }
+        $carteId = $user['carte'];
+        $typeCarte=$r->getTypeCarteByCarteId($carteId);
+        $remises = $this->getRemisesData($typeCarte);
+
+        
+        $response = [
+            'success' => true,
+            'user' => $user,
+            'carte' => [
+                'type' => $typeCarte,
+                'remises' => $remises
+            ]
+        ];
+         //$id_partenaire=$_SESSION['partenaire']['ide'];
+         $offres_id=$ss->getOffresByIdPart(19);
+
+         $r->addProfit($user['id'],19,$offres_id);
         
         $this->sendJsonResponse(true, '', $response);
     }
     
     private function getUserData($id) {
         $r = new userModel();
-        return $r->getUser($id);
+        return $r->getUserById($id);
     }
     
     private function getRemisesData($id) {

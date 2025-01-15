@@ -4,6 +4,15 @@ require_once(ROOT . '/Controller/dataBaseController.php');
 require_once(ROOT . '/utils/qrCodeUtils.php');
 
 class userModel {
+    public function getTypeCarteByCarteId($carteId) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT cm.type FROM cartem cm  WHERE cm.id = :carte_id";
+        $stmt = $r->query($pdo, $qtf, ['carte_id' => $carteId]);
+        $typeCarte = $stmt->fetch(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $typeCarte ? $typeCarte['type'] : null;
+    }
     public function getUser($identifier) {
         $r = new dataBaseController();
         $pdo = $r->connexion();
@@ -13,6 +22,19 @@ class userModel {
                     LEFT JOIN membre m ON u.id = m.id 
                     WHERE (u.username = :identifier OR u.email = :identifier)";
         $stmt = $r->query($pdo, $qtf, ['identifier' => $identifier]);
+        $user = $stmt->fetch();
+        $r->deconnexion($pdo);
+        return $user;
+    }
+    public function getUserById($id) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT u.*,
+                    CASE WHEN u.approuve = TRUE THEN m.carte ELSE NULL END as carte
+                    FROM user u 
+                    LEFT JOIN membre m ON u.id = m.id 
+                    WHERE u.id = :id";
+        $stmt = $r->query($pdo, $qtf, ['id' => $id]);
         $user = $stmt->fetch();
         $r->deconnexion($pdo);
         return $user;
@@ -460,6 +482,22 @@ public function getOffresByCarteId($carteId) {
     $offres = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $r->deconnexion($pdo);
     return $offres;
+}
+public function addProfit($id_user, $id_partenaire, $id_offres) {
+    $r = new dataBaseController();
+    if (isset($id_user) && isset($id_partenaire) && isset($id_offres) && is_array($id_offres)) {
+        $pdo = $r->connexion();
+        foreach ($id_offres as $id_offre) {
+            $qtf = "INSERT INTO offresprofit (id_user, id_partenaire, id_offre) VALUES (:id_user, :id_partenaire, :id_offre)";
+            $params = [
+                'id_user' => $id_user,
+                'id_partenaire' => $id_partenaire,
+                'id_offre' => $id_offre
+            ];
+            $res = $r->query($pdo, $qtf, $params);
+        }
+        $r->deconnexion($pdo);
+    }
 }
 }
 ?>
