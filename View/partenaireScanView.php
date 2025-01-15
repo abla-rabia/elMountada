@@ -170,7 +170,7 @@ class partenaireScanView {
         <html>
             <?php $this->entetePage(); ?>
             <body class="scan to">
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div class="content">
                 <?php $r->titre("Scanner user"); ?>
                 

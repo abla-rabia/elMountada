@@ -373,6 +373,10 @@ if (isset($_GET['router'])){
         $controller = new userController();
         $controller->afficherPageHistoriqueOffresProfite();
         break;
+        case 'partenaireCarte':
+            $controller = new PartenaireController();
+            $controller->afficherPageCarte();
+            break;
 
     }
 }

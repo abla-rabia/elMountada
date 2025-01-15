@@ -11,6 +11,7 @@ require_once(ROOT . '/View/offresView.php');
 require_once(ROOT . '/View/partenaireCompteView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
 require_once(ROOT . '/View/partenaireInfosView.php');
+require_once(ROOT . '/View/partenaireCarte.php');
 class partenaireController{
     public function afficherPage($id){
         $v=new partenaireView();
@@ -504,6 +505,11 @@ class partenaireController{
         $v = new partenaireCompteView();
         $v->afficher_page();
     }
+    public function afficherPageCarte() {
+        $v = new partenaireCarte();
+        $v->afficher_page();
+    }
+    
     
     
 }

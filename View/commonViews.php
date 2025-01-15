@@ -41,6 +41,39 @@ class commonViews{
         <?php
     }
 
+    public function carteP($nom,$categorie,$ville,$logo){
+        ?>
+        <div class="carteMembre">
+            <div class="top">
+                <div class="head">
+                    <img src="View/assets/logo.png" alt="logo mode" width="130px" >
+                    <p>Association el Mountada</p>
+                </div>
+                <div class="bottom">
+                    <div class="keyValues">
+                    <div class="titlesCard">
+                        <p>Nom : </p>
+                        <p>Catégorie : </p>
+                        <p>Ville : </p>
+                    </div>
+                    <div class="valuesCard">
+                        <p id="userNom"><?=$nom?></p>
+                        <p id="userPrenom"><?=$categorie?></p>
+                        <p id="userId"><?=$ville?></p>
+                    </div>
+                    </div>
+                    <div class="barreCode">
+                        <img src="<?=$logo?>" alt="" id="userQR" width=140px>
+                    </div>
+                </div>
+            </div>
+            <div class="down">
+                <p>Carte Partenaire</p>
+            </div>
+        </div>
+        <?php
+    }
+
 
     public function avisPopup(){
         ?>
@@ -172,7 +205,7 @@ class commonViews{
                 <img class="userImg" id="nav" src="<?= !empty($_SESSION['partenaire']['photo']) ? $_SESSION['partenaire']['photo'] :  'View/assets/user2.png' ?>" alt="user img">
                 <ul id="userBox">
                     <a href="index.php?router=Mes infos">Profile</a>
-                    <a href="index.php?router=carte">Carte</a>
+                    <a href="index.php?router=partenaireCarte">Carte</a>
                     <a href="index.php?router=scan">Scan</a>
                     <a href="index.php?router=logout">Se déconnecter</a>
                 </ul>

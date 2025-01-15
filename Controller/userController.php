@@ -55,6 +55,7 @@ class userController {
                 'nom' => $partenaire['nom'],
                 'description' => $partenaire['description'],
                 'photo' => $partenaire['photo'],
+                'logo' => $partenaire['logo'],
                 'ville' => $partenaire['ville'],
                 'categorie' => $partenaire['categorie'],
                 'telNumber' => $partenaire['telNumber'],
@@ -457,6 +458,7 @@ class userController {
     }
     public function verifyQRCode() {
         $ss=new partenaireModel();
+        $r = new userModel();
         if (!isset($_POST['qr_code'])) {
             $this->sendJsonResponse(false, 'Code QR manquant');
             return;
