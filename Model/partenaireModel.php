@@ -75,6 +75,33 @@ public function getPartenairesByCategorie($categ){
     $r->deconnexion($pdo);
     return $partenaires;
 }
+public function modifyPdp($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "UPDATE partenaire SET photo=:photo WHERE id=:id";
+        $params = [
+            'photo' => $credentials['photo'],
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
+public function modifyCompteInfo($credentials){
+    $r = new dataBaseController();
+    if (isset($credentials)) {
+        $pdo = $r->connexion();
+        $qtf = "UPDATE partenaire SET username=:username, email=:email WHERE id=:id";
+        $params = [
+            'username' => $credentials['username'],
+            'email' => $credentials['email'],
+            'id' => $credentials['id']
+        ];
+        $res = $r->query($pdo, $qtf, $params);
+        $r->deconnexion($pdo);
+    }
+}
 
 public function problemAddPartenaire($credentials) {
     $r = new dataBaseController();

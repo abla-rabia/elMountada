@@ -103,6 +103,9 @@ class commonViews{
         if (isset($_SESSION['user']) || isset($_SESSION['member'])){
             $this->navBarC();
         }
+        else if (isset($_SESSION['partenaire'])){
+            $this->navBarP();
+        }
         else{
             $this->navBarD();
         }
@@ -131,8 +134,46 @@ class commonViews{
                 <ul id="userBox">
                     <a href="index.php?router=Mes infos">Profile</a>
                     <a href="index.php?router=carte">Carte</a>
-                    <a>Historique</a>
+                    <a href="index.php?router=historiqueDons">Historique</a>
                     <a href="index.php?router=favoris">Favoris</a>
+                    <a href="index.php?router=logout">Se déconnecter</a>
+                </ul>
+            </div>
+            </div>
+        </nav>
+        <script>
+            let img = document.getElementsByClassName("userImg")[0];
+            let box = document.getElementById("userBox");
+            img.addEventListener("click", function (event) {
+                box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
+                event.stopPropagation(); // Prevent the event from propagating to the document
+            });
+            document.addEventListener("click", function (event) {
+                if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
+                box.style.display = "none";
+                }
+            });
+
+        </script>
+        
+        <?php
+    }
+
+    public function navBarP(){
+        ?>
+        <nav>
+            <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
+            <a href="index.php?router=Page%20d'accueil">Accueil</a>
+            <a href="index.php?router=Catalogue">Partenaires</a>
+            <a href="index.php?router=afficherPageOffresV">Offres</a>
+            <div class="userSection">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user">
+                <img class="userImg" id="nav" src="<?= !empty($_SESSION['partenaire']['photo']) ? $_SESSION['partenaire']['photo'] :  'View/assets/user2.png' ?>" alt="user img">
+                <ul id="userBox">
+                    <a href="index.php?router=Mes infos">Profile</a>
+                    <a href="index.php?router=carte">Carte</a>
+                    <a href="index.php?router=scan">Scan</a>
                     <a href="index.php?router=logout">Se déconnecter</a>
                 </ul>
             </div>
@@ -203,6 +244,18 @@ class commonViews{
                 <li id="aides" ><a id="<?= $current == 'Aides' ? 'current' : '' ?>" href="index.php?router=adminAide">Gestion des aides</a></li>
             <li id="dons" ><a id="<?= $current == 'Dons' ? 'current' : '' ?>" href="index.php?router=pageDons">Gestion des dons</a></li>
             <li id="evenements" ><a id="<?= $current == 'Événements' ? 'current' : '' ?>" href="index.php?router=adminEventsView">Événements</a></li>
+            </ul>
+        </div>
+        <?php
+    }
+    public function historySideBar($current){
+        ?>
+        <div class="sidebar">
+            <ul>
+                <li id="mesDons"><a id="<?= $current == 'Mes dons' ? 'current' : '' ?>" href="index.php?router=historiqueDons">Mes dons</a></li>
+                <li id="benevolats"><a id="<?= $current == 'Bénévolats' ? 'current' : '' ?>" href="index.php?router=historiqueBenevolat">Bénévolats</a></li>
+                <li id="mesOffresProfites"><a id="<?= $current == 'Mes offres profités' ? 'current' : '' ?>" href="index.php?router=historiqueOffresProfite">Mes offres profités</a></li>
+                <li id="paiement"><a id="<?= $current == 'Paiement' ? 'current' : '' ?>" href="index.php?router=paiement">Paiement</a></li>
             </ul>
         </div>
         <?php

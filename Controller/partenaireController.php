@@ -8,7 +8,9 @@ require_once(ROOT . '/View/adminOffresView.php');
 require_once(ROOT . '/View/partenaireScanView.php');
 require_once(ROOT . '/View/partenaireView.php');
 require_once(ROOT . '/View/offresView.php');
+require_once(ROOT . '/View/partenaireCompteView.php');
 require_once(ROOT . '/View/addPartenaireView.php');
+require_once(ROOT . '/View/partenaireInfosView.php');
 class partenaireController{
     public function afficherPage($id){
         $v=new partenaireView();
@@ -52,6 +54,23 @@ class partenaireController{
             return $targetFile;
         }
         return null;
+    }
+    public function modifyPdp() {
+        $r = new partenaireModel();
+        $credentials = [
+            'photo' => $this->uploadPhoto('photoProfile'),
+            'id' => $_SESSION['partenaire']['id']
+        ];
+
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return "Erreur : $key ne peut pas être vide !";
+            }
+        }
+
+        $_SESSION['partenaire']['photo'] = $credentials['photo'];
+        $r->modifyPdp($credentials);
+        echo $credentials['photo'];
     }
     
     public function getPartenairesByCategorie() {
@@ -146,7 +165,7 @@ class partenaireController{
         
 
         foreach ($credentials as $key => $value) {
-            echo "ablus";
+            
             if (empty($value)) {
                 return 3;
             }
@@ -154,6 +173,8 @@ class partenaireController{
         if (!($resul = $r->problemAddPartenaire($credentials))) {
             
             $r->addPartenaire($credentials);
+            header("Location: index.php?router=adminPartenairesView");
+
             return 1;
         } else {
             return $resul;
@@ -199,6 +220,13 @@ class partenaireController{
             $result = $r->modifyPartenaire($credentials);
             
             if ($result === true) {
+                $_SESSION['partenaire']['nom'] = $credentials['nom'];
+                $_SESSION['partenaire']['ville'] = $credentials['ville'];
+                $_SESSION['partenaire']['categorie'] = $credentials['categorie'];
+                $_SESSION['partenaire']['description'] = $credentials['description'];
+                $_SESSION['partenaire']['telNumber'] = $credentials['telNumber'];
+                $_SESSION['partenaire']['website'] = $credentials['website'];
+                $_SESSION['partenaire']['contactmail'] = $credentials['contactmail'];
                 echo json_encode(['success' => true, 'message' => 'Partenaire modifié avec succès']);
             } else {
                 echo json_encode(['success' => false, 'message' => $result]);
@@ -206,6 +234,25 @@ class partenaireController{
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => 'Erreur: ' . $e->getMessage()]);
         }
+    }
+    public function modifyCompteInfo() {
+        $r = new partenaireModel();
+        $credentials = [
+            'username' => $_POST['username'],
+            'email' => $_POST['email'],
+            'id' => $_POST['id']
+        ];
+
+        foreach ($credentials as $key => $value) {
+            if (empty($value)) {
+                return "Erreur : $key ne peut pas être vide !";
+            }
+        }
+
+        $_SESSION['partenaire']['username'] = $credentials['username'];
+        $_SESSION['partenaire']['email'] = $credentials['email'];
+        $r->modifyCompteInfo($credentials);
+        return 1;
     }
 
 
@@ -228,6 +275,24 @@ class partenaireController{
 
         $r->modifyPassword($credentials);
         echo 1;
+    }
+    public function passwordRules($password) {
+        if (strlen($password) < 8) {
+            return "Le mot de passe doit avoir au moins 8 caractères !";
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return "Le mot de passe doit inclure une majuscule !";
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return "Le mot de passe doit inclure une minuscule !";
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return "Le mot de passe doit inclure un chiffre !";
+        }
+        if (!preg_match('/[\W_]/', $password)) {
+            return "Le mot de passe doit inclure un caractère spécial (ex. !@#$%^&*) !";
+        }
+        return 1;
     }
 
     public function  afficherPageOffres($id){
@@ -431,7 +496,14 @@ class partenaireController{
             exit;
         }
     }
-
+    public function afficherPageInfos() {
+        $v = new partenaireInfosView();
+        $v->afficher_page();
+    }
+    public function afficherPageCompte() {
+        $v = new partenaireCompteView();
+        $v->afficher_page();
+    }
     
     
 }

@@ -41,12 +41,23 @@ if (isset($_GET['router'])){
             $r->afficherPage();
             break; 
         case 'Mes infos':
-            $r=new userInfosController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            $r = new userInfosController();
             $r->afficherPage();
+            } else if (isset($_SESSION['partenaire'])) {
+            $r = new partenaireController();
+            $r->afficherPageInfos();
+            }
             break; 
         case 'Mon compte':
-            $r=new userCompteController();
-            $r->afficherPage();
+            
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+                $r=new userCompteController();
+                $r->afficherPage();
+                } else if (isset($_SESSION['partenaire'])) {
+                $r = new partenaireController();
+                $r->afficherPageCompte();
+                }
             break; 
         case 'securite':
             $r=new securityController();
@@ -73,25 +84,45 @@ if (isset($_GET['router'])){
             $rts->logout();
             break;
         case 'modifyPersoInfo':
-            $rts=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            $rts = new userController();
             $rts->modifyPersoInfo();
+            } else if (isset($_SESSION['partenaire'])) {
+            $rts = new partenaireController();
+            $rts->modifyPartenaire();
+            }
             break;
         case 'modifyCompteInfo':
-            $rts=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            $rts = new userController();
             $rts->modifyCompteInfo();
+            } else if (isset($_SESSION['partenaire'])) {
+            $rts = new partenaireController();
+            $rts->modifyCompteInfo();
+            }
             break;
 
         case 'modifyPassword':
-            $rts=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            $rts = new userController();
             $rts->modifyPassword();
+            } else if (isset($_SESSION['partenaire'])) {
+            $rts = new partenaireController();
+            $rts->modifyPassword();
+            }
             break;
         case 'favoris':
             $rts=new userController();
             $rts->afficherPageFavoris();
             break;
         case 'modifyPdp':
-            $rts=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            $rts = new userController();
             $rts->modifyPdp();
+            } else if (isset($_SESSION['partenaire'])) {
+            $rts = new partenaireController();
+            $rts->modifyPdp();
+            }
             break;
 
         case 'getUsers':
@@ -317,6 +348,32 @@ if (isset($_GET['router'])){
         $controller = new userController();
         $controller->getRemisesUser();
         break;
+    case 'getDonsHistory':
+        $controller = new donsBenevolatsAidesController();
+        $controller->getDonsByUserId();
+        break;
+    case 'getBenevolatHistory':
+        $controller = new donsBenevolatsAidesController();
+        $controller->getBenevolatByUserId();
+        break;
+    case 'historiqueDons':
+        $controller = new donsBenevolatsAidesController();
+        $controller->afficher_pageHistoriqueDons();
+        break;
+    case 'historiqueBenevolat':
+        $controller = new donsBenevolatsAidesController();
+        $controller->afficher_pageHistoriqueBenevolat();
+        break;
+    case 'OffresProfite':
+        $controller = new userController();
+        $controller->getOffresProfite();
+        break;
+
+    case 'historiqueOffresProfite':
+        $controller = new userController();
+        $controller->afficherPageHistoriqueOffresProfite();
+        break;
+
     }
 }
 else{

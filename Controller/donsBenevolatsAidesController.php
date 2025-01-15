@@ -5,6 +5,8 @@ require_once(ROOT . '/View/addAideView.php');
 require_once(ROOT . '/View/adminAidesView.php');
 require_once(ROOT . '/View/addDonView.php');
 require_once(ROOT . '/View/adminDonsView.php');
+require_once(ROOT . '/View/historiqueDons.php');
+require_once(ROOT . '/View/historiqueBenevolat.php');
 class DonsBenevolatsAidesController 
 {
     public function afficher_pageAddAide() {
@@ -185,6 +187,29 @@ class DonsBenevolatsAidesController
         $success = $r->approuverDon($_POST['id']);
         echo json_encode(['success' => $success]);
     }
+    public function getDonsByUserId(){
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $r = new DonsBenevolatsAidesModel();
+        $dons = $r->getDonsByUserId($id);
+        header('Content-Type: application/json');
+        echo json_encode($dons);
+    }
+    public function getBenevolatByUserId() {
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $r = new DonsBenevolatsAidesModel();
+        $benevolats = $r->getBenevolatsByUserId($id);
+        header('Content-Type: application/json');
+        echo json_encode($benevolats);
+    }
+
+    public function afficher_pageHistoriqueDons() {
+        $view = new historiqueDons();
+        $view->afficher_page();
+    }
+public function afficher_pageHistoriqueBenevolat() {
+    $view = new historiqueBenevolat();
+    $view->afficher_page();
+}
 }
 
 ?>

@@ -499,5 +499,37 @@ public function addProfit($id_user, $id_partenaire, $id_offres) {
         $r->deconnexion($pdo);
     }
 }
+public function getOffresProfite($id){
+    $r = new dataBaseController();
+    $pdo = $r->connexion();
+    
+    $qtf = "SELECT 
+                p.nom AS partenaire_nom, 
+                p.categorie AS partenaire_categorie, 
+                p.ville AS partenaire_ville, 
+                o.contenu AS offre_nom ,
+                o.type AS offre_type ,
+                op.date_profit as dateProfit
+            FROM 
+                offresprofit op 
+            JOIN 
+                partenaire p ON op.id_partenaire = p.id 
+            JOIN 
+                offre o ON op.id_offre = o.id 
+            WHERE 
+                op.id_user = :id";
+    $params = [
+        'id' => $id
+    ];
+    $stmt = $r->query($pdo, $qtf, $params);
+    $offresProfite = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $r->deconnexion($pdo);
+    return $offresProfite;
+    $stmt = $r->query($pdo, $qtf, ['id' => $id]);
+    $carte = $stmt->fetch();
+    $r->deconnexion($pdo);
+    return $carte;
+
+}
 }
 ?>

@@ -3,6 +3,7 @@
 require_once(ROOT . '/View/loginView.php');
 require_once(ROOT . '/View/FavorisView.php');
 require_once(ROOT . '/View/adminGetMembersView.php');
+require_once(ROOT . '/View/historiqueOffresProfite.php');
 require_once(ROOT . '/Model/userModel.php');
 require_once(ROOT . '/Model/partenaireModel.php');
 
@@ -50,7 +51,16 @@ class userController {
             $_SESSION['partenaire'] = [
                 'id' => $partenaire['id'],
                 'username' => $partenaire['username'],
-                'email' => $partenaire['email']
+                'email' => $partenaire['email'],
+                'nom' => $partenaire['nom'],
+                'description' => $partenaire['description'],
+                'photo' => $partenaire['photo'],
+                'ville' => $partenaire['ville'],
+                'categorie' => $partenaire['categorie'],
+                'telNumber' => $partenaire['telNumber'],
+                'website' => $partenaire['website'],
+                'contactmail' => $partenaire['contactmail']
+
 
             ];
             header("Location: index.php?router=Page%20d'accueil");
@@ -478,10 +488,10 @@ class userController {
                 'remises' => $remises
             ]
         ];
-        //$id_partenaire=$_SESSION['partenaire']['ide'];
+        $id_partenaire=$_SESSION['partenaire']['id'];
         $offres_id=$ss->getOffresByIdPart($id_partenaire);
 
-        $r->addProfit($user['id'],19,$offres_id);
+        $r->addProfit($user['id'],$id_partenaire,$offres_id);
         
         $this->sendJsonResponse(true, '', $response);
     }
@@ -513,10 +523,10 @@ class userController {
                 'remises' => $remises
             ]
         ];
-         //$id_partenaire=$_SESSION['partenaire']['ide'];
-         $offres_id=$ss->getOffresByIdPart(19);
+         $id_partenaire=$_SESSION['partenaire']['ide'];
+         $offres_id=$ss->getOffresByIdPart($id_partenaire);
 
-         $r->addProfit($user['id'],19,$offres_id);
+         $r->addProfit($user['id'],$id_partenaire,$offres_id);
         
         $this->sendJsonResponse(true, '', $response);
     }
@@ -545,6 +555,17 @@ class userController {
         
         echo json_encode($response);
         exit;
+    }
+    public function getOffresProfite(){
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $r = new userModel();
+        $offres = $r->getOffresProfite($id);
+        header('Content-Type: application/json');
+        echo json_encode($offres);
+    }
+    public function afficherPageHistoriqueOffresProfite() {
+        $v = new historiqueOffresProfite();
+        $v->afficher_page();
     }
 }
 ?>

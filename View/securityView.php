@@ -20,7 +20,7 @@ class securityView {
     }
 
     public function afficher_page() {
-        if (!isset($_SESSION['user']) && !isset($_SESSION['member'])) {
+        if (!isset($_SESSION['user']) && !isset($_SESSION['member']) && !isset($_SESSION['partenaire'])) {
             echo "Access denied.";
             return;
         }
@@ -33,7 +33,7 @@ class securityView {
             ?>
             <body class="to">
                 <?php
-                $r->navBarC();
+                $r->navBar();
                 ?>
                 <div class="content">
                     <?php
