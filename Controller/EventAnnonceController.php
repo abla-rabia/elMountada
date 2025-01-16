@@ -1,5 +1,5 @@
 <?php
-
+//le controlleur pour gerer les evennement et les activités
 require_once(ROOT . '/Model/EventAnnonceModel.php');
 require_once(ROOT . '/View/adminEventsView.php');
 require_once(ROOT . '/View/evenementView.php');

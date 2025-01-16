@@ -1,5 +1,5 @@
 <?php
-
+//le controlleur pour gerer les users
 require_once(ROOT . '/View/loginView.php');
 require_once(ROOT . '/View/FavorisView.php');
 require_once(ROOT . '/View/adminGetMembersView.php');

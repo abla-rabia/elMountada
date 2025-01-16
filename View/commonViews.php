@@ -233,7 +233,7 @@ class commonViews{
             let box = document.getElementById("userBox");
             img.addEventListener("click", function (event) {
                 box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
-                event.stopPropagation(); // Prevent the event from propagating to the document
+                event.stopPropagation(); 
             });
             document.addEventListener("click", function (event) {
                 if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
@@ -331,9 +331,6 @@ class commonViews{
             <li id="dons" ><a id="<?= $current == 'Dons' ? 'current' : '' ?>" href="index.php?router=pageDons">Gestion des dons</a></li>
             <li id="evenements" ><a id="<?= $current == 'Événements' ? 'current' : '' ?>" href="index.php?router=adminEventsView">Événements</a></li>
             <li id="activites"><a id="<?= $current == 'Activités' ? 'current' : '' ?>" href="index.php?router=adminActivitesView">Activités</a></li>
-            
-            <li id="administration" ><a id="<?= $current == 'Administration' ? 'current' : '' ?>" href="index.php?router=Administration">Administration</a></li>
-                <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
             </ul>
         </div>
         <?php
@@ -345,7 +342,6 @@ class commonViews{
                 <li id="mesDons"><a id="<?= $current == 'Mes dons' ? 'current' : '' ?>" href="index.php?router=historiqueDons">Mes dons</a></li>
                 <li id="benevolats"><a id="<?= $current == 'Bénévolats' ? 'current' : '' ?>" href="index.php?router=historiqueBenevolat">Bénévolats</a></li>
                 <li id="mesOffresProfites"><a id="<?= $current == 'Mes offres profités' ? 'current' : '' ?>" href="index.php?router=historiqueOffresProfite">Mes offres profités</a></li>
-                <li id="paiement"><a id="<?= $current == 'Paiement' ? 'current' : '' ?>" href="index.php?router=paiement">Paiement</a></li>
             </ul>
         </div>
         <?php

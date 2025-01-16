@@ -1,4 +1,5 @@
 <?php
+//le controlleur pour gerer les connections avec la BDD
 require_once(ROOT . '/Model/dataBaseModel.php');
 
 class dataBaseController{

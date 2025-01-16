@@ -42,7 +42,6 @@ class addDonView {
                     </form>
                 </div>
                 <style>
-                    /* Existing styles from partenaire form */
                     form.searchBar {
                         display: flex;
                         justify-content: space-between;

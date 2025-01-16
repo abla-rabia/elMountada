@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    // Function to load and display filtered partners
+    // Fonction pour charger et afficher les partenaires filtrés
     function loadFilteredPartners(searchParams) {
         const isEmptySearch = !searchParams.searchPartenaire && 
                             (!searchParams.filterVille || searchParams.filterVille === "0") && 
@@ -18,7 +18,7 @@ $(document).ready(function () {
                 console.log('Search response:', response);
                 $('.cartesPartenaire').empty();
                 $('.category-container').hide();
-                $('.sections').empty(); // Clear all sections before adding new ones
+                $('.sections').empty(); 
 
                 if (response.length === 0) {
                     $('.sections').append(
@@ -28,7 +28,7 @@ $(document).ready(function () {
                     return;
                 }
 
-                // Group partners by category first
+                
                 const partnersByCategory = {};
                 response.forEach(function(partenaire) {
                     if (!partnersByCategory[partenaire.categorie]) {
@@ -37,7 +37,7 @@ $(document).ready(function () {
                     partnersByCategory[partenaire.categorie].push(partenaire);
                 });
 
-                // Create and populate category containers
+                // Créer et remplir les conteneurs de catégories
                 Object.keys(partnersByCategory).forEach(function(categorie) {
                     const sections = $('.sections');
                     const categoryContainer = $('<div>')
@@ -45,21 +45,21 @@ $(document).ready(function () {
                         .attr('id', `category-${categorie}`);
                     sections.append(categoryContainer);
 
-                    // Get section title
+                    // Obtenir le titre de la section
                     $.ajax({
                         url: `index.php?router=getSection&categorie=${categorie}`,
                         type: 'GET',
                         success: function(sectionHtml) {
                             categoryContainer.append(sectionHtml);
                             
-                            // Create cartes partenaire container
+                            // Créer le conteneur des cartes partenaire
                             const cartesPartenaire = $('<div>').addClass('cartesPartenaire');
                             categoryContainer.append(cartesPartenaire);
                             
-                            // Add partner cards
+                            // Ajouter les cartes des partenaires
                             partnersByCategory[categorie].forEach(function (partenaire) {
                                 let remise = "";
-                                //load d'une remise
+                                // Charger une remise
                                 $.ajax({
                                     url: `index.php?router=getRemiseByPartenaireId`,
                                     type: 'GET',
@@ -98,7 +98,7 @@ $(document).ready(function () {
             }
         });
     }
-    // Function to load initial content
+    // Fonction pour charger le contenu initial
     function loadInitialContent() {
         $('.sections').empty(); // Vider complètement les sections
         
@@ -130,7 +130,7 @@ $(document).ready(function () {
                                     console.log(response);
                                     
                                     
-                                    // Show max 3 partners
+                                    // Afficher un maximum de 3 partenaires
                                     response.slice(0, 3).forEach(function (partenaire) {
                                         let remise = "";
                                         $.ajax({
@@ -158,7 +158,7 @@ $(document).ready(function () {
                                 });
                                     });
 
-                                    // Check if response length is 2
+                                    // Vérifier si la longueur de la réponse est de 2
                                     if (response.length === 2) {
                                         cartesPartenaire.css({
                                             'justify-content': 'flex-start',
@@ -178,12 +178,12 @@ $(document).ready(function () {
                 });
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching categories:', error);
+                console.error('Erreur lors de la récupération des catégories:', error);
             }
         });
     }
 
-    // Charge le contenu initial au chargement de la page
+    // Charger le contenu initial au chargement de la page
     loadInitialContent();
 
     // Empêcher la soumission du formulaire de recherche
@@ -192,7 +192,7 @@ $(document).ready(function () {
         return false;
     });
 
-    // Search bar event listener with debounce
+    // Écouteur d'événement pour la barre de recherche avec temporisation
     let searchTimeout;
     $('#seachBar').on('input', function() {
         const searchValue = $(this).val();
@@ -211,7 +211,7 @@ $(document).ready(function () {
         }, 300);
     });
 
-    // Wilaya filter event listener
+    // Écouteur d'événement pour le filtre de wilaya
     $('#wilayas').on('change', function() {
         const searchParams = {
             searchPartenaire: $('#seachBar').val().trim(),
@@ -312,7 +312,7 @@ $('#tri').on('change', function () {
     }
 });
 
-    // Category filter event listener
+    // Écouteur d'événement pour le filtre de catégorie
     $('#categories').on('change', function() {
         const searchParams = {
             searchPartenaire: $('#seachBar').val().trim(),
@@ -323,7 +323,7 @@ $('#tri').on('change', function () {
     });
 
 
-    //fonction pour charger les categories pour le filtre 
+    // Fonction pour charger les catégories pour le filtre 
     $(document).ready(function() {
         $.ajax({
             url: 'index.php?router=categories',
@@ -336,7 +336,7 @@ $('#tri').on('change', function () {
                 });
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching users:', error);
+                console.error('Erreur lors de la récupération des utilisateurs:', error);
             }
         });
     });

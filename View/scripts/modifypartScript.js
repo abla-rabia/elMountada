@@ -1,4 +1,3 @@
-//fonction pour le load des categories
 $(document).ready(function() {
     $.ajax({
         url: 'index.php?router=categories',
@@ -19,7 +18,6 @@ $(document).ready(function() {
 $(document).ready(function () {
     fetchInfo();
 });
-
 
 function fetchInfo() {
     const id = $('#id').val();
@@ -48,18 +46,14 @@ function fetchInfo() {
     });
 }
 
-
 $(document).ready(function() {
-    fetchInfo(); // Fetch initial data
+    fetchInfo();
 
-    // Handle form submission
     $("#infosButton").on("click", function(event) {
         event.preventDefault();
         
-        // Create FormData object
         const formData = new FormData($("#infosForm")[0]);
         
-        // Log the data being sent (for debugging)
         for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
@@ -70,11 +64,10 @@ $(document).ready(function() {
             data: formData,
             contentType: false,
             processData: false,
-            dataType: 'json', // Expect JSON response
+            dataType: 'json', 
             success: function(response) {
                 if (response.success) {
                     alert("Informations modifiées avec succès");
-                    // Optionally refresh the page or redirect
                     window.location.reload();
                 } else {
                     alert("Erreur: " + response.message);

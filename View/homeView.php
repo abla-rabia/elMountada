@@ -160,7 +160,7 @@ class homeView{
         ?>
         <div class="descriptionPart">
             <img src="View/assets/logowhite.png" alt="logo light mode" width="150px">
-            <p>Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!</p>
+            <p>Elmountada est une association caritative qui soutient les personnes vulnérables à travers des actions d’entraide, d’éducation et d’aide humanitaire, avec pour mission de favoriser la solidarité et l’inclusion.</p>
             <div class="socialMedia">
                     <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#"><i class="fa-brands fa-instagram"></i></a>
@@ -175,10 +175,10 @@ class homeView{
         <div class="navigationPart">
             <div class="part">
                 <h3>Menu</h3>
-                  <a href="#">Accueil</a>
-                  <a href="#">Partenaires</a>
-                    <a href="#">Offres</a>
-                    <a href="#">Rejoingez nous</a>
+                  <a href="index.php?router=Page%20d'accueil">Accueil</a>
+                  <a href="index.php?router=Catalogue">Partenaires</a>
+                    <a href="index.php?router=afficherPageOffresV">Offres</a>
+                    <a href="index.php?router=Inscription">Rejoingez nous</a>
             </div>
             <div class="part">
                 <h3>Sections</h3>

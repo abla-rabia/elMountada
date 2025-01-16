@@ -29,6 +29,7 @@ class carteView {
         <?php
     }
 
+    
     public function afficher_page() {
         $r = new commonViews();
         $s = new inscriptionView();
@@ -107,10 +108,10 @@ class carteView {
                 <?php if ($this->membre == 1) { ?>
                 //chargement des offres
                 $(document).ready(function() {
-                    // AJAX request to fetch users
+                    
                     $.ajax({
-                        url: 'index.php?router=getOffres', // Endpoint URL
-                        type: 'GET', // HTTP method
+                        url: 'index.php?router=getOffres', 
+                        type: 'GET', 
                         dataType: 'json',
                         success: function(data) {
                             console.log('Response data:', data)
@@ -132,10 +133,9 @@ class carteView {
                 });
                 //chargement de la carte
                 $(document).ready(function() {
-                    // AJAX request to fetch users
                     $.ajax({
-                        url: 'index.php?router=getCarte', // Endpoint URL
-                        type: 'GET', // HTTP method
+                        url: 'index.php?router=getCarte', 
+                        type: 'GET', 
                         dataType: 'json',
                         success: function(data) {
                             console.log('Response data:', data)
@@ -202,10 +202,10 @@ class carteView {
                 $(document).ready(function () {
                     $('#inscriptionPop').on('click', function (event) {
                         event.preventDefault();
-                        const fileInput = $('input[name="recu"]')[0]; // Récupère l'élément DOM
-                        const files = new FormData(); // Utilisation de FormData pour envoyer les fichiers et le plan
-                        files.append('recu', fileInput.files[0]); // Ajout du fichier au FormData
-                        files.append('plan', plan); // Ajout du plan au FormData
+                        const fileInput = $('input[name="recu"]')[0];
+                        const files = new FormData(); 
+                        files.append('recu', fileInput.files[0]);
+                        files.append('plan', plan);
                         $.ajax({
                             url: 'index.php?router=paiement',
                             type: 'POST',

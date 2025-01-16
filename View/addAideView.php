@@ -61,7 +61,6 @@ class addAideView {
                     </div>
                 </div>
                 <style>
-                    /* Existing styles from partenaire form */
                     form.searchBar {
                         display: flex;
                         justify-content: space-between;
@@ -196,7 +195,6 @@ class addAideView {
                     success: function(data) {
                         const typeAideSelect = $('#typeAide');
                         data.forEach(function(type) {
-                            // Ajouter la description comme attribut data
                             typeAideSelect.append(
                                 $('<option>', {
                                     value: type.id,
@@ -211,7 +209,6 @@ class addAideView {
                     }
                 });
 
-                // Show description when type is selected
                 $('#typeAide').change(function() {
                     const description = $(this).find('option:selected').data('description');
                     if (description) {

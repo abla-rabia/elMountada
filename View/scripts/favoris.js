@@ -1,4 +1,4 @@
-// favoris.js
+
 $(document).ready(function() {
     // Gérer les clics sur les icônes de favoris
     $(document).on('click', '.fa-heart', function(e) {
@@ -52,7 +52,7 @@ function removeFromFavorites(partenaire_id, heartIcon) {
         success: function(response) {
             if (response.success) {
                 heartIcon.removeClass('fa-solid').addClass('fa-regular');
-                // Optionnel : Ajouter une animation ou un feedback
+                
                 heartIcon.css('color', 'white').fadeIn(100);
             } else {
                 alert(response.message || 'Une erreur est survenue');
@@ -86,7 +86,6 @@ function checkIsFavorite(partenaire_id, heartIcon) {
     });
 }
 
-// favorisLoad.js
 $(document).ready(function() {
     loadFavoris();
 

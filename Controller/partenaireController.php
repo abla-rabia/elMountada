@@ -1,9 +1,10 @@
 <?php
-
+//controleur pour gerer les partenaires
 require_once(ROOT . '/Model/partenaireModel.php');
 require_once(ROOT . '/View/adminPartenairesView.php');
 require_once(ROOT . '/Controller/userController.php');
 require_once(ROOT . '/View/modifyPartView.php');
+require_once(ROOT . '/View/catalogueView.php');
 require_once(ROOT . '/View/adminOffresView.php');
 require_once(ROOT . '/View/partenaireScanView.php');
 require_once(ROOT . '/View/partenaireView.php');

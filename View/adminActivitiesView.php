@@ -54,129 +54,120 @@ class adminActivitiesView {
                 .input-group textarea {
                     min-height: 100px;
                 }
-                
-/* Table Container */
-.users {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
 
-/* Table Styles */
-table#all {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    font-size: 14px;
-}
+                .users {
+                    background: white;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
 
-/* Header Cells */
-table#allActivities th {
-    background: #f8f9fa;
-    color: #2c3e50;
-    font-weight: 600;
-    padding: 16px;
-    text-align: left;
-    border-bottom: 2px solid #edf2f7;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    position: relative;
-}
+                table#all {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    margin-top: 20px;
+                    font-size: 14px;
+                }
 
-table#allActivities th:hover {
-    background: #edf2f7;
-}
+                table#allActivities th {
+                    background: #f8f9fa;
+                    color: #2c3e50;
+                    font-weight: 600;
+                    padding: 16px;
+                    text-align: left;
+                    border-bottom: 2px solid #edf2f7;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    position: relative;
+                }
 
-table#allActivities th:after {
-    content: '↕';
-    position: absolute;
-    right: 8px;
-    opacity: 0.3;
-}
+                table#allActivities th:hover {
+                    background: #edf2f7;
+                }
 
-/* Table Cells */
-table#allActivities td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #edf2f7;
-    color: #4a5568;
-    font-weight: 500;
-}
+                table#allActivities th:after {
+                    content: '↕';
+                    position: absolute;
+                    right: 8px;
+                    opacity: 0.3;
+                }
 
-/* Table Rows */
-table#allActivities tr:not(.head):hover {
-    background-color: #f8fafc;
-    transition: background-color 0.2s;
-}
+                table#allActivities td {
+                    padding: 14px 16px;
+                    border-bottom: 1px solid #edf2f7;
+                    color: #4a5568;
+                    font-weight: 500;
+                }
 
-/* Action Button */
-.action-btn {
-    background: #a6dfb5;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+                table#allActivities tr:not(.head):hover {
+                    background-color: #f8fafc;
+                    transition: background-color 0.2s;
+                }
 
-.action-btn:hover {
-    background:rgb(104, 172, 122);
-}
+                .action-btn {
+                    background: #a6dfb5;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                }
 
-/* Status Styles */
-table#allActivities td:nth-child(6) {
-    position: relative;
-}
+                .action-btn:hover {
+                    background: rgb(104, 172, 122);
+                }
 
-table#allActivities td:nth-child(6):before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
+                table#allActivities td:nth-child(6) {
+                    position: relative;
+                }
 
-table#allActivities td:nth-child(6):contains('Membre'):before {
-    background-color: #34d399;
-}
+                table#allActivities td:nth-child(6):before {
+                    content: '';
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                }
 
-table#allActivities td:nth-child(6):contains('User'):before {
-    background-color: #fbbf24;
-}
+                table#allActivities td:nth-child(6):contains('Membre'):before {
+                    background-color: #34d399;
+                }
 
-/* Responsive Design */
-@media screen and (max-width: 1024px) {
-    table#allActivities {
-        font-size: 13px;
-    }
-    
-    table#allActivities th, 
-    table#allActivities td {
-        padding: 12px;
-    }
-    
-    .action-btn {
-        padding: 6px 12px;
-    }
-}
+                table#allActivities td:nth-child(6):contains('User'):before {
+                    background-color: #fbbf24;
+                }
 
-@media screen and (max-width: 768px) {
-    .users {
-        padding: 12px;
-    }
-    
-    table#allActivities {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-}
+                @media screen and (max-width: 1024px) {
+                    table#allActivities {
+                        font-size: 13px;
+                    }
 
+                    table#allActivities th,
+                    table#allActivities td {
+                        padding: 12px;
+                    }
+
+                    .action-btn {
+                        padding: 6px 12px;
+                    }
+                }
+
+                @media screen and (max-width: 768px) {
+                    .users {
+                        padding: 12px;
+                    }
+
+                    table#allActivities {
+                        display: block;
+                        overflow-x: auto;
+                        white-space: nowrap;
+                    }
+                }
             </style>
             <script src="View/scripts/infosScript.js"></script>
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -287,12 +278,12 @@ table#allActivities td:nth-child(6):contains('User'):before {
                                 contentType: false,
                                 processData: false,
                                 success: function(response) {
-                                        console.log(response);
-                                            alert('Activité ajoutée avec succès!');
-                                            $('.popContainer').fadeOut();
-                                            $('#activityPopup').fadeOut();
-                                            $('#formAddActivity')[0].reset();
-                                            fetchActivities();
+                                    console.log(response);
+                                    alert('Activité ajoutée avec succès!');
+                                    $('.popContainer').fadeOut();
+                                    $('#activityPopup').fadeOut();
+                                    $('#formAddActivity')[0].reset();
+                                    fetchActivities();
                                 },
                                 error: function() {
                                     alert('Erreur de connexion au serveur');
@@ -300,7 +291,6 @@ table#allActivities td:nth-child(6):contains('User'):before {
                             });
                         });
 
-                        // Close popup when clicking outside
                         $('.popContainer').click(function(e) {
                             if (e.target === this) {
                                 $('.popContainer').fadeOut();

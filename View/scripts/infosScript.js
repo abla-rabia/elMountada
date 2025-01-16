@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
           alert("Photo modifiée avec succès");
           let image = document.getElementById("photoPdp");
           console.log(response);
-          image.src = response; // Assuming response contains photo URL
-          document.getElementById("nav").src = response; //modifying the navbar photo
+          image.src = response; 
+          document.getElementById("nav").src = response; 
         },
         error: function (xhr, status, error) {
           console.error("Error:", error);

@@ -116,21 +116,15 @@ class DonsBenevolatsAidesModel {
     public function getBenevolatsByUserId($id){
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        
-        // Query for benevoles_events
         $queryEvents = "SELECT e.* FROM benevoles_events b JOIN events e ON e.id = b.id_event WHERE b.id_user = :id_user";
         $params = ['id_user' => $id];
         $stmtEvents = $r->query($pdo, $queryEvents, $params);
         $benevolatsEvents = $stmtEvents->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Query for benevoles_activites
         $queryActivites = "SELECT a.* FROM benevoles_activites b JOIN activites a ON a.id = b.id_activite WHERE b.id_user = :id_user";
         $stmtActivites = $r->query($pdo, $queryActivites, $params);
         $benevolatsActivites = $stmtActivites->fetchAll(PDO::FETCH_ASSOC);
         
         $r->deconnexion($pdo);
-        
-        // Merge results
         $benevolats = array_merge($benevolatsEvents, $benevolatsActivites);
         
         return $benevolats;

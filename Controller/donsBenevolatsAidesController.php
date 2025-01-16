@@ -1,5 +1,5 @@
 <?php
-
+//le controlleur pour gerer les dons, bénévoles et aides
 require_once(ROOT . '/Model/donsBenevolatsAidesModel.php');
 require_once(ROOT . '/View/addAideView.php');
 require_once(ROOT . '/View/adminAidesView.php');

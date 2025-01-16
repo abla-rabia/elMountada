@@ -6,7 +6,6 @@ define('ROOT', __DIR__); // Chemin absolu de la racine
 require_once("Controller/userController.php");
 require_once("Controller/homeController.php");
 require_once("Controller/partenaireController.php");
-require_once("Controller/catalogueController.php");
 require_once("Controller/inscriptionController.php");
 require_once("Controller/userInfosController.php");
 require_once("Controller/securityController.php");

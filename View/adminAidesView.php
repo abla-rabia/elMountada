@@ -16,130 +16,122 @@ class adminAidesView {
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
             <style>
-/* Table Container */
-.users {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
+                .users {
+                    background: white;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                }
 
-/* Table Styles */
-table#all {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
-    font-size: 14px;
-}
+                table#all {
+                    width: 100%;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    margin-top: 20px;
+                    font-size: 14px;
+                }
 
-/* Header Cells */
-table#all th {
-    background: #f8f9fa;
-    color: #2c3e50;
-    font-weight: 600;
-    padding: 16px;
-    text-align: left;
-    border-bottom: 2px solid #edf2f7;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    position: relative;
-}
+                table#all th {
+                    background: #f8f9fa;
+                    color: #2c3e50;
+                    font-weight: 600;
+                    padding: 16px;
+                    text-align: left;
+                    border-bottom: 2px solid #edf2f7;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    position: relative;
+                }
 
-table#all th:hover {
-    background: #edf2f7;
-}
+                table#all th:hover {
+                    background: #edf2f7;
+                }
 
-table#all th:after {
-    content: '↕';
-    position: absolute;
-    right: 8px;
-    opacity: 0.3;
-}
+                table#all th:after {
+                    content: '↕';
+                    position: absolute;
+                    right: 8px;
+                    opacity: 0.3;
+                }
 
-/* Table Cells */
-table#all td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #edf2f7;
-    color: #4a5568;
-    font-weight: 500;
-}
+                table#all td {
+                    padding: 14px 16px;
+                    border-bottom: 1px solid #edf2f7;
+                    color: #4a5568;
+                    font-weight: 500;
+                }
 
-/* Table Rows */
-table#all tr:not(.head):hover {
-    background-color: #f8fafc;
-    transition: background-color 0.2s;
-}
+                table#all tr:not(.head):hover {
+                    background-color: #f8fafc;
+                    transition: background-color 0.2s;
+                }
 
-/* Action Button */
-.action-btn {
-    background: #a6dfb5;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+                .action-btn {
+                    background: #a6dfb5;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                }
 
-.action-btn:hover {
-    background:rgb(112, 186, 132);
-}
+                .action-btn:hover {
+                    background: rgb(112, 186, 132);
+                }
 
-/* Status Styles */
-table#all td:nth-child(6) {
-    position: relative;
-}
+                table#all td:nth-child(6) {
+                    position: relative;
+                }
 
-table#all td:nth-child(6):before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
+                table#all td:nth-child(6):before {
+                    content: '';
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                }
 
-table#all td:nth-child(6):contains('Membre'):before {
-    background-color: #34d399;
-}
+                table#all td:nth-child(6):contains('Membre'):before {
+                    background-color: #34d399;
+                }
 
-table#all td:nth-child(6):contains('User'):before {
-    background-color: #fbbf24;
-}
+                table#all td:nth-child(6):contains('User'):before {
+                    background-color: #fbbf24;
+                }
 
-/* Responsive Design */
-@media screen and (max-width: 1024px) {
-    table#all {
-        font-size: 13px;
-    }
-    
-    table#all th, 
-    table#all td {
-        padding: 12px;
-    }
-    
-    .action-btn {
-        padding: 6px 12px;
-    }
-}
+                @media screen and (max-width: 1024px) {
+                    table#all {
+                        font-size: 13px;
+                    }
 
-@media screen and (max-width: 768px) {
-    .users {
-        padding: 12px;
-    }
-    
-    table#all {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-}
-</style>
+                    table#all th,
+                    table#all td {
+                        padding: 12px;
+                    }
+
+                    .action-btn {
+                        padding: 6px 12px;
+                    }
+                }
+
+                @media screen and (max-width: 768px) {
+                    .users {
+                        padding: 12px;
+                    }
+
+                    table#all {
+                        display: block;
+                        overflow-x: auto;
+                        white-space: nowrap;
+                    }
+                }
+            </style>
         </head>
-        <?php   
+        <?php
     }
 
     public function searchBar() {
@@ -219,17 +211,14 @@ table#all td:nth-child(6):contains('User'):before {
                 <?php $r->navBar(); ?>
                 <div class="content">
                     <div class="head" style="display:flex;justify-content:space-between;">
-                    <?php $r->titre("Liste des aides"); ?>
-                    <div class="header-actions">
-                                <button id="addTypeAideBtn" class="blue-btn">Ajouter un type d'aide</button>
-                    
-                    </div>
+                        <?php $r->titre("Liste des aides"); ?>
+                        <div class="header-actions">
+                            <button id="addTypeAideBtn" class="blue-btn">Ajouter un type d'aide</button>
+                        </div>
                     </div>
                     <div class="subContent">
                         <?php $r->adminSideBar("Aides"); ?>
                         <div class="users">
-                            
-                            
                             <table id="all">
                                 <tr class="head">
                                     <th onclick="sortTable('nom')">Nom</th>
@@ -271,16 +260,15 @@ table#all td:nth-child(6):contains('User'):before {
                         $('#popupPrenom').text(aide.prenom);
                         $('#popupDescription').text(aide.description);
                         $('#popupType').text(aide.type_aide);
-                        
+
                         $('#fileDossier').on('click', function() {
                             window.location.href = aide.dossier_zip;
                         });
-                        
+
                         $('.popContainer').first().css('display', 'flex');
                         $('#aidePopup').show();
                     }
 
-                    // Close popups
                     $('#closeAideBtn').click(function() {
                         $('.popContainer').first().hide();
                         $('#aidePopup').hide();
@@ -291,17 +279,15 @@ table#all td:nth-child(6):contains('User'):before {
                         $('#typeAidePopup').hide();
                     });
 
-                    // Show add type aide popup
                     $('#addTypeAideBtn').click(function() {
                         $('.popContainer').last().css('display', 'flex');
                         $('#typeAidePopup').show();
                     });
 
-                    // Add type aide
                     $('#addTypeAide').click(function(e) {
                         e.preventDefault();
                         const formData = new FormData($('#formAddTypeAide')[0]);
-                        
+
                         $.ajax({
                             url: 'index.php?router=addTypeAide',
                             type: 'POST',
@@ -360,18 +346,18 @@ table#all td:nth-child(6):contains('User'):before {
                     function sortTable(column) {
                         const rows = $('#all tr:not(.head)').get();
                         const order = $(this).data('order') || 'asc';
-                        
+
                         rows.sort(function(a, b) {
                             const A = $(a).children('td').eq(getColumnIndex(column)).text().toLowerCase();
                             const B = $(b).children('td').eq(getColumnIndex(column)).text().toLowerCase();
-                            
+
                             return order === 'asc' ? A.localeCompare(B) : B.localeCompare(A);
                         });
-                        
+
                         $.each(rows, function(index, row) {
                             $('#all').append(row);
                         });
-                        
+
                         $(this).data('order', order === 'asc' ? 'desc' : 'asc');
                     }
 
@@ -386,8 +372,6 @@ table#all td:nth-child(6):contains('User'):before {
                     }
                 </script>
                 <style>
-                    
-                    
                     .blue-btn {
                         background-color: #001a23;
                         color: white;
@@ -399,7 +383,7 @@ table#all td:nth-child(6):contains('User'):before {
                     }
 
                     .blue-btn:hover {
-                        background-color:#001a23;
+                        background-color: #001a23;
                     }
 
                     .input-group {
@@ -428,31 +412,35 @@ table#all td:nth-child(6):contains('User'):before {
                         resize: vertical;
                     }
 
-                    /* Include all existing styles from the users page */
                     form.searchBar {
                         display: flex;
                         justify-content: space-between;
                         gap: 40px;
                         padding: 0;
                     }
+
                     form.searchBar div.searchBar {
                         width: 100%;
                         display: flex;
                         gap: 8px;
                         align-items: center;
                     }
+
                     form.searchBar .filtresTri {
                         display: flex;
                         justify-content: space-between;
                         gap: 10px;
                     }
+
                     form.searchBar .filtresTri select {
                         width: fit-content;
                     }
+
                     div.searchBar i {
                         color: #001a23;
                         opacity: 0.4;
                     }
+
                     div.searchBar,
                     select {
                         border-radius: 6px;
@@ -465,6 +453,7 @@ table#all td:nth-child(6):contains('User'):before {
                         font-size: 12px;
                         font-weight: 500;
                     }
+
                     input {
                         font-size: 12px;
                         border: none;
@@ -473,11 +462,13 @@ table#all td:nth-child(6):contains('User'):before {
                         flex-grow: 1;
                         background-color: transparent;
                     }
+
                     input::placeholder {
                         color: #001a23;
                         opacity: 0.2;
                         font-size: 12px;
                     }
+
                     select {
                         font-weight: 500;
                     }
