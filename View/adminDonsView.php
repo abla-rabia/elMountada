@@ -22,7 +22,7 @@ class adminDonsView {
         <html>
             <?php $this->entetePage(); ?>
             <body class="to">
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div class="content">
                 <div id="head">
                     <?php $r->titre("Liste des dons"); ?><br><br>

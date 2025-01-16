@@ -29,17 +29,31 @@ class userController {
                         'birthDate' => $user['birthDate']
                     ];
                 } else {
-                    $_SESSION['member'] = [
-                        'id' => $user['id'],
-                        'username' => $user['username'],
-                        'email' => $user['email'],
-                        'nom' => $user['nom'],
-                        'carte' => $user['carte'],
-                        'prenom' => $user['prenom'],
-                        'photoProfile' => $user['photoProfile'],
-                        'telNumber' => $user['telNumber'],
-                        'birthDate' => $user['birthDate']
-                    ];
+                    if ($mdl->checkIfAdmin($user['id'])) {
+                        $_SESSION['admin'] = [
+                            'id' => $user['id'],
+                            'username' => $user['username'],
+                            'email' => $user['email'],
+                            'nom' => $user['nom'],
+                            'carte' => $user['carte'],
+                            'prenom' => $user['prenom'],
+                            'photoProfile' => $user['photoProfile'],
+                            'telNumber' => $user['telNumber'],
+                            'birthDate' => $user['birthDate']
+                        ];
+                    } else {
+                        $_SESSION['member'] = [
+                            'id' => $user['id'],
+                            'username' => $user['username'],
+                            'email' => $user['email'],
+                            'nom' => $user['nom'],
+                            'carte' => $user['carte'],
+                            'prenom' => $user['prenom'],
+                            'photoProfile' => $user['photoProfile'],
+                            'telNumber' => $user['telNumber'],
+                            'birthDate' => $user['birthDate']
+                        ];
+                    }
                 }
                 header("Location: index.php?router=Page%20d'accueil");
                 print_r($_SESSION);
@@ -405,12 +419,30 @@ class userController {
         $r = new userModel();
         if (isset($id)) {
             $r->approuverMembre($id, $type_carte);
+            $user = $r->getUserById($id);
+            
+            $_SESSION['member'] = [
+            'id' => $user['id'],
+            'username' => $user['username'],
+            'email' => $user['email'],
+            'nom' => $user['nom'],
+            'carte' => $user['carte'],
+            'prenom' => $user['prenom'],
+            'photoProfile' => $user['photoProfile'],
+            'telNumber' => $user['telNumber'],
+            'birthDate' => $user['birthDate']
+            ];
+            unset($_SESSION['user']);
             echo 1;
         }
     }
 
     public function getCarteById() {
-        $id = $_SESSION['member']['carte'];
+        if (isset($_SESSION['member'])) {
+            $id = $_SESSION['member']['carte'];
+        } elseif (isset($_SESSION['admin'])) {
+            $id = $_SESSION['admin']['carte'];
+        }
         $r = new userModel();
         if (isset($id)) {
             header('Content-Type: application/json');
@@ -423,16 +455,21 @@ class userController {
             $id_user = $_SESSION['user']['id'];
         } elseif (isset($_SESSION['member'])) {
             $id_user = $_SESSION['member']['id'];
+        } elseif (isset($_SESSION['admin'])) {
+            $id_user = $_SESSION['admin']['id'];
         }
         $r = new userModel();
         return $r->getFavoris($id_user);
     }
 
-    public function addFavoris($id_partenaire) {
+    public function addFavoris() {
+        $id_partenaire=$_POST['id'];
         if (isset($_SESSION['user'])) {
             $id_user = $_SESSION['user']['id'];
         } elseif (isset($_SESSION['member'])) {
             $id_user = $_SESSION['member']['id'];
+        } elseif (isset($_SESSION['admin'])) {
+            $id_user = $_SESSION['admin']['id'];
         }
         $r = new userModel();
         $r->addFavoris($id_user, $id_partenaire);
@@ -443,6 +480,8 @@ class userController {
             $id_user = $_SESSION['user']['id'];
         } elseif (isset($_SESSION['member'])) {
             $id_user = $_SESSION['member']['id'];
+        } elseif (isset($_SESSION['admin'])) {
+            $id_user = $_SESSION['admin']['id'];
         }
         $r = new userModel();
         $offres = $r->getOffres($_POST['id']);
@@ -559,7 +598,7 @@ class userController {
         exit;
     }
     public function getOffresProfite(){
-        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'] ?? $_SESSION['admin']['id'];
         $r = new userModel();
         $offres = $r->getOffresProfite($id);
         header('Content-Type: application/json');
@@ -568,6 +607,17 @@ class userController {
     public function afficherPageHistoriqueOffresProfite() {
         $v = new historiqueOffresProfite();
         $v->afficher_page();
+    }
+    public function isInFavorites($id_partenaire) {
+        if (!isset($_SESSION['user']) && !isset($_SESSION['member']) && !isset($_SESSION['admin'])) {
+            return false;
+        }
+        
+        $id_user = isset($_SESSION['user']) ? $_SESSION['user']['id'] : 
+                  (isset($_SESSION['member']) ? $_SESSION['member']['id'] : $_SESSION['admin']['id']);
+        
+        $r = new userModel();
+        return $r->isInFavorites($id_user, $id_partenaire);
     }
 }
 ?>

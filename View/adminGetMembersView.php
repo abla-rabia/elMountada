@@ -214,7 +214,7 @@ table#all td:nth-child(6):contains('User'):before {
         <html>
             <?php $this->entetePage(); ?>
             <body class="to">
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div class="content">
                     <?php $r->titre("Liste des utilisateurs"); ?>
                     <div class="subContent">

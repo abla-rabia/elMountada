@@ -216,7 +216,7 @@ table#all td:nth-child(6):contains('User'):before {
         <html>
             <?php $this->entetePage(); ?>
             <body class="to">
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div class="content">
                     <div class="head" style="display:flex;justify-content:space-between;">
                     <?php $r->titre("Liste des aides"); ?>

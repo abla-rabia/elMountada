@@ -1,5 +1,6 @@
 <?php
-require_once("Controller\partenaireController.php");
+require_once(ROOT . '/Controller/partenaireController.php');
+
 require_once("commonViews.php");
 
 class partenaireCompteView {

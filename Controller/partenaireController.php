@@ -88,6 +88,12 @@ class partenaireController{
         header('Content-Type: application/json');
         echo json_encode($partenaires);
     }
+    public function getPartenaireLogos() {
+        $r = new partenaireModel();
+        $logos = $r->getPartenaireLogos();
+        header('Content-Type: application/json');
+        echo json_encode($logos);
+    }
     
     public function searchPart() {
         $r = new partenaireModel();

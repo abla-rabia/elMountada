@@ -26,6 +26,15 @@ class userModel {
         $r->deconnexion($pdo);
         return $user;
     }
+    public function checkIfAdmin($id) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT * FROM `admin` WHERE id = :id";
+        $stmt = $r->query($pdo, $qtf, ['id' => $id]);
+        $admin = $stmt->fetch();
+        $r->deconnexion($pdo);
+        return $admin ? true : false;
+    }
     public function getUserById($id) {
         $r = new dataBaseController();
         $pdo = $r->connexion();
@@ -367,11 +376,22 @@ class userModel {
         $r->deconnexion($pdo);
         return $carte;
     }
-
+    public function isInFavorites($id_user, $id_partenaire) {
+        $r = new databaseController();
+        $pdo = $r->connexion();
+        $query = "SELECT COUNT(*) FROM favoris WHERE id_user = :id_user AND id_partenaire = :id_partenaire";
+        $stmt = $r->query($pdo, $query, [
+            'id_user' => $id_user,
+            'id_partenaire' => $id_partenaire
+        ]);
+        $count = $stmt->fetchColumn();
+        $r->deconnexion($pdo);
+        return $count > 0;
+    }
     public function getFavoris($id){
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT p.id, p.photo, p.ville, p.nom, p.description, p.siteweb, p.numtel, p.contactemail FROM favoris f JOIN partenaire p ON f.id_partenaire = p.id WHERE f.id_user = :id_user";
+        $qtf = "SELECT p.id, p.photo, p.ville, p.nom, p.description, p.website, p.telNumber, p.contactmail FROM favoris f JOIN partenaire p ON f.id_partenaire = p.id WHERE f.id_user = :id_user";
         $stmt = $r->query($pdo, $qtf, ['id_user' => $id]);
         $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $r->deconnexion($pdo);

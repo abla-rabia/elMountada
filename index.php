@@ -37,39 +37,69 @@ if (isset($_GET['router'])){
             }
             break; 
         case 'Inscription':
-            $r=new inscriptionController();
+            if (!isset($_SESSION['user']) && !isset($_SESSION['member']) && !isset($_SESSION['admin']) && !isset($_SESSION['partenaire'])) {
+            $r = new inscriptionController();
             $r->afficherPage();
+            } else {
+            // Redirect to home page or show an error message
+            header("Location: index.php?router=Page%20d'accueil");
+            }
             break; 
         case 'Mes infos':
-            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
             $r = new userInfosController();
             $r->afficherPage();
             } else if (isset($_SESSION['partenaire'])) {
             $r = new partenaireController();
             $r->afficherPageInfos();
+            } else {
+            // Redirect to home page if no valid session is found
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
             }
             break; 
         case 'Mon compte':
-            
-            if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
-                $r=new userCompteController();
-                $r->afficherPage();
-                } else if (isset($_SESSION['partenaire'])) {
-                $r = new partenaireController();
-                $r->afficherPageCompte();
-                }
-            break; 
-        case 'securite':
-            $r=new securityController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $r = new userCompteController();
             $r->afficherPage();
+            } else if (isset($_SESSION['partenaire'])) {
+            $r = new partenaireController();
+            $r->afficherPageCompte();
+            } else {
+            // Redirect to home page if no valid session is found
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
+            break;
+        case 'securite':
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $r = new securityController();
+            $r->afficherPage();
+            } else {
+            // Redirect to home page if no valid session is found
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break; 
         case 'carte':
-            $r=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $r = new userController();
             $r->afficherPageCarte();
+            } else {
+            // Redirect to home page if no valid session is found
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break; 
         case 'users':
-            $r=new userController();
+            if (isset($_SESSION['admin'])) {
+            $r = new userController();
             $r->afficherPageUsers();
+            } else {
+            // Redirect to home page if not an admin
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break; 
         case 'login':
             $rts=new userController();
@@ -112,9 +142,54 @@ if (isset($_GET['router'])){
             }
             break;
         case 'favoris':
-            $rts=new userController();
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $rts = new userController();
             $rts->afficherPageFavoris();
+            } else {
+            // Redirect to home page if no valid session is found
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
+            case 'getFavoris':
+                if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+                    $rts = new userController();
+                    $favoris = $rts->getFavoris();
+                    echo json_encode($favoris);
+                } else {
+                    echo json_encode(['error' => 'Non autorisé']);
+                }
+                exit(); // Important pour l'AJAX
+                break;
+            case 'addFavoris':
+                if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+                    $rts = new userController();
+                    $rts->addFavoris();
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+                    exit();
+                }
+                break;
+            
+            case 'deleteFavoris':
+                if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+                    $rts = new userController();
+                    $rts->deleteFavoris();
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+                    exit();
+                }
+                break;
+            
+            case 'isInFavorites':
+                if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+                    $rts = new userController();
+                    $rts->isInFavorites();
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Non autorisé']);
+                    exit();
+                }
+                break;
         case 'modifyPdp':
             if (isset($_SESSION['user']) || isset($_SESSION['member'])) {
             $rts = new userController();
@@ -199,59 +274,123 @@ if (isset($_GET['router'])){
             
             break;
         case 'adminPartenairesView':
-            $rts=new partenaireController();
+            if (isset($_SESSION['admin'])) {
+            $rts = new partenaireController();
             $rts->afficherPageAdmin();
+            } else {
+            // Redirect to home page if not an admin
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'addNewPart':
-            $rts=new partenaireController();
+            if (isset($_SESSION['admin'])) {
+            $rts = new partenaireController();
             $rts->afficherPageAjoutPart();
+            } else {
+            // Redirect to home page if not an admin
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'deletePartenaire':
-            $rts=new partenaireController();
+            if (isset($_SESSION['admin'])) {
+            $rts = new partenaireController();
             $rts->deletePartenaire();
+            } else {
+            // Redirect to home page if not an admin
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'getModifyPage':
+            if (isset($_SESSION['admin'])) {
             if (isset($_GET['id'])) {
                 $controller = new PartenaireController();
                 $controller->afficherModification($_GET['id']);
             }
+            } else {
+            // Redirect to home page if not an admin
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'getOffrePage':
+            if (isset($_SESSION['admin'])) {
             if (isset($_GET['id'])) {
                 $controller = new PartenaireController();
                 $controller->afficherPageOffres($_GET['id']);
             }
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
             
         case 'modifierPartenaire':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->modifyPartenaire();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'ajouterRemise':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->addRemise();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'ajouterAvantage':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->addAvantage();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'getRemises':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->getRemises();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'getAvantages':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->getAvantages();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'deleteOffre':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->deleteOffre();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'modifyOffre':
+            if (isset($_SESSION['admin'])) {
             $controller = new PartenaireController();
             $controller->modifyOffre();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
-        case 'afficherPageOffresV':
+        case 'afficherPageOffresV':            
             $controller = new PartenaireController();
             $controller->afficherPageOffresV();
             break;
@@ -272,71 +411,176 @@ if (isset($_GET['router'])){
         $controller = new donsBenevolatsAidesController();
         $controller->getTypesAide();
         break;
+        case 'pageAide':
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficher_pageAddAide();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
+            break;
     case 'addAide':
-        $controller = new donsBenevolatsAidesController();
-        $controller->addAide();
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->addAide();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
-    case 'pageAide':
-        $controller = new donsBenevolatsAidesController();
-        $controller->afficher_pageAddAide();
-        break;
+   
     case 'adminAide':
-        $controller = new donsBenevolatsAidesController();
-        $controller->afficherPageAdminAide();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficherPageAdminAide();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'addTypeAide':
-        $controller = new donsBenevolatsAidesController();
-        $controller->addTypeAide();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->addTypeAide();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'getAides':
-        $controller = new donsBenevolatsAidesController();
-        $controller->getAides();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->getAides();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
         case 'pageDons':
+            if (isset($_SESSION['admin'])) {
             $controller = new donsBenevolatsAidesController();
             $controller->afficher_pageDons();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
         case 'pageAddDon':
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
             $controller = new donsBenevolatsAidesController();
             $controller->afficher_pageAddDon();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
             break;
     case 'addDon':
-        $controller = new donsBenevolatsAidesController();
-        $controller->addDon();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->addDon();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'getDons':
-        $controller = new donsBenevolatsAidesController();
-        $controller->getDons();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->getDons();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'approuverDon':
-        $controller = new donsBenevolatsAidesController();
-        $controller->approuverDon();
+        if (isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->approuverDon();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'adminEventsView':
-        $controller = new EventAnnonceController();
-        $controller->afficherPageAdminEvents();
+        if (isset($_SESSION['admin'])) {
+            $controller = new EventAnnonceController();
+            $controller->afficherPageAdminEvents();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'addEvent':
-        $controller = new EventAnnonceController();
-        $controller->addEvent();
+        if (isset($_SESSION['admin'])) {
+            $controller = new EventAnnonceController();
+            $controller->addEvent();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
-    case 'getEvents':
+    case 'getEventsActivities':
         $controller = new EventAnnonceController();
-        $controller->getEvents();
+        $controller->getEventsActivities();
+        break;
+        case 'getEvents':
+            $controller = new EventAnnonceController();
+            $controller->getEvents();
+            break;
+    case 'adminActivitesView':
+        if (isset($_SESSION['admin'])) {
+            $controller = new EventAnnonceController();
+            $controller->afficherPageAdminActivites();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
+        break;
+    case 'addActivite':
+        if (isset($_SESSION['admin'])) {
+            $controller = new EventAnnonceController();
+            $controller->addActivite();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
+        break;
+    case 'getActivites':
+        $controller = new EventAnnonceController();
+        $controller->getActivites();
         break;
     case 'evenementView':
-        $controller = new EventAnnonceController();
-        $controller->afficherPageEvenement();
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new EventAnnonceController();
+            $controller->afficherPageEvenement();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
+        
     case 'approuverBenevolat':
         $controller = new EventAnnonceController();
         $controller->addBenevole();
         break;
+        case 'approuverBenevolat2':
+            $controller = new EventAnnonceController();
+            $controller->addBenevoleActivite();
+            break;
     case 'scan':
+        if (!isset($_SESSION['partenaire'])) {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         $controller = new PartenaireController();
         $controller->afficherPagePartenaireScan();
         break;
     case 'verifyQRCode':
+        if (!isset($_SESSION['partenaire'])) {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         $controller = new userController();
         $controller->verifyQRCode();
         break;
@@ -357,12 +601,22 @@ if (isset($_GET['router'])){
         $controller->getBenevolatByUserId();
         break;
     case 'historiqueDons':
-        $controller = new donsBenevolatsAidesController();
-        $controller->afficher_pageHistoriqueDons();
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficher_pageHistoriqueDons();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'historiqueBenevolat':
-        $controller = new donsBenevolatsAidesController();
-        $controller->afficher_pageHistoriqueBenevolat();
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new donsBenevolatsAidesController();
+            $controller->afficher_pageHistoriqueBenevolat();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
     case 'OffresProfite':
         $controller = new userController();
@@ -370,12 +624,26 @@ if (isset($_GET['router'])){
         break;
 
     case 'historiqueOffresProfite':
-        $controller = new userController();
-        $controller->afficherPageHistoriqueOffresProfite();
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            $controller = new userController();
+            $controller->afficherPageHistoriqueOffresProfite();
+        } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+        }
         break;
         case 'partenaireCarte':
+            if (isset($_SESSION['partenaire'])) {
             $controller = new PartenaireController();
             $controller->afficherPageCarte();
+            } else {
+            header("Location: index.php?router=Page%20d'accueil");
+            exit();
+            }
+            break;
+        case 'getPartenaireLogos':
+            $controller = new partenaireController();
+            $controller->getPartenaireLogos();
             break;
 
     }

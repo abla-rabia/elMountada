@@ -16,6 +16,15 @@ class partenaireModel{
         $r->deconnexion($pdo);
         return $partenaire;
     }
+    public function getPartenaireLogos() {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+        $qtf = "SELECT id, logo FROM partenaire";
+        $stmt = $r->query($pdo, $qtf, []);
+        $logos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $r->deconnexion($pdo);
+        return $logos;
+    }
 
     public function checkPartenairePassword($userName, $password) {
         $r = new dataBaseController();

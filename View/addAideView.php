@@ -25,7 +25,7 @@ class addAideView {
         <html>
             <?php $this->entetePage(); ?>
             <body class="to">
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div id="head">
                     <?php $r->titre("Ajouter aide"); ?>
                     

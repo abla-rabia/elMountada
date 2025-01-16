@@ -9,7 +9,7 @@ class carteView {
     private $type = "classique";
 
     public function __construct() {
-        $this->sessionData = isset($_SESSION['user']) ? $_SESSION['user'] : (isset($_SESSION['member']) ? $_SESSION['member'] : null);
+        $this->sessionData = isset($_SESSION['user']) ? $_SESSION['user'] : (isset($_SESSION['member']) ? $_SESSION['member'] : (isset($_SESSION['admin']) ? $_SESSION['admin'] : null));
         $this->membre = isset($_SESSION['user']) ? 0 : 1;
     }
 
@@ -36,7 +36,7 @@ class carteView {
         <html>
             <?php $this->entetePage(); ?>
             <body>
-                <?php $r->navBarC(); ?>
+                <?php $r->navBar(); ?>
                 <div class="content">
                     <?php if ($this->membre == 1) { ?>
                         <?php $r->titre("Ma carte"); ?>
@@ -52,7 +52,13 @@ class carteView {
                                     </tr>
                                 </table>
                             </div>
-                            <?php $r->carte($this->type, $_SESSION["member"]['nom'], $_SESSION["member"]['prenom'], $_SESSION["member"]['id']); ?>
+                            <?php 
+                            if (isset($_SESSION["member"])) {
+                                $r->carte($this->type, $_SESSION["member"]['nom'], $_SESSION["member"]['prenom'], $_SESSION["member"]['id']); 
+                            } elseif (isset($_SESSION["admin"])) {
+                                $r->carte($this->type, $_SESSION["admin"]['nom'], $_SESSION["admin"]['prenom'], $_SESSION["admin"]['id']); 
+                            }
+                            ?>
                         </div>
                     <?php } else { ?>
                         <?php $r->titre("Achat carte"); ?>

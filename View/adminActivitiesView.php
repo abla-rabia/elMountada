@@ -2,11 +2,11 @@
 require_once(ROOT . '/Controller/EventAnnonceController.php');
 require_once("commonViews.php");
 
-class adminEventsView {
+class adminActivitiesView {
     public function entetePage() {
         ?>
         <head>
-            <title>Gestion des événements</title>
+            <title>Gestion des activités</title>
             <link rel="stylesheet" href="View/css/userInfosStyle.css">
             <link rel="stylesheet" href="View/css/commonStyles.css">
             <style>
@@ -73,7 +73,7 @@ table#all {
 }
 
 /* Header Cells */
-table#allEvents th {
+table#allActivities th {
     background: #f8f9fa;
     color: #2c3e50;
     font-weight: 600;
@@ -85,11 +85,11 @@ table#allEvents th {
     position: relative;
 }
 
-table#allEvents th:hover {
+table#allActivities th:hover {
     background: #edf2f7;
 }
 
-table#allEvents th:after {
+table#allActivities th:after {
     content: '↕';
     position: absolute;
     right: 8px;
@@ -97,7 +97,7 @@ table#allEvents th:after {
 }
 
 /* Table Cells */
-table#allEvents td {
+table#allActivities td {
     padding: 14px 16px;
     border-bottom: 1px solid #edf2f7;
     color: #4a5568;
@@ -105,7 +105,7 @@ table#allEvents td {
 }
 
 /* Table Rows */
-table#allEvents tr:not(.head):hover {
+table#allActivities tr:not(.head):hover {
     background-color: #f8fafc;
     transition: background-color 0.2s;
 }
@@ -124,15 +124,15 @@ table#allEvents tr:not(.head):hover {
 }
 
 .action-btn:hover {
-    background:rgb(111, 160, 124);
+    background:rgb(104, 172, 122);
 }
 
 /* Status Styles */
-table#allEvents td:nth-child(6) {
+table#allActivities td:nth-child(6) {
     position: relative;
 }
 
-table#allEvents td:nth-child(6):before {
+table#allActivities td:nth-child(6):before {
     content: '';
     display: inline-block;
     width: 8px;
@@ -141,22 +141,22 @@ table#allEvents td:nth-child(6):before {
     margin-right: 8px;
 }
 
-table#allEvents td:nth-child(6):contains('Membre'):before {
+table#allActivities td:nth-child(6):contains('Membre'):before {
     background-color: #34d399;
 }
 
-table#allEvents td:nth-child(6):contains('User'):before {
+table#allActivities td:nth-child(6):contains('User'):before {
     background-color: #fbbf24;
 }
 
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
-    table#allEvents {
+    table#allActivities {
         font-size: 13px;
     }
     
-    table#allEvents th, 
-    table#allEvents td {
+    table#allActivities th, 
+    table#allActivities td {
         padding: 12px;
     }
     
@@ -170,7 +170,7 @@ table#allEvents td:nth-child(6):contains('User'):before {
         padding: 12px;
     }
     
-    table#allEvents {
+    table#allActivities {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
@@ -188,25 +188,25 @@ table#allEvents td:nth-child(6):contains('User'):before {
         <?php
     }
 
-    public function eventPopup() {
+    public function activityPopup() {
         $r = new commonViews();
         ?>
         <div class="popContainer" style="display: none;">
-            <div class="popupUpload" id="eventPopup">
-                <h3>Ajouter un événement</h3>
+            <div class="popupUpload" id="activityPopup">
+                <h3>Ajouter une activité</h3>
                 <div class="textArea">
-                    <form action="" class="addEvent" id="formAddEvent" method="POST">
+                    <form action="" class="addActivity" id="formAddActivity" method="POST">
                         <div class="input-group">
-                            <label for="nomEvent">Nom de l'événement:</label>
-                            <input type="text" name="nom" id="nomEvent" required>
+                            <label for="nomActivity">Nom de l'activité:</label>
+                            <input type="text" name="nom" id="nomActivity" required>
                         </div>
                         <div class="input-group">
-                            <label for="descriptionEvent">Description:</label>
-                            <textarea name="description" id="descriptionEvent" required></textarea>
+                            <label for="descriptionActivity">Description:</label>
+                            <textarea name="description" id="descriptionActivity" required></textarea>
                         </div>
                         <div class="input-group">
-                            <label for="dateEvent">Date:</label>
-                            <input type="date" name="date_event" id="dateEvent" required>
+                            <label for="dateActivity">Date:</label>
+                            <input type="date" name="date_activite" id="dateActivity" required>
                         </div>
                         <div class="fileUpload">
                             <label class="fmsLabel" for="photo">Photo</label>
@@ -214,10 +214,10 @@ table#allEvents td:nth-child(6):contains('User'):before {
                         </div><br><br>
                         <div class="button-group">
                             <?php
-                            $r->blueButton2("Confirmer", "addEvent");?>
+                            $r->blueButton2("Confirmer", "addActivity");?>
                             <br><br>
                             <?php
-                            $r->blueButton2("Annuler", "closeEventBtn");
+                            $r->blueButton2("Annuler", "closeActivityBtn");
                             ?>
                         </div>
                     </form>
@@ -236,15 +236,15 @@ table#allEvents td:nth-child(6):contains('User'):before {
                 <?php $r->navBar(); ?>
                 <div class="content">
                     <div class="head" style="display:flex;justify-content:space-between;">
-                        <?php $r->titre("Liste des événements"); ?>
+                        <?php $r->titre("Liste des activités"); ?>
                         <div class="header-actions">
-                            <button id="addEventBtn" class="action-btn">Ajouter un événement</button>
+                            <button id="addActivityBtn" class="action-btn">Ajouter une activité</button>
                         </div>
                     </div>
                     <div class="subContent">
-                        <?php $r->adminSideBar("Événements"); ?>
+                        <?php $r->adminSideBar("Activités"); ?>
                         <div class="users">
-                            <table id="allEvents">
+                            <table id="allActivities">
                                 <tr class="head">
                                     <th>Nom</th>
                                     <th>Description</th>
@@ -255,44 +255,44 @@ table#allEvents td:nth-child(6):contains('User'):before {
                         </div>
                     </div>
                 </div>
-                <?php $this->eventPopup(); ?>
+                <?php $this->activityPopup(); ?>
                 <script>
                     $(document).ready(function() {
-                        fetchEvents();
+                        fetchActivities();
 
-                        $('#addEventBtn').click(function() {
+                        $('#addActivityBtn').click(function() {
                             $('.popContainer').fadeIn();
-                            $('#eventPopup').fadeIn();
+                            $('#activityPopup').fadeIn();
                         });
 
-                        $('#closeEventBtn').click(function() {
+                        $('#closeActivityBtn').click(function() {
                             $('.popContainer').fadeOut();
-                            $('#eventPopup').fadeOut();
-                            $('#formAddEvent')[0].reset();
+                            $('#activityPopup').fadeOut();
+                            $('#formAddActivity')[0].reset();
                         });
 
-                        $(document).on('click', '#addEvent', function(e) {
+                        $(document).on('click', '#addActivity', function(e) {
                             e.preventDefault();
-                            if (!$('#formAddEvent')[0].checkValidity()) {
-                                $('#formAddEvent')[0].reportValidity();
+                            if (!$('#formAddActivity')[0].checkValidity()) {
+                                $('#formAddActivity')[0].reportValidity();
                                 return;
                             }
 
-                            const formData = new FormData($('#formAddEvent')[0]);
+                            const formData = new FormData($('#formAddActivity')[0]);
                             
                             $.ajax({
-                                url: 'index.php?router=addEvent',
+                                url: 'index.php?router=addActivite',
                                 type: 'POST',
                                 data: formData,
                                 contentType: false,
                                 processData: false,
                                 success: function(response) {
                                         console.log(response);
-                                            alert('Événement ajouté avec succès!');
+                                            alert('Activité ajoutée avec succès!');
                                             $('.popContainer').fadeOut();
-                                            $('#eventPopup').fadeOut();
-                                            $('#formAddEvent')[0].reset();
-                                            fetchEvents();
+                                            $('#activityPopup').fadeOut();
+                                            $('#formAddActivity')[0].reset();
+                                            fetchActivities();
                                 },
                                 error: function() {
                                     alert('Erreur de connexion au serveur');
@@ -304,33 +304,32 @@ table#allEvents td:nth-child(6):contains('User'):before {
                         $('.popContainer').click(function(e) {
                             if (e.target === this) {
                                 $('.popContainer').fadeOut();
-                                $('#eventPopup').fadeOut();
-                                $('#formAddEvent')[0].reset();
+                                $('#activityPopup').fadeOut();
+                                $('#formAddActivity')[0].reset();
                             }
                         });
                     });
 
-                    function fetchEvents() {
+                    function fetchActivities() {
                         $.ajax({
-                            url: 'index.php?router=getEvents',
+                            url: 'index.php?router=getActivites',
                             type: 'GET',
                             dataType: 'json',
                             success: function(data) {
-                                
-                                $('#allEvents tr:not(.head)').remove();
-                                const eventsTable = $('#allEvents');
-                                data.forEach(function(event) {
-                                    const formattedDate = new Date(event.date_event).toLocaleDateString();
-                                    eventsTable.append('<tr>' +
-                                        '<td>' + event.nom + '</td>' +
-                                        '<td>' + event.description + '</td>' +
+                                $('#allActivities tr:not(.head)').remove();
+                                const activitiesTable = $('#allActivities');
+                                data.forEach(function(activity) {
+                                    const formattedDate = new Date(activity.date_activite).toLocaleDateString();
+                                    activitiesTable.append('<tr>' +
+                                        '<td>' + activity.nom + '</td>' +
+                                        '<td>' + activity.description + '</td>' +
                                         '<td>' + formattedDate + '</td>' +
                                         '<td><button class="action-btn">Voir détails</button></td>' +
                                     '</tr>');
                                 });
                             },
                             error: function() {
-                                alert('Erreur lors de la récupération des événements');
+                                alert('Erreur lors de la récupération des activités');
                             }
                         });
                     }

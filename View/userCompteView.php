@@ -6,7 +6,7 @@ class userCompteView {
     private $sessionData;
 
     public function __construct() {
-        $this->sessionData = isset($_SESSION['user']) ? $_SESSION['user'] : (isset($_SESSION['member']) ? $_SESSION['member'] : null);
+        $this->sessionData = isset($_SESSION['user']) ? $_SESSION['user'] : (isset($_SESSION['member']) ? $_SESSION['member'] : (isset($_SESSION['admin']) ? $_SESSION['admin'] : null));
     }
 
     public function entetePage() {
@@ -34,7 +34,7 @@ class userCompteView {
             ?>
             <body class="to">
             <?php
-                $r->navBarC();
+                $r->navBar();
                 ?>
                 <div class="content">
                     <?php

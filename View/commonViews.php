@@ -1,4 +1,5 @@
 <?php
+require_once(ROOT . '/Controller/userController.php');
 
 class commonViews{
     
@@ -115,8 +116,8 @@ class commonViews{
                 Dons & bénévolats
                 <ul id="subMenu">
                     <a href="index.php?router=pageAide">Demande d'aide</a>
-                    <a>Bénévolat</a>
-                    <a>Faire un don</a>
+                    <a href="index.php?router=evenementView">Bénévolat</a>
+                    <a href="index.php?router=pageAddDon">Faire un don</a>
                 </ul>
             </li>
             <a href="index.php?router=Inscription">Rejoingez nous</a>
@@ -139,10 +140,14 @@ class commonViews{
         else if (isset($_SESSION['partenaire'])){
             $this->navBarP();
         }
+        else if (isset($_SESSION['admin'])) {
+            $this->navBarA();
+        }
         else{
             $this->navBarD();
         }
     }
+    
 
     public function navBarC(){
         ?>
@@ -154,9 +159,9 @@ class commonViews{
             <li id="subMenuP">
                 Dons & bénévolats
                 <ul id="subMenu">
-                <a href="index.php?router=pageAide">Demande d'aide</a>
-                    <a>Bénévolat</a>
-                    <a>Faire un don</a>
+                    <a href="index.php?router=pageAide">Demande d'aide</a>
+                    <a href="index.php?router=evenementView">Bénévolat</a>
+                    <a href="index.php?router=pageAddDon">Faire un don</a>
                 </ul>
             </li>
             
@@ -166,6 +171,55 @@ class commonViews{
                 <img class="userImg" id="nav" src="<?= !empty($_SESSION['user']['photoProfile']) ? $_SESSION['user']['photoProfile'] : (!empty($_SESSION['member']['photoProfile']) ? $_SESSION['member']['photoProfile'] : 'View/assets/user2.png') ?>" alt="user img">
                 <ul id="userBox">
                     <a href="index.php?router=Mes infos">Profile</a>
+                    <a href="index.php?router=carte">Carte</a>
+                    <a href="index.php?router=historiqueDons">Historique</a>
+                    <a href="index.php?router=favoris">Favoris</a>
+                    <a href="index.php?router=logout">Se déconnecter</a>
+                </ul>
+            </div>
+            </div>
+        </nav>
+        <script>
+            let img = document.getElementsByClassName("userImg")[0];
+            let box = document.getElementById("userBox");
+            img.addEventListener("click", function (event) {
+                box.style.display = box.style.display === "none" || !box.style.display ? "flex" : "none";
+                event.stopPropagation(); // Prevent the event from propagating to the document
+            });
+            document.addEventListener("click", function (event) {
+                if (box.style.display === "flex" && !box.contains(event.target) && event.target !== img) {
+                box.style.display = "none";
+                }
+            });
+
+        </script>
+        
+        <?php
+    }
+
+    public function navBarA(){
+        ?>
+        <nav>
+            <a href="#"><img src="View/assets/logo.png" alt="logo light mode" width="120px"></a>
+            <a href="index.php?router=Page%20d'accueil">Accueil</a>
+            <a href="index.php?router=Catalogue">Partenaires</a>
+            <a href="index.php?router=afficherPageOffresV">Offres</a>
+            <li id="subMenuP">
+                Dons & bénévolats
+                <ul id="subMenu">
+                    <a href="index.php?router=pageAide">Demande d'aide</a>
+                    <a href="index.php?router=evenementView">Bénévolat</a>
+                    <a href="index.php?router=pageAddDon">Faire un don</a>
+                </ul>
+            </li>
+            
+            <div class="userSection">
+            <i class="fa-regular fa-bell"></i>
+            <div class="user">
+                <img class="userImg" id="nav" src="<?= !empty($_SESSION['admin']['photoProfile']) ? $_SESSION['admin']['photoProfile'] : 'View/assets/user2.png' ?>" alt="user img">
+                <ul id="userBox">
+                    <a href="index.php?router=Mes infos">Profile</a>
+                    <a href="index.php?router=users">Espace admin</a>
                     <a href="index.php?router=carte">Carte</a>
                     <a href="index.php?router=historiqueDons">Historique</a>
                     <a href="index.php?router=favoris">Favoris</a>
@@ -272,11 +326,14 @@ class commonViews{
             <ul>
                 <li id="utilisateurs" ><a id="<?= $current == 'Utilisateurs' ? 'current' : '' ?>" href="index.php?router=users">Utilisateurs</a></li>
                 <li id="partenaire" ><a id="<?= $current == 'Partenaire' ? 'current' : '' ?>" href="index.php?router=adminPartenairesView">Partenaire</a></li>
-                <li id="administration" ><a id="<?= $current == 'Administration' ? 'current' : '' ?>" href="index.php?router=Administration">Administration</a></li>
-                <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
+                
                 <li id="aides" ><a id="<?= $current == 'Aides' ? 'current' : '' ?>" href="index.php?router=adminAide">Gestion des aides</a></li>
             <li id="dons" ><a id="<?= $current == 'Dons' ? 'current' : '' ?>" href="index.php?router=pageDons">Gestion des dons</a></li>
             <li id="evenements" ><a id="<?= $current == 'Événements' ? 'current' : '' ?>" href="index.php?router=adminEventsView">Événements</a></li>
+            <li id="activites"><a id="<?= $current == 'Activités' ? 'current' : '' ?>" href="index.php?router=adminActivitesView">Activités</a></li>
+            
+            <li id="administration" ><a id="<?= $current == 'Administration' ? 'current' : '' ?>" href="index.php?router=Administration">Administration</a></li>
+                <li id="parametres" ><a id="<?= $current == 'parametres' ? 'current' : '' ?>" href="index.php?router=parametres">Paramètres</a></li>
             </ul>
         </div>
         <?php
@@ -328,9 +385,12 @@ class commonViews{
         </div>
         <?php
     }
-    public function hear($filled){
+    public function hear($partenaire_id) {
+        $userController = new userController();
+        $isFavorite = $userController->isInFavorites($partenaire_id);
         ?>
-        <i class="<?= $filled ? 'fa-solid fa-heart' : 'fa-regular fa-heart' ?>" style="position: absolute; top: 10px; right: 10px; color: white;"></i>
+        <i class="<?= $isFavorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart' ?>" 
+           style="position: absolute; top: 10px; right: 10px; color: white; cursor: pointer;"></i>
         <?php
     }
     public function partenaireCardH(){

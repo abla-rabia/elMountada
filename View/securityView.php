@@ -20,7 +20,7 @@ class securityView {
     }
 
     public function afficher_page() {
-        if (!isset($_SESSION['user']) && !isset($_SESSION['member']) && !isset($_SESSION['partenaire'])) {
+        if (!isset($_SESSION['user']) && !isset($_SESSION['member']) && !isset($_SESSION['partenaire']) && !isset($_SESSION['admin'])) {
             echo "Access denied.";
             return;
         }

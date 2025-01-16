@@ -70,30 +70,52 @@ class evenementView {
                     $(document).ready(function() {
                         // Appel AJAX pour récupérer les événements
                         $.ajax({
-                            url: "index.php?router=getEvents",
+                            url: "index.php?router=getEventsActivities",
                             method: "GET",
                             dataType: "json",
                             success: function(data) {
-                                // Boucle sur les événements pour les afficher dynamiquement
-                                data.forEach(function(event) {
-                                    $('#event-list').append(`
-                                        <div class="event-row" style="display: flex; align-items: center; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                                            <div class="event-image" style="flex: 1; padding: 10px;">
-                                                <img src="View/assets/slider1.png" alt="Image de l'événement" style="width: 100%; height: auto; border-radius: 10px;">
-                                            </div>
-                                            <div class="event-details" style="flex: 2; padding: 10px; display: flex; flex-direction: column;">
-                                                <h2 style="margin: 0 0 10px 0; font-family: 'Montserrat', sans-serif;">${event.nom}</h2>
-                                                <p style="margin: 0 0 10px 0; font-size: 14px; color: #555;">${event.description}</p>
-                                                <p style="margin: 0; font-weight: bold; color: #333;">Date : ${event.date_event}</p>
-                                            </div>
-                                            <div class="event-action" style="flex: 1; padding: 10px; display: flex; align-items: center; justify-content: center;">
-                                                <button onclick="approuver(${event.id})" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">
-                                                    Être bénévole
-                                                </button>
-                                            </div>
+                                console.log(data);
+                            data.events.forEach(function(event) {
+                                $('#event-list').append(`
+                                    <div class="event-row" style="display: flex; align-items: center; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                        <div class="event-image" style="flex: 1; padding: 10px;">
+                                            <img src="${event.photo}" alt="Image de l'événement" style="width: 100%; height: auto; border-radius: 10px;">
                                         </div>
-                                    `);
-                                });
+                                        <div class="event-details" style="flex: 2; padding: 10px; display: flex; flex-direction: column;">
+                                            <h2 style="margin: 0 0 10px 0; font-family: 'Montserrat', sans-serif;">${event.nom}</h2>
+                                            <p style="margin: 0 0 10px 0; font-size: 14px; color: #555;">${event.description}</p>
+                                            <p style="margin: 0; font-weight: bold; color: #333;">Date : ${event.date_event}</p>
+                                            <p style="margin: 0; font-weight: bold; color: #333;">Type : Événement</p>
+                                        </div>
+                                        <div class="event-action" style="flex: 1; padding: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <button onclick="approuver(${event.id})" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">
+                                                Être bénévole
+                                            </button>
+                                        </div>
+                                    </div>
+                                `);
+                            });
+
+                            data.activities.forEach(function(activity) {
+                                $('#event-list').append(`
+                                    <div class="event-row" style="display: flex; align-items: center; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 10px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                        <div class="event-image" style="flex: 1; padding: 10px;">
+                                            <img src="${activity.photo}" alt="Image de l'activité" style="width: 100%; height: auto; border-radius: 10px;">
+                                        </div>
+                                        <div class="event-details" style="flex: 2; padding: 10px; display: flex; flex-direction: column;">
+                                            <h2 style="margin: 0 0 10px 0; font-family: 'Montserrat', sans-serif;">${activity.nom}</h2>
+                                            <p style="margin: 0 0 10px 0; font-size: 14px; color: #555;">${activity.description}</p>
+                                            <p style="margin: 0; font-weight: bold; color: #333;">Date : ${activity.date_activite}</p>
+                                            <p style="margin: 0; font-weight: bold; color: #333;">Type : Activité</p>
+                                        </div>
+                                        <div class="event-action" style="flex: 1; padding: 10px; display: flex; align-items: center; justify-content: center;">
+                                            <button onclick="approuver2(${activity.id})" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">
+                                                Être bénévole
+                                            </button>
+                                        </div>
+                                    </div>
+                                `);
+                            });
                             },
                             error: function(err) {
                                 console.error("Erreur lors de la récupération des événements :", err);
@@ -106,6 +128,22 @@ class evenementView {
                             method: "POST",
                             data: { id: id },
                             success: function(response) {
+                                console.log(response);
+                                alert("Votre demande pour être bénévole a été envoyée avec succès.");
+                            },
+                            error: function(err) {
+                                console.error("Erreur lors de l'envoi de la demande :", err);
+                                alert("Une erreur est survenue lors de l'envoi de votre demande. Veuillez réessayer.");
+                            }
+                        });
+                    }
+                    function approuver2(id) {
+                        $.ajax({
+                            url: "index.php?router=approuverBenevolat2",
+                            method: "POST",
+                            data: { id: id },
+                            success: function(response) {
+                                console.log(response);
                                 alert("Votre demande pour être bénévole a été envoyée avec succès.");
                             },
                             error: function(err) {

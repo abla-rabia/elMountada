@@ -1,40 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
+  
   //changement du slider
-  let titlesTable = ["Title one", "Title two", "Title three"];
-  let contentTable = [
-    "Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!",
-    "Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!",
-    "Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!",
-  ];
-  let bgSrcTable = [
-    "View/assets/slider1.png",
-    "View/assets/slider2.png",
-    "View/assets/slider3.png",
-  ];
-  let index = 0;
+  $.ajax({
+    url: 'index.php?router=getEventsActivities',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+      let mergedData = [...data.events, ...data.activities];
+      console.log(mergedData);
+      let titlesTable = mergedData.map(event => event.nom);
+      let contentTable = mergedData.map(event => event.description);
+      let bgSrcTable = mergedData.map(event => event.photo);
+      let index = 0;
 
-  setInterval(() => {
-    let dotsDiv = document.getElementsByClassName("barres")[0];
-    let dots = dotsDiv.getElementsByTagName("h3");
-    let title = document.getElementById("title");
-    let content = document.getElementById("content");
-    let text = document.getElementById("textContainer");
-    let imgDiv = document.getElementsByClassName("sliderImg")[0];
-    setTimeout(() => {
-      text.classList.add("dissolve");
-      setTimeout(() => {
-        dots[index].style.opacity = "0.4";
-        index++;
-        index = index % 3;
-        console.log(index);
-        text.classList.remove("dissolve");
-        imgDiv.style.backgroundImage = `url(${bgSrcTable[index]})`;
-        title.innerText = titlesTable[index];
-        dots[index].style.opacity = "1";
-        content.innerText = contentTable[index];
-      }, 1000);
-    }, 1000);
-  }, 4000);
+      setInterval(() => {
+        let dotsDiv = document.getElementsByClassName("barres")[0];
+        let dots = dotsDiv.getElementsByTagName("h3");
+        let title = document.getElementById("title");
+        let content = document.getElementById("content");
+        let text = document.getElementById("textContainer");
+        let imgDiv = document.getElementsByClassName("sliderImg")[0];
+        setTimeout(() => {
+          text.classList.add("dissolve");
+          setTimeout(() => {
+            dots[index].style.opacity = "0.4";
+            index++;
+            index = index % mergedData.length;
+            text.classList.remove("dissolve");
+            imgDiv.style.backgroundImage = `url(${bgSrcTable[index]})`;
+            title.innerText = titlesTable[index];
+            dots[index].style.opacity = "1";
+            content.innerText = contentTable[index];
+          }, 1000);
+        }, 1000);
+      }, 4000);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching events:', error);
+    }
+  });
 
   //pour la sticky nav bar,ajouter la classe sticky au nav lorsque on atteint le top de la page
   window.onscroll = function () {
@@ -74,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //le fetch du tableau d'offres 
 $(document).ready(function() {
   fetchOffres();
+  fetchPartenaireLogos();
   
 });
 
@@ -139,3 +144,39 @@ function getColumnIndex(column) {
   };
   return columns[column] || 0;
 }
+
+
+function fetchPartenaireLogos() {
+  $.ajax({
+    url: 'index.php?router=getPartenaireLogos',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      updateLogosSlider(data);
+    },
+    error: function ( xhr, status, error) {
+      console.log(xhr);
+      console.log(status);
+      console.error('Error fetching partenaire logos:', error);
+    }
+  });
+}
+
+function updateLogosSlider(data) {
+  const logosSliders = document.querySelectorAll('.logos-slider');
+  logosSliders.forEach(slider => {
+    slider.innerHTML = ''; // Clear existing logos
+
+    data.forEach(function(partenaire) {
+      const img = document.createElement('img');
+      img.src = `${partenaire.logo}`;
+      img.alt = `${partenaire.id} logo`;
+      img.width = 100;
+      slider.appendChild(img);
+    });
+  });
+}
+
+$(document).ready(function() {
+  fetchPartenaireLogos();
+});

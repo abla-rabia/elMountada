@@ -91,16 +91,8 @@ class homeView{
         ?>
         <div class="logos">
             <div class="logos-slider">
-            <img src="View/assets/logos/apple-14.svg" alt="apple logo" width="100px">
-            <img src="View/assets/logos/aston-hotel.svg" alt="hotel logo" width="100px">
-            <img src="View/assets/logos/bmw-logo.svg" alt="bmw logo" width="100px">
-            <img src="View/assets/logos/random.svg" alt="random logo" width="100px">
             </div>
             <div class="logos-slider">
-            <img src="View/assets/logos/apple-14.svg" alt="apple logo" width="100px">
-            <img src="View/assets/logos/aston-hotel.svg" alt="hotel logo" width="100px">
-            <img src="View/assets/logos/bmw-logo.svg" alt="bmw logo" width="100px">
-            <img src="View/assets/logos/random.svg" alt="random logo" width="100px">
             </div>
         </div>
         </div>
