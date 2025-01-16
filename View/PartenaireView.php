@@ -22,7 +22,7 @@ public function entetePage($nomPartenaire){
 public function partnerView(){
     ?>
     <div class="partnerView">
-                <img src="View/assets/slider3.png" alt="partner image">
+                <img src="View/assets/slider3.png" id="partImg" alt="partner image">
                 <div class="leftPart">
                     <div class="navigation">
                         <p>Catalogue ></p>

@@ -145,10 +145,10 @@ class partenaireController{
         $view->afficher_page($id);
         
     }
-    public function getPartCarte($id,$nom,$description,$remise) {
+    public function getPartCarte($id,$nom,$description,$remise,$photo) {
         $view = new commonViews();
         ob_start();
-        $view->partenaireCard($id,$nom,$description,$remise);
+        $view->partenaireCard($id,$nom,$description,$remise,$photo);
         return ob_get_clean();
     }
 

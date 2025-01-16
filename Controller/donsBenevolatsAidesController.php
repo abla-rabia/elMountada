@@ -147,7 +147,7 @@ class DonsBenevolatsAidesController
             if (move_uploaded_file($_FILES['recu']['tmp_name'], $uploadFile)) {
                 $credentials = [
                     'recu' => $uploadFile,
-                    'id_user' => $_SESSION['user']['id'] ?? $_SESSION['member']['id'] ?? null,
+                    'id_user' => $_SESSION['user']['id'] ?? $_SESSION['member']['id'] ?? $_SESSION['admin']['id'] ?? null,
                 ];
 
                 try {
@@ -188,14 +188,14 @@ class DonsBenevolatsAidesController
         echo json_encode(['success' => $success]);
     }
     public function getDonsByUserId(){
-        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'] ?? $_SESSION['admin']['id'];
         $r = new DonsBenevolatsAidesModel();
         $dons = $r->getDonsByUserId($id);
         header('Content-Type: application/json');
         echo json_encode($dons);
     }
     public function getBenevolatByUserId() {
-        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'];
+        $id = $_SESSION['user']['id'] ?? $_SESSION['member']['id'] ?? $_SESSION['admin']['id'];
         $r = new DonsBenevolatsAidesModel();
         $benevolats = $r->getBenevolatsByUserId($id);
         header('Content-Type: application/json');

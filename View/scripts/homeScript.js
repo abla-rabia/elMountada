@@ -1,44 +1,63 @@
-document.addEventListener("DOMContentLoaded", function () {
   
   //changement du slider
-  $.ajax({
-    url: 'index.php?router=getEventsActivities',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
-      let mergedData = [...data.events, ...data.activities];
-      console.log(mergedData);
-      let titlesTable = mergedData.map(event => event.nom);
-      let contentTable = mergedData.map(event => event.description);
-      let bgSrcTable = mergedData.map(event => event.photo);
-      let index = 0;
+  document.addEventListener("DOMContentLoaded", function () {
+    $.ajax({
+        url: 'index.php?router=getEventsActivities',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            let mergedData = [...data.events, ...data.activities];
+            let titlesTable = mergedData.map(event => event.nom);
+            let contentTable = mergedData.map(event => event.description);
+            let bgSrcTable = mergedData.map(event => event.photo);
+            let index = 0;
 
-      setInterval(() => {
-        let dotsDiv = document.getElementsByClassName("barres")[0];
-        let dots = dotsDiv.getElementsByTagName("h3");
-        let title = document.getElementById("title");
-        let content = document.getElementById("content");
-        let text = document.getElementById("textContainer");
-        let imgDiv = document.getElementsByClassName("sliderImg")[0];
-        setTimeout(() => {
-          text.classList.add("dissolve");
-          setTimeout(() => {
-            dots[index].style.opacity = "0.4";
-            index++;
-            index = index % mergedData.length;
-            text.classList.remove("dissolve");
-            imgDiv.style.backgroundImage = `url(${bgSrcTable[index]})`;
-            title.innerText = titlesTable[index];
-            dots[index].style.opacity = "1";
-            content.innerText = contentTable[index];
-          }, 1000);
-        }, 1000);
-      }, 4000);
-    },
-    error: function(xhr, status, error) {
-      console.error('Error fetching events:', error);
-    }
-  });
+            // Afficher immédiatement la première slide
+            let imgDiv = document.querySelector(".sliderImg");
+            let title = document.getElementById("title");
+            let content = document.getElementById("content");
+            let dotsDiv = document.querySelector(".barres");
+            let dots = dotsDiv.getElementsByTagName("h3");
+
+            // Initialiser le premier contenu sans animation
+            imgDiv.style.backgroundImage = `url(${bgSrcTable[0]})`;
+            title.innerText = titlesTable[0];
+            content.innerText = contentTable[0];
+            dots[0].style.opacity = "1";
+
+            function updateSlide(newIndex) {
+                // Reset current dot
+                dots[index].style.opacity = "0.4";
+                
+                // Update index
+                index = newIndex % mergedData.length;
+                
+                // Start transition
+                let text = document.getElementById("textContainer");
+                text.classList.add("dissolve");
+                
+                // Update content after fade out
+                setTimeout(() => {
+                    imgDiv.style.backgroundImage = `url(${bgSrcTable[index]})`;
+                    title.innerText = titlesTable[index];
+                    content.innerText = contentTable[index];
+                    dots[index].style.opacity = "1";
+                    text.classList.remove("dissolve");
+                }, 1000);
+            }
+
+            // Start the interval after displaying first slide
+            setInterval(() => {
+                updateSlide(index + 1);
+            }, 4000);
+            updateNewsCards(data);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching events:', error);
+        }
+    });
+});
 
   //pour la sticky nav bar,ajouter la classe sticky au nav lorsque on atteint le top de la page
   window.onscroll = function () {
@@ -57,13 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const popup = document.getElementsByClassName("popup")[0];
   const popContainer = document.getElementsByClassName("popContainer")[0];
   //script pour la gestion de la popup des avis
-  document
-    .getElementById("avisButton")
-    .addEventListener("click", function () {
-      console.log("lkgl,elg,")
-      popContainer.style.display = "flex";
-      popup.style.display = "flex";
-    });
+ 
   window.addEventListener("click", (event) => {
     if (event.target === popContainer) {
       popContainer.style.display = "none";
@@ -72,7 +85,20 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   
-});
+  function updateNewsCards(data) {
+    const newsContainer = document.getElementById('newsCards');
+    newsContainer.innerHTML = '';     
+    let mergedData = [...data.events, ...data.activities];
+    mergedData.slice(0, 3).forEach(item => {
+        const newsCard = document.createElement('div');
+        newsCard.className = 'newsCard';
+        newsCard.innerHTML = `
+            <h4>${item.nom}</h4>
+            <p>${item.description}</p>
+        `;
+        newsContainer.appendChild(newsCard);
+    });
+}
 
 
 //le fetch du tableau d'offres 

@@ -330,6 +330,7 @@ table#allEvents td:nth-child(6):contains('User'):before {
                                 });
                             },
                             error: function() {
+                                console.log(data);
                                 alert('Erreur lors de la récupération des événements');
                             }
                         });

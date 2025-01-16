@@ -1,7 +1,7 @@
 <?php
 class dataBaseModel{
 private $host = "localhost";
-private $dbname = "projettdw";
+private $dbname = "tdw";
 private $username = "root";
 private $password = "";
 private $port = "3308";

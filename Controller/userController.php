@@ -132,6 +132,9 @@ class userController {
         }
 
         if (!($resul = $r->problemInscription($credentials))) {
+            if ($this->checkBloque( $credentials['nom'], $credentials['prenom'],$credentials['email'], $credentials['username'],)) {
+                return 4;
+            }
             $r->inscriptionSimple($credentials);
             return 1;
         } else {
@@ -162,6 +165,9 @@ class userController {
         }
 
         if (!($resul = $r->problemInscription($credentials))) {
+            if ($this->checkBloque( $credentials['nom'], $credentials['prenom'],$credentials['email'], $credentials['username'],)) {
+                return "Utilisateur bloqué";
+            }
             $r->inscriptionMembre($credentials);
             return 1;
         } else {
@@ -461,6 +467,22 @@ class userController {
         $r = new userModel();
         return $r->getFavoris($id_user);
     }
+    public function bloquer(){
+        $r = new userModel();
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email = $_POST['email'];
+        $username = $_POST['username'];
+        $r->bloquer($nom,$prenom,$email,$username);
+        header('Content-Type: application/json');
+        echo json_encode(1);
+    }
+    public function checkBloque($nom, $prenom, $email, $username){
+        $r = new userModel();
+        
+        $res = $r->checkBloque($nom, $prenom, $email, $username);
+        return $res;
+    }
 
     public function addFavoris() {
         $id_partenaire=$_POST['id'];
@@ -564,7 +586,7 @@ class userController {
                 'remises' => $remises
             ]
         ];
-         $id_partenaire=$_SESSION['partenaire']['ide'];
+         $id_partenaire=$_SESSION['partenaire']['id'];
          $offres_id=$ss->getOffresByIdPart($id_partenaire);
 
          $r->addProfit($user['id'],$id_partenaire,$offres_id);

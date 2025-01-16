@@ -23,11 +23,11 @@ class homeView{
         <?php   
     }
     
-    public function newsCard(){
+    public function newsCard($title, $content){
         ?>
         <div class="newsCard">
-            <h4>News about hospital</h4>
-            <p>Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!</p>
+            <h4><?= $title ?></h4>
+            <p><?= $content ?></p>
         </div>
         <?php
     }
@@ -54,8 +54,8 @@ class homeView{
                 </div>
             </div>
             <div class="text" id="textContainer">
-                <h2 id="title">Oceanview Hotel News</h2>
-                <p id="content">Our Winter Getaway Package is here! Enjoy 20% off, free breakfast, and access to the rooftop pool. Book now for stays from Dec 15 to Feb 28!</p>
+                <h2 id="title"></h2>
+                <p id="content"></p>
             </div>
             <div class="barres">
                 <h3>_</h3>
@@ -65,19 +65,15 @@ class homeView{
         </div>
         <?php
     }
-    //Fonction de la section news : 
+    //fonction de la section news : 
     public function newsSection(){
         ?>        
         <div class="newsSection">
         <?php  
         $this->titleSection("News");
         ?>        
-        <div class="cards">
-            <?php   
-                $this->newsCard();
-                $this->newsCard();
-                $this->newsCard();
-            ?>
+        <div class="cards" id="newsCards">
+            
         </div>
         </div>
         <?php   
@@ -93,6 +89,7 @@ class homeView{
             <div class="logos-slider">
             </div>
             <div class="logos-slider">
+
             </div>
         </div>
         </div>

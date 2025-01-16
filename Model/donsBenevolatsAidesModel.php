@@ -44,7 +44,7 @@ class DonsBenevolatsAidesModel {
     public function getAides() {
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM aide";
+        $qtf = "SELECT a.*, ta.nom as type_aide FROM aide a join type_aide ta on ta.id=a.id_type_aide";
         $stmt = $r->query($pdo, $qtf, []);
         $Aides = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $r->deconnexion($pdo);
@@ -116,11 +116,23 @@ class DonsBenevolatsAidesModel {
     public function getBenevolatsByUserId($id){
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $query = "SELECT e.* FROM benevoles_events b JOIN events e ON e.id = b.id_event WHERE b.id_user = :id_user";
+        
+        // Query for benevoles_events
+        $queryEvents = "SELECT e.* FROM benevoles_events b JOIN events e ON e.id = b.id_event WHERE b.id_user = :id_user";
         $params = ['id_user' => $id];
-        $stmt = $r->query($pdo, $query, $params);
-        $benevolats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmtEvents = $r->query($pdo, $queryEvents, $params);
+        $benevolatsEvents = $stmtEvents->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Query for benevoles_activites
+        $queryActivites = "SELECT a.* FROM benevoles_activites b JOIN activites a ON a.id = b.id_activite WHERE b.id_user = :id_user";
+        $stmtActivites = $r->query($pdo, $queryActivites, $params);
+        $benevolatsActivites = $stmtActivites->fetchAll(PDO::FETCH_ASSOC);
+        
         $r->deconnexion($pdo);
+        
+        // Merge results
+        $benevolats = array_merge($benevolatsEvents, $benevolatsActivites);
+        
         return $benevolats;
     }
     

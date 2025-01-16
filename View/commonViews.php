@@ -363,11 +363,11 @@ class commonViews{
     }
 
     //la carte d'un partenaire 
-    public function partenaireCard( $id, $nom, $description,$remise){
+    public function partenaireCard( $id, $nom, $description,$remise,$photo){
         ?>
         <div class="cardContainer" id="<?=$id?>">
             <div style="position: relative;">
-                <img src="View/assets/slider1.png" alt="Hotel img">
+                <img src="<?= $photo ? $photo : 'View/assets/slider1.png' ?>" alt="Hotel img">
                 <?php $this->hear(false)?>
             </div>
             <div class="title">

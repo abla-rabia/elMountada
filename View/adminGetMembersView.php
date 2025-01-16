@@ -232,6 +232,7 @@ table#all td:nth-child(6):contains('User'):before {
                                     <th onclick="sortTable('date')">Date d'inscription</th>
                                     <th>Type</th>
                                     <th>Action</th>
+                                    <th>Bloquer</th>
                                 </tr>
                             </table>
                         </div>
@@ -373,6 +374,29 @@ table#all td:nth-child(6):contains('User'):before {
                             });
                         });
                     });
+                    function handleUserBlock(user){
+                        $.ajax({
+                                url: 'index.php?router=bloquer',
+                                type: 'POST',
+                                data: {username:user.username, email:user.email, nom:user.nom, prenom:user.prenom},
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response == 1) {
+                                        alert('Utilisateur bloqué avec succès !');
+                                        popContainer1.style.display = "none";
+                                        document.getElementById("approuverPopup").style.display = "none";
+                                        location.reload();
+                                    } else {
+                                        console.log(response);
+                                        
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    
+                                    console.error('Error fetching users:', error);
+                                }
+                            });
+                    }
 
                     function fetchUsers() {
                         const searchValue = $('#seachBar').val();
@@ -402,6 +426,7 @@ table#all td:nth-child(6):contains('User'):before {
                                         '<td>' + user['date_inscription'] + '</td>' +
                                         '<td id="approuveTd">' + (user['approuve'] ? 'Membre' : 'User') + '</td>' +
                                         '<td><button class="action-btn" onclick=\'handleUserAction(' + JSON.stringify(user) + ')\'>Détails</button></td>' +
+                                        '<td><button class="action-btn" onclick=\'handleUserBlock(' + JSON.stringify(user) + ')\'>Bloquer</button></td>' +
                                     '</tr>');
                                 });
                             },

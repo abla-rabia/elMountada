@@ -183,7 +183,7 @@ table#all td:nth-child(6):contains('En attente'):before {
                                 data.forEach(function(benevolat) {
                                     benevolatsTable.append('<tr>' +
                                         '<td>' + benevolat.nom + '</td>' +
-                                        '<td>' + benevolat.date_event + '</td>' +
+                                        '<td>' + (benevolat.date_event ? benevolat.date_event : benevolat.date_activite) + '</td>' +
                                     '</tr>');
                                 });
                             },

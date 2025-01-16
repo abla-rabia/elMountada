@@ -273,7 +273,7 @@ table#all td:nth-child(6):contains('User'):before {
                         $('#popupType').text(aide.type_aide);
                         
                         $('#fileDossier').on('click', function() {
-                            window.location.href = aide.dossier;
+                            window.location.href = aide.dossier_zip;
                         });
                         
                         $('.popContainer').first().css('display', 'flex');

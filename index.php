@@ -72,7 +72,7 @@ if (isset($_GET['router'])){
             }
             break;
         case 'securite':
-            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
+            if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin']) || isset($_SESSION['partenaire'])) {
             $r = new securityController();
             $r->afficherPage();
             } else {
@@ -260,8 +260,8 @@ if (isset($_GET['router'])){
             break;
         case 'getPartCarte':
             $controller = new partenaireController();
-            if (isset($_GET['partenaireId']) && isset($_GET['partenaireNom']) && isset($_GET['partenaireDescription'])&& isset($_GET['remise'])) {
-                echo $controller->getPartCarte($_GET['partenaireId'], $_GET['partenaireNom'], $_GET['partenaireDescription'],$_GET['remise']);
+            if (isset($_GET['partenaireId']) && isset($_GET['partenaireNom']) && isset($_GET['partenairePhoto'])&&isset($_GET['partenaireDescription'])&& isset($_GET['remise'])) {
+                echo $controller->getPartCarte($_GET['partenaireId'], $_GET['partenaireNom'], $_GET['partenaireDescription'],$_GET['remise'],$_GET['partenairePhoto']);
             }
             break;
         case 'searchPart':
@@ -476,7 +476,7 @@ if (isset($_GET['router'])){
             }
             break;
     case 'addDon':
-        if (isset($_SESSION['admin'])) {
+        if (isset($_SESSION['user']) || isset($_SESSION['member']) || isset($_SESSION['admin'])) {
             $controller = new donsBenevolatsAidesController();
             $controller->addDon();
         } else {
@@ -645,6 +645,10 @@ if (isset($_GET['router'])){
             $controller = new partenaireController();
             $controller->getPartenaireLogos();
             break;
+            case 'bloquer':
+                $controller = new userController();
+                $controller->bloquer();
+                break;
 
     }
 }

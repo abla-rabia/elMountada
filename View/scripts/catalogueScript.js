@@ -73,8 +73,9 @@ $(document).ready(function () {
                                 });
                                 const descriptionWords = partenaire.description.split(' ');
                                 const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
+                                console.log(partenaire.photo);
                                 $.ajax({
-                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
+                                    url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&partenairePhoto=${partenaire.photo}&remise=${remise}`,
                                     type: 'GET',
                                     success: function(cardHtml) {
                                         cartesPartenaire.append(cardHtml);
@@ -144,9 +145,10 @@ $(document).ready(function () {
                                         
                                         const descriptionWords = partenaire.description.split(' ');
                                         const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
-                                        console.log("remise : ", remise);
+                                                console.log("remise : ", remise);
+                                                console.log(partenaire.photo);
                                         $.ajax({
-                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
+                                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&partenairePhoto=${partenaire.photo}&remise=${remise}`,
                                             type: 'GET',
                                             success: function(cardHtml) {
                                                 cartesPartenaire.append(cardHtml);
@@ -280,8 +282,9 @@ $('#tri').on('change', function () {
                         });
                         const descriptionWords = partenaire.description.split(' ');
                         const shortDescription = descriptionWords.slice(0, 10).join(' ') + (descriptionWords.length > 10 ? '...' : '');
+                        console.log(partenaire.photo);
                         $.ajax({
-                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&remise=${remise}`,
+                            url: `index.php?router=getPartCarte&partenaireId=${partenaire.id}&partenaireNom=${partenaire.nom}&partenaireDescription=${shortDescription}&partenairePhoto=${partenaire.photo}&remise=${remise}`,
                             type: 'GET',
                             success: function(cardHtml) {
                                 cartesPartenaire.append(cardHtml);

@@ -116,14 +116,16 @@ public function problemAddPartenaire($credentials) {
     $r = new dataBaseController();
     if (isset($credentials)) {
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM partenaire WHERE email = :email UNION SELECT * FROM user WHERE email = :email";
+        $qtf = "SELECT email FROM partenaire WHERE email = :email 
+                   UNION 
+                   SELECT email FROM user WHERE email = :email";
         $res = $r->query($pdo, $qtf, ['email' => $credentials['email']]);
         if ($res->rowCount() > 0) {
             $r->deconnexion($pdo);
             return "L'email est déjà utilisé";
         }
 
-        $qtf = "SELECT * FROM partenaire WHERE username = :username UNION SELECT * FROM user WHERE username = :username";
+        $qtf = "SELECT username FROM partenaire WHERE username = :username UNION SELECT username FROM user WHERE username = :username";
         $res = $r->query($pdo, $qtf, ['username' => $credentials['username']]);
         if ($res->rowCount() > 0) {
             $r->deconnexion($pdo);
@@ -310,11 +312,11 @@ public function problemAddRemise($credentials){
     $r = new dataBaseController();
     if (isset($credentials)) {
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM offre WHERE contenu = :contenu";
-        $res = $r->query($pdo, $qtf, ['contenu' => $credentials['contenu']]);
+        $qtf = "SELECT * FROM offre WHERE contenu = :contenu AND partenaireId=:partenaireId";
+        $res = $r->query($pdo, $qtf, ['contenu' => $credentials['contenu'], 'partenaireId' => $credentials['partenaireId']]);
         if ($res->rowCount() > 0) {
             $r->deconnexion($pdo);
-            return "L'offre existe déja";
+            echo "L'offre existe déja";
         }
 
         $r->deconnexion($pdo);

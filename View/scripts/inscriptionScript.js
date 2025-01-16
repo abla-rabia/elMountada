@@ -90,6 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log(response);
                         alert('Veuillez remplire tous les champs ! ');
                     }
+                    if (response == 1) {
+                        console.log(response);
+                        successPopup();
+                    } else if (response==4){                
+                        console.log(response);
+                        alert('Utilisateur bloqué ! ');
+                    }
                     else {                
                         console.log(response);
                         alert(response);

@@ -66,27 +66,26 @@ class userModel {
     }
 
     public function problemInscription($credentials) {
-        $r = new dataBaseController();
-        if (isset($credentials)) {
-            $pdo = $r->connexion();
-            $qtf = "SELECT * FROM user WHERE email = :email UNION SELECT * FROM partenaire WHERE email = :email";
-            $res = $r->query($pdo, $qtf, ['email' => $credentials['email']]);
-            if ($res->rowCount() > 0) {
-                $r->deconnexion($pdo);
-                return "L'email est déjà utilisé";
-            }
-
-            $qtf = "SELECT * FROM user WHERE username = :username UNION SELECT * FROM partenaire WHERE username = :username";
-            $res = $r->query($pdo, $qtf, ['username' => $credentials['username']]);
-            if ($res->rowCount() > 0) {
-                $r->deconnexion($pdo);
-                return "Le nom d'utilisateur est déjà utilisé";
-            }
-
-            $r->deconnexion($pdo);
-            return false; // tout est bon
+        $db = new dataBaseController();
+        $pdo = $db->connexion();
+        
+        // First, identify the common columns between user and partenaire tables
+        $query = "SELECT email FROM user WHERE email = :email 
+                 UNION 
+                 SELECT email FROM partenaire WHERE email = :email";
+        
+        $params = ['email' => $credentials['email']];
+        
+        try {
+            $stmt = $db->query($pdo, $query, $params);
+            $exists = $stmt->rowCount() > 0;
+            return $exists;
+        } catch (PDOException $e) {
+            // Handle or log the error
+            throw new Exception("Error checking user existence: " . $e->getMessage());
+        } finally {
+            $db->deconnexion($pdo);
         }
-        return true; // cas où le user n'a rien entré ...
     }
 
     public function inscriptionSimple($credentials) {
@@ -252,7 +251,7 @@ class userModel {
     public function getUsers(){
         $r = new dataBaseController();
         $pdo = $r->connexion();
-        $qtf = "SELECT * FROM user WHERE id NOT IN ( SELECT id FROM `admin` )";
+        $qtf = "SELECT * FROM user WHERE id NOT IN ( SELECT id FROM `admin` ) AND is_active = TRUE";
         $stmt = $r->query($pdo, $qtf, []);
         $users = $stmt->fetchAll();
         $r->deconnexion($pdo);
@@ -397,7 +396,57 @@ class userModel {
         $r->deconnexion($pdo);
         return $favoris;
     }
-
+    public function checkBloque(string $nom, string $prenom, string $email, string $username): bool 
+{
+    try {
+        $db = new dataBaseController();
+        $pdo = $db->connexion();
+        
+        $query = "SELECT COUNT(*) FROM listenoire WHERE identifiant IN (:email, :nom, :prenom, :username)";
+        $params = [
+            'email' => strtolower(trim($email)),
+            'nom' => strtolower(trim($nom)),
+            'prenom' => strtolower(trim($prenom)),
+            'username' => strtolower(trim($username))
+        ];
+        
+        $stmt = $db->query($pdo, $query, $params);
+        $bloquer = (bool)$stmt->fetchColumn();
+        
+        return $bloquer;
+    } catch (PDOException $e) {
+        // Log the error or handle it appropriately
+        throw new Exception("Error checking blocked status: " . $e->getMessage());
+    } finally {
+        if (isset($db) && isset($pdo)) {
+            $db->deconnexion($pdo);
+        }
+    }
+}
+    
+    public function bloquer($nom,$prenom,$email,$username) {
+        $r = new dataBaseController();
+        $pdo = $r->connexion();
+    
+        // Insertion de chaque attribut dans la table listenoire
+        $qtfNom = "INSERT INTO listenoire (identifiant) VALUES (:nom)";
+        $qtfPrenom = "INSERT INTO listenoire (identifiant) VALUES (:prenom)";
+        $qtfEmail = "INSERT INTO listenoire (identifiant) VALUES (:email)";
+        $qtfUsername = "INSERT INTO listenoire (identifiant) VALUES (:username)";
+    
+        // Exécution de chaque requête d'insertion
+        $r->query($pdo, $qtfNom, ['nom' => $nom]);
+        $r->query($pdo, $qtfPrenom, ['prenom' => $prenom]);
+        $r->query($pdo, $qtfEmail, ['email' => $email]);
+        $r->query($pdo, $qtfUsername, ['username' => $username]);
+    
+        // Mise à jour de l'état de l'utilisateur
+        $qtfUpdate = "UPDATE user SET is_active = FALSE WHERE username = :username";
+        $r->query($pdo, $qtfUpdate, ['username' => $username]);
+    
+        $r->deconnexion($pdo);
+    }
+    
     public function addFavoris($id_user,$id_partenaire){
         $r = new dataBaseController();
         $pdo = $r->connexion();

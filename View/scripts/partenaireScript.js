@@ -17,6 +17,9 @@ $(document).ready(function () {
                 $('#phoneP').text(data.telnumber);
                 $('#emailP').text(data.contactmail);
                 $('#webP').text(data.website);
+                if (data.photo) {
+                    $('#partImg').attr('src', data.photo);
+                }
 
                 console.log(id);
             },
